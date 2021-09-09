@@ -36,20 +36,17 @@ que contenga las funciones para realizar las cinco operaciones.
 
 #include <stdio.h>
 #include <stdlib.h>
-float pedirNumero (char mensaje[]);
-char menuDeOperaciones (float operadorUno, float operadorDos);
-float restar (float operadorUno, float operadorDos);
-float sumar (float operadorUno, float operadorDos);
-int dividir (float operadorUno, float operadorDos, float* pResultado);
-float multiplicar (float operadorUno, float operadorDos);
-float factorial(float operadorUno);
+#include "utn_biblioteca.h"
+
 
 int main(void) {
 
 	setbuf(stdout,NULL);
 
+	char variableDeCierre = 'n';
 	float numeroUno;
 	float numeroDos;
+	int eleccionMenu;
 	char menu;
 	float resultadoSuma;
 	float resultadoResta;
@@ -57,117 +54,76 @@ int main(void) {
 	float resultadoDivision;
 	float resultadoFactorizarUno;
 	float resultadoFactorizarDos;
+	float resultadoMultiplicacion;
 
-	numeroUno=pedirNumero("Ingrese el primer número: ");
-	numeroDos=pedirNumero("Ingrese el segundo número: ");
+	numeroUno=-5000;
+	numeroDos=-5000;
 
-	menu=menuDeOperaciones(numeroUno, numeroDos);
+	eleccionMenu=menuInicial();
 
-	printf("%c",menu);
+	while (variableDeCierre=='n')
+	{
 
-	resultadoFactorizarUno=factorial(numeroUno);
+		switch (eleccionMenu)
+		{
+			case 1:
 
-	printf("%.2f",resultadoFactorizarUno);
+				numeroUno=pedirNumero("Ingrese el primer número: ");
+				eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				break;
 
-	resultadoFactorizarDos=factorial(numeroDos);
+			case 2:
+				numeroDos=pedirNumero("Ingrese el segundo número: ");
+				eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				break;
 
-	printf("%.2f",resultadoFactorizarDos);
+			case 3:
+
+				if (numeroUno==-5000&&numeroDos==-5000)
+				{
+					printf("Error, falta cargar un operador");
+					eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+
+				} else
+				{
+					resultadoSuma=sumar(numeroUno, numeroDos);
+					resultadoResta=restar(numeroUno, numeroDos);
+					retornoDivision=dividir(numeroUno, numeroDos,&resultadoDivision);
+					resultadoMultiplicacion=multiplicar(numeroUno, numeroDos);
+					resultadoFactorizarUno=factorial(numeroUno);
+					resultadoFactorizarDos=factorial(numeroDos);
+					eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				}
+
+				break;
+
+			case 4:
+				printf("El resultado de %.2f + %.2f es: %.2f\n",numeroUno,numeroDos,resultadoSuma);
+				printf("El resultado de %.2f - %.2f es: %.2f\n",numeroUno,numeroDos,resultadoResta);
+
+				if (retornoDivision==1)
+				{
+					printf("No se puede dividir por cero\n");
+				} else
+				{
+					printf("El resultado de %.2f / %.2f es: %.2f\n",numeroUno,numeroDos,resultadoDivision);
+				}
+
+				printf("El resultado de %.2f * %.2f es: %.2f\n",numeroUno,numeroDos,resultadoMultiplicacion);
+				eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				break;
+
+			case 5:
+				variableDeCierre='s';
+				break;
+
+		}
+
+	}
 
 
 
 	return EXIT_SUCCESS;
 }
-
-
-float pedirNumero (char mensaje[])
-{
-	float num;
-
-	printf("%s",mensaje);
-	scanf("%f",&num);
-
-	return num;
-}
-
-
-char menuDeOperaciones (float operadorUno, float operadorDos)
-{
-	char eleccion;
-
-	printf("a) Calcular la suma (%.2f + %.2f)\n",operadorUno,operadorDos);
-	printf("b) Calcular la resta (%.2f - %.2f)\n",operadorUno,operadorDos);
-	printf("c) Calcular la division (%.2f / %.2f)\n",operadorUno,operadorDos);
-	printf("d) Calcular la multiplicación (%.2f * %.2f)\n",operadorUno,operadorDos);
-	printf("e) Calcular el factorial (%.2f ! y %.2f !)\n",operadorUno,operadorDos);
-
-	fflush(stdin);
-	scanf("%c",&eleccion);
-
-	return eleccion;
-}
-
-float sumar (float operadorUno, float operadorDos)
-{
-	float resultado;
-
-	resultado=operadorUno+operadorDos;
-
-	return resultado;
-}
-
-float restar (float operadorUno, float operadorDos)
-{
-	float resultado;
-
-	resultado=operadorUno-operadorDos;
-
-	return resultado;
-}
-
-int dividir (float operadorUno, float operadorDos, float* pResultado)
-{
-	int huboError;
-	float resul;
-
-	if(operadorDos==0)
-	{
-		huboError=1;
-	} else
-	{
-		resul= operadorUno/operadorDos;
-		*pResultado=resul;
-		huboError=0;
-	}
-
-	return huboError;
-
-}
-
-float multiplicar (float operadorUno, float operadorDos)
-{
-	float resultado;
-
-	resultado=operadorUno*operadorDos;
-
-	return resultado;
-}
-
-float factorial (float operadorUno)
-{
-
-	float factUno;
-	int i;
-
-	factUno=1;
-
-	for(i=1;i<=operadorUno;i++)
-	{
-		factUno=factUno*i;
-	}
-
-	return factUno;
-
-}
-
 
 
