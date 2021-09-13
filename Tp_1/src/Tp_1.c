@@ -45,6 +45,7 @@ int main(void) {
 
 	char variableDeCierre = 'n';
 	float numeroUno;
+	int retornoPedirNumero;
 	float numeroDos;
 	int eleccionMenu;
 	char menu;
@@ -56,10 +57,7 @@ int main(void) {
 	float resultadoFactorizarDos;
 	float resultadoMultiplicacion;
 
-	numeroUno=-5000;
-	numeroDos=-5000;
-
-	eleccionMenu=menuInicial();
+	eleccionMenu=utn_menuInicial();
 
 	while (variableDeCierre=='n')
 	{
@@ -68,13 +66,13 @@ int main(void) {
 		{
 			case 1:
 
-				numeroUno=pedirNumero("Ingrese el primer número: ");
-				eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				numeroUno=utn_pedirFloatSinIntentos("Ingrese el primer número", "Error. Dato ingresado inválido");
+				eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
 				break;
 
 			case 2:
-				numeroDos=pedirNumero("Ingrese el segundo número: ");
-				eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				numeroDos=utn_pedirFloatSinIntentos("Ingrese el segundo número", "Error. Dato ingresado inválido");
+				eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
 				break;
 
 			case 3:
@@ -82,17 +80,17 @@ int main(void) {
 				if (numeroUno==-5000&&numeroDos==-5000)
 				{
 					printf("Error, falta cargar un operador");
-					eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+					eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
 
 				} else
 				{
-					resultadoSuma=sumar(numeroUno, numeroDos);
-					resultadoResta=restar(numeroUno, numeroDos);
-					retornoDivision=dividir(numeroUno, numeroDos,&resultadoDivision);
-					resultadoMultiplicacion=multiplicar(numeroUno, numeroDos);
-					resultadoFactorizarUno=factorial(numeroUno);
-					resultadoFactorizarDos=factorial(numeroDos);
-					eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+					resultadoSuma=utn_sumar(numeroUno, numeroDos);
+					resultadoResta=utn_restar(numeroUno, numeroDos);
+					retornoDivision=utn_dividir(numeroUno, numeroDos,&resultadoDivision);
+					resultadoMultiplicacion=utn_multiplicar(numeroUno, numeroDos);
+					resultadoFactorizarUno=utn_factorial(numeroUno);
+					resultadoFactorizarDos=utn_factorial(numeroDos);
+					eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
 				}
 
 				break;
@@ -110,7 +108,7 @@ int main(void) {
 				}
 
 				printf("El resultado de %.2f * %.2f es: %.2f\n",numeroUno,numeroDos,resultadoMultiplicacion);
-				eleccionMenu=menuDeOperaciones(numeroUno, numeroDos);
+				eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
 				break;
 
 			case 5:

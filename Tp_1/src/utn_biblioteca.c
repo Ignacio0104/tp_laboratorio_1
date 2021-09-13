@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int utn_pedirFloatAUsuario(float* pResultado, float min, float max, int reintentos, char* variableTexto, char* textoError)
 {
 	float buffer;
@@ -20,13 +21,11 @@ int utn_pedirFloatAUsuario(float* pResultado, float min, float max, int reintent
 		for (i=0; i<=reintentos; i++)
 		{
 			printf("%s",variableTexto);
-
 			salidaScanf=scanf("%f", &buffer);
 
 			//printf("\nLa salida del scanf es : %d\n\n",salidaScanf);
 			if (salidaScanf>0 && buffer>=min && buffer<=max)
 			{
-
 				retorno = 0; // OK
 				*pResultado=buffer;
 				break;
@@ -40,6 +39,29 @@ int utn_pedirFloatAUsuario(float* pResultado, float min, float max, int reintent
 	}
 	return retorno;
 }
+
+float utn_pedirFloatSinIntentos(char* variableTexto, char* textoError)
+{
+	float numero;
+	int salidaScanf;
+	if(variableTexto != NULL && textoError != NULL)
+	{
+		printf("%s",variableTexto);
+		salidaScanf=scanf("%f", &numero);
+
+		while(salidaScanf!=1)
+			{
+				printf("%s\n",textoError);
+				printf("%s",variableTexto);
+				fflush(stdin);
+				salidaScanf=scanf("%f", &numero);
+			}
+
+	}
+	return numero;
+}
+
+
 
 int utn_pedirIntAUsuario(int* pResultado, int min, int max, int reintentos, char* variableTexto, char* textoError)
 {
@@ -57,7 +79,6 @@ int utn_pedirIntAUsuario(int* pResultado, int min, int max, int reintentos, char
 			//printf("\nLa salida del scanf es : %d\n\n",salidaScanf);
 			if (salidaScanf>0 && buffer>=min && buffer<=max)
 			{
-
 				retorno = 0; // OK
 				*pResultado=buffer;
 				break;
@@ -71,6 +92,7 @@ int utn_pedirIntAUsuario(int* pResultado, int min, int max, int reintentos, char
 	}
 	return retorno;
 }
+
 
 int utn_pedirCharAUsuario(char* pResultado, char min, char max, int reintentos, char* variableTexto, char* textoError)
 {
@@ -123,19 +145,38 @@ float utn_dividir (int operador1,int operador2,float*direccionVariable)
 }
 
 
-float pedirNumero (char mensaje[])
+float utn_pedirNumero (char mensaje[],char* textoError)
 {
 	float num;
+	int salidaScanf;
+	int retorno;
 
-	printf("%s",mensaje);
-	scanf("%f",&num);
+	retorno=-1;
+
+	if( mensaje != NULL && textoError != NULL)
+	{
+		while(retorno==-1)
+		{
+			printf("%s",mensaje);
+			salidaScanf=scanf("%f",&num);
+
+			if(salidaScanf>0)
+			{
+				retorno=0;
+			} else
+			{
+				printf("%s\n",textoError);
+			}
+
+		}
+	}
 
 	return num;
 
 }
 
 
-float sumar (float operadorUno, float operadorDos)
+float utn_sumar (float operadorUno, float operadorDos)
 {
 	float resultado;
 
@@ -144,7 +185,7 @@ float sumar (float operadorUno, float operadorDos)
 	return resultado;
 }
 
-float restar (float operadorUno, float operadorDos)
+float utn_restar (float operadorUno, float operadorDos)
 {
 	float resultado;
 
@@ -153,7 +194,7 @@ float restar (float operadorUno, float operadorDos)
 	return resultado;
 }
 
-int dividir (float operadorUno, float operadorDos, float* pResultado)
+/*int utn_dividir (float operadorUno, float operadorDos, float* pResultado)
 {
 	int huboError;
 	float resul;
@@ -170,9 +211,9 @@ int dividir (float operadorUno, float operadorDos, float* pResultado)
 
 	return huboError;
 
-}
+}*/
 
-float multiplicar (float operadorUno, float operadorDos)
+float utn_multiplicar (float operadorUno, float operadorDos)
 {
 	float resultado;
 
@@ -181,7 +222,7 @@ float multiplicar (float operadorUno, float operadorDos)
 	return resultado;
 }
 
-float factorial (float operadorUno)
+float utn_factorial (float operadorUno)
 {
 
 	float factUno;
@@ -198,7 +239,7 @@ float factorial (float operadorUno)
 
 }
 
-int menuInicial (void)
+int utn_menuInicial (void)
 {
 	int eleccionUsuario;
 
@@ -219,7 +260,7 @@ int menuInicial (void)
 
 }
 
-int menuDeOperaciones (float operadorUno, float operadorDos)
+int utn_menuDeOperaciones (float operadorUno, float operadorDos)
 {
 	int eleccionUsuario;
 
