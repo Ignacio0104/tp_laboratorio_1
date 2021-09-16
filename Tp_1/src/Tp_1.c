@@ -144,7 +144,7 @@ int main(void) {
 					retornoFactorialUno=calculadora_factorial(numeroUno,&resultadoFactorialUno);
 					retornoFactorialDos=calculadora_factorial(numeroDos,&resultadoFactorialDos);
 
-					printf("\n\n Operaciones calculadas\n\n");
+					printf("\n\n >>>> Operaciones calculadas <<<< \n\n");
 
 
 					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
