@@ -88,7 +88,7 @@ int main(void) {
 
 					} else
 					{
-						printf("Volviendo al menú principal...");
+						printf("Volviendo al menú principal...\n\n");
 						eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 					}
 
@@ -177,7 +177,7 @@ int main(void) {
 
 					if(retornoFactorialUno==-1)
 					{
-						printf("No se puede sacar el factorial de un número negativo\n");
+						printf("No se puede sacar el factorial de cero o de un número negativo\n");
 					} else
 					{
 						printf("El factorial de %.0f! es %d \n",numeroUno,resultadoFactorialUno);
@@ -185,17 +185,31 @@ int main(void) {
 
 					if(retornoFactorialDos==-1)
 					{
-						printf("No se puede sacar el factorial de un número negativo\n");
+						printf("No se puede sacar el factorial de cero o de un número negativo\n");
 					} else
 					{
 						printf("El factorial de %.0f! es %d\n",numeroDos,resultadoFactorialDos);
 					}
 
-					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+					calculadora_pedirChar("Desea volver al menú principal? (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
+
+					banderaPrimerNumero='n';
+					banderaSegundoNumero='n';
+					banderaCalculo='n';
+
+					if(confirmacionUsuario=='s')
+					{
+						eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+					} else
+					{
+						printf("Saliendo de la calculadora...\n\n");
+						variableDeCierre='s';
+					}
 				}
 				break;
 
 			case 5:
+				printf("Saliendo de la calculadora...\n\n");
 				variableDeCierre='s';
 				break;
 
