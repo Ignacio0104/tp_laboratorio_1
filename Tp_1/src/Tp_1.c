@@ -36,7 +36,8 @@ que contenga las funciones para realizar las cinco operaciones.
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "utn_biblioteca.h"
+
+#include "calculadora_biblioteca.h"
 
 
 int main(void) {
@@ -45,19 +46,27 @@ int main(void) {
 
 	char variableDeCierre = 'n';
 	float numeroUno;
-	int retornoPedirNumero;
 	float numeroDos;
 	int eleccionMenu;
-	char menu;
 	float resultadoSuma;
 	float resultadoResta;
 	int retornoDivision;
 	float resultadoDivision;
-	float resultadoFactorizarUno;
-	float resultadoFactorizarDos;
+	int resultadoFactorialUno;
+	int retornoFactorialUno;
+	int resultadoFactorialDos;
+	int retornoFactorialDos;
 	float resultadoMultiplicacion;
+	char banderaPrimerNumero;
+	char banderaSegundoNumero;
+	char banderaCalculo;
+	char confirmacionUsuario;
 
-	eleccionMenu=utn_menuInicial();
+	banderaPrimerNumero='n';
+	banderaSegundoNumero='n';
+	banderaCalculo='n';
+
+	eleccionMenu=calculadora_menuInicial();
 
 	while (variableDeCierre=='n')
 	{
@@ -66,59 +75,138 @@ int main(void) {
 		{
 			case 1:
 
-				numeroUno=utn_pedirFloatSinIntentos("Ingrese el primer número", "Error. Dato ingresado inválido");
-				eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
+				if(banderaPrimerNumero=='s')
+				{
+					fflush(stdin);
+					calculadora_pedirChar("El operador 1 ya fue ingresado, desea reemplazarlo? s (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
+
+					if(confirmacionUsuario=='s')
+					{
+
+						calculadora_pedirFloat("Ingrese el primer número", "Error. Dato ingresado inválido", &numeroUno);
+						eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+
+					} else
+					{
+						printf("Volviendo al menú principal...");
+						eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+					}
+
+				} else
+				{
+					calculadora_pedirFloat("Ingrese el primer número", "Error. Dato ingresado inválido", &numeroUno);
+					banderaPrimerNumero='s';
+					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+				}
+
 				break;
 
 			case 2:
-				numeroDos=utn_pedirFloatSinIntentos("Ingrese el segundo número", "Error. Dato ingresado inválido");
-				eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
+
+				if(banderaSegundoNumero=='s')
+					{
+						fflush(stdin);
+						calculadora_pedirChar("El operador 2 ya fue ingresado, desea reemplazarlo? s (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
+
+						if(confirmacionUsuario=='s')
+						{
+
+							calculadora_pedirFloat("Ingrese el segundo número", "Error. Dato ingresado inválido", &numeroDos);
+							eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+						} else
+						{
+							printf("Volviendo al menú principal...");
+							eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+						}
+
+					} else
+					{
+						calculadora_pedirFloat("Ingrese el segundo número", "Error. Dato ingresado inválido", &numeroDos);
+						banderaSegundoNumero='s';
+						eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+					}
+
 				break;
 
 			case 3:
 
-				if (numeroUno==-5000&&numeroDos==-5000)
+				if (banderaPrimerNumero=='n'||banderaSegundoNumero=='n')
 				{
-					printf("Error, falta cargar un operador");
-					eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
+					printf("\nError, falta cargar un operador o ambos operadores\n\n\n");
+					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 
 				} else
 				{
-					resultadoSuma=utn_sumar(numeroUno, numeroDos);
-					resultadoResta=utn_restar(numeroUno, numeroDos);
-					retornoDivision=utn_dividir(numeroUno, numeroDos,&resultadoDivision);
-					resultadoMultiplicacion=utn_multiplicar(numeroUno, numeroDos);
-					resultadoFactorizarUno=utn_factorial(numeroUno);
-					resultadoFactorizarDos=utn_factorial(numeroDos);
-					eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
+					resultadoSuma=calculadora_sumar(numeroUno, numeroDos);
+					resultadoResta=calculadora_restar(numeroUno, numeroDos);
+					retornoDivision=calculadora_dividir(numeroUno, numeroDos,&resultadoDivision);
+					resultadoMultiplicacion=calculadora_multiplicar(numeroUno, numeroDos);
+					retornoFactorialUno=calculadora_factorial(numeroUno,&resultadoFactorialUno);
+					retornoFactorialDos=calculadora_factorial(numeroDos,&resultadoFactorialDos);
+
+					printf("\n\n Operaciones calculadas\n\n");
+
+
+					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+					banderaCalculo='s';
+
 				}
 
 				break;
 
 			case 4:
-				printf("El resultado de %.2f + %.2f es: %.2f\n",numeroUno,numeroDos,resultadoSuma);
-				printf("El resultado de %.2f - %.2f es: %.2f\n",numeroUno,numeroDos,resultadoResta);
 
-				if (retornoDivision==1)
+				if(banderaCalculo=='n')
 				{
-					printf("No se puede dividir por cero\n");
+					printf("\nError, las operaciones aún no fueron calculadas\n\n\n");
+					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 				} else
 				{
-					printf("El resultado de %.2f / %.2f es: %.2f\n",numeroUno,numeroDos,resultadoDivision);
-				}
+					printf("El resultado de %.2f + %.2f es: %.2f\n",numeroUno,numeroDos,resultadoSuma);
+					printf("El resultado de %.2f - %.2f es: %.2f\n",numeroUno,numeroDos,resultadoResta);
 
-				printf("El resultado de %.2f * %.2f es: %.2f\n",numeroUno,numeroDos,resultadoMultiplicacion);
-				eleccionMenu=utn_menuDeOperaciones(numeroUno, numeroDos);
+					if (retornoDivision==-1)
+					{
+						printf("No se puede dividir por cero\n");
+					} else
+					{
+						printf("El resultado de %.2f / %.2f es: %.2f\n",numeroUno,numeroDos,resultadoDivision);
+					}
+
+					printf("El resultado de %.2f * %.2f es: %.2f\n",numeroUno,numeroDos,resultadoMultiplicacion);
+
+					if(retornoFactorialUno==-1)
+					{
+						printf("No se puede sacar el factorial de un número negativo\n");
+					} else
+					{
+						printf("El factorial de %.0f! es %d \n",numeroUno,resultadoFactorialUno);
+					}
+
+					if(retornoFactorialDos==-1)
+					{
+						printf("No se puede sacar el factorial de un número negativo\n");
+					} else
+					{
+						printf("El factorial de %.0f! es %d\n",numeroDos,resultadoFactorialDos);
+					}
+
+					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+				}
 				break;
 
 			case 5:
 				variableDeCierre='s';
 				break;
 
+			default:
+				printf("\nError, opción ingresada inválida\n\n\n");
+				eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+				break;
+
 		}
 
 	}
-
 
 
 	return EXIT_SUCCESS;
