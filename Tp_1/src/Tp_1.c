@@ -44,22 +44,29 @@ int main(void) {
 
 	setbuf(stdout,NULL);
 
+	//variable de Cierre
 	char variableDeCierre = 'n';
+	//Operandos
 	float numeroUno;
 	float numeroDos;
+	//Retorno Menu
 	int eleccionMenu;
+	//Resultados operaciones
 	float resultadoSuma;
 	float resultadoResta;
-	int retornoDivision;
 	float resultadoDivision;
 	int resultadoFactorialUno;
-	int retornoFactorialUno;
 	int resultadoFactorialDos;
-	int retornoFactorialDos;
 	float resultadoMultiplicacion;
+	//Retorno operaciones
+	int retornoDivision;
+	int retornoFactorialUno;
+	int retornoFactorialDos;
+	//Banderas
 	char banderaPrimerNumero;
 	char banderaSegundoNumero;
 	char banderaCalculo;
+	//Confirmacion usuario char
 	char confirmacionUsuario;
 
 	banderaPrimerNumero='n';
@@ -144,7 +151,7 @@ int main(void) {
 					retornoFactorialUno=calculadora_factorial(numeroUno,&resultadoFactorialUno);
 					retornoFactorialDos=calculadora_factorial(numeroDos,&resultadoFactorialDos);
 
-					printf("\n\n >>>> Operaciones calculadas <<<< \n\n");
+					printf("\n >>>> Operaciones calculadas <<<< \n\n");
 
 
 					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
@@ -191,7 +198,7 @@ int main(void) {
 						printf("El factorial de %.0f! es %d\n",numeroDos,resultadoFactorialDos);
 					}
 
-					calculadora_pedirChar("Desea volver al menú principal? (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
+					calculadora_pedirChar("Desea volver al menú principal? s (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
 
 					banderaPrimerNumero='n';
 					banderaSegundoNumero='n';
