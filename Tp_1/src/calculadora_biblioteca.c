@@ -227,10 +227,13 @@ int calculadora_factorial (float operadorUno, int*pResultado)
 	factUno=1;
 	if(pResultado!= NULL&&operadorUno>0)
 	{
-		for(i=1;i<=(int)operadorUno;i++)
+		if(operadorUno<13)
 		{
-			factUno=factUno*i;
-			huboError=0;
+			for(i=1;i<=(int)operadorUno;i++)
+			{
+				factUno=factUno*i;
+				huboError=0;
+			}
 		}
 
 	}

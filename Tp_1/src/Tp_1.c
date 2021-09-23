@@ -184,7 +184,7 @@ int main(void) {
 
 					if(retornoFactorialUno==-1)
 					{
-						printf("No se puede sacar el factorial de cero o de un número negativo\n");
+						printf("No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12\n");
 					} else
 					{
 						printf("El factorial de %.0f! es %d \n",numeroUno,resultadoFactorialUno);
@@ -192,7 +192,7 @@ int main(void) {
 
 					if(retornoFactorialDos==-1)
 					{
-						printf("No se puede sacar el factorial de cero o de un número negativo\n");
+						printf("No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12\n");
 					} else
 					{
 						printf("El factorial de %.0f! es %d\n",numeroDos,resultadoFactorialDos);
