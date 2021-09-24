@@ -92,6 +92,7 @@ int main(void) {
 
 						calculadora_pedirFloat("Ingrese el primer número", "Error. Dato ingresado inválido", &numeroUno);
 						eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+						banderaCalculo='n';
 
 					} else
 					{
@@ -120,6 +121,7 @@ int main(void) {
 
 							calculadora_pedirFloat("Ingrese el segundo número", "Error. Dato ingresado inválido", &numeroDos);
 							eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
+							banderaCalculo='n';
 						} else
 						{
 							printf("Volviendo al menú principal...");
