@@ -20,6 +20,8 @@ float calculadora_multiplicar (float operadorUno, float operadorDos);
 int calculadora_factorial (float operadorUno, int*pResultado);
 int calculadora_menuInicial (void);
 int calculadora_menuDeOperaciones (float operadorUno, float operadorDos, char banderaUno, char banderaDos);
+int mostrarResultado (float operadorUno,float operadorDos,float resultadoOperacion,int retornoOperacion, char*mensajeError, char*operacion);
+int mostrarResultadoFact (float operadorUno,int resultadoOperacion,int retornoOperacion, char*mensajeError);
 
 #endif /* CALCULADORA_BIBLIOTECA_H_ */
 

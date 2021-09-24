@@ -171,34 +171,12 @@ int main(void) {
 					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 				} else
 				{
-					printf("El resultado de %.2f + %.2f es: %.2f\n",numeroUno,numeroDos,resultadoSuma);
-					printf("El resultado de %.2f - %.2f es: %.2f\n",numeroUno,numeroDos,resultadoResta);
-
-					if (retornoDivision==-1)
-					{
-						printf("No se puede dividir por cero\n");
-					} else
-					{
-						printf("El resultado de %.2f / %.2f es: %.2f\n",numeroUno,numeroDos,resultadoDivision);
-					}
-
-					printf("El resultado de %.2f * %.2f es: %.2f\n",numeroUno,numeroDos,resultadoMultiplicacion);
-
-					if(retornoFactorialUno==-1)
-					{
-						printf("No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12\n");
-					} else
-					{
-						printf("El factorial de %.0f! es %d \n",numeroUno,resultadoFactorialUno);
-					}
-
-					if(retornoFactorialDos==-1)
-					{
-						printf("No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12\n");
-					} else
-					{
-						printf("El factorial de %.0f! es %d\n",numeroDos,resultadoFactorialDos);
-					}
+					mostrarResultado (numeroUno,numeroDos,resultadoSuma,0, "Error", "la suma");
+					mostrarResultado (numeroUno,numeroDos,resultadoResta,0, "Error", "la resta");
+					mostrarResultado (numeroUno,numeroDos,resultadoDivision,retornoDivision, "No se puede dividir por cero", "la división");
+					mostrarResultado (numeroUno,numeroDos,resultadoMultiplicacion,0, "Error", "la multiplicacion");
+					mostrarResultadoFact (numeroUno,resultadoFactorialUno,retornoFactorialUno, "No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12");
+					mostrarResultadoFact (numeroDos,resultadoFactorialDos,retornoFactorialDos, "No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12");
 
 					calculadora_pedirChar("Desea volver al menú principal? s (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
 

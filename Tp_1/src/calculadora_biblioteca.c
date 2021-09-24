@@ -314,5 +314,53 @@ int calculadora_menuDeOperaciones (float operadorUno, float operadorDos, char ba
 	return eleccionUsuario;
 }
 
+int mostrarResultado (float operadorUno,float operadorDos,float resultadoOperacion,int retornoOperacion, char*mensajeError, char*operacion)
+{
+	int retorno;
+
+	retorno=-1;
+
+	if(mensajeError!=NULL&&operacion!=NULL)
+	{
+		retorno=0;
+		if(retornoOperacion==-1)
+		{
+			printf("%s\n",mensajeError);
+		} else
+		{
+			printf("El resultado de %s de %.2f y %.2f es %.2f\n",operacion,operadorUno,operadorDos,resultadoOperacion);
+		}
+	}
+
+	return retorno;
+
+}
+
+int mostrarResultadoFact (float operadorUno,int resultadoOperacion,int retornoOperacion, char*mensajeError)
+{
+	int retorno;
+	int numero;
+
+	retorno=-1;
+
+	if(mensajeError!=NULL)
+	{
+		numero=(int)operadorUno;
+		retorno=0;
+		if(retornoOperacion==-1)
+		{
+			printf("%s\n",mensajeError);
+		} else
+		{
+			printf("El factorial de %d es %d\n",numero,resultadoOperacion);
+		}
+	}
+
+	return retorno;
+
+}
+
+
+
 
 
