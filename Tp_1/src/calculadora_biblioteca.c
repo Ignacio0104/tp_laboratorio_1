@@ -209,7 +209,7 @@ float calculadora_multiplicar (float operadorUno, float operadorDos)
 }
 
 /// \fn int calculadora_factorial(float, int*)
-/// \brief La función recibe un número y calcula su factorial
+/// \brief La función recibe un número y calcula su factorial. Se verifica que el número sea decimal o entero
 ///
 /// \param operadorUno >>> Se pasa la variable donde se guardó el primer número que ingresó el usuario.
 /// \param pResultado >>> Se pasa la dirección de la variable donde se va a guardar el resultado.
@@ -221,15 +221,21 @@ int calculadora_factorial (float operadorUno, int*pResultado)
 	int huboError;
 	int factUno;
 	int i;
+	int buffer;
+	float resta;
 
 	huboError=-1;
+
+	buffer=(int)operadorUno;
+
+	resta=operadorUno-buffer;
 
 	factUno=1;
 	if(pResultado!= NULL&&operadorUno>0)
 	{
-		if(operadorUno<13)
+		if(operadorUno<13&&resta==0)
 		{
-			for(i=1;i<=(int)operadorUno;i++)
+			for(i=1;i<=operadorUno;i++)
 			{
 				factUno=factUno*i;
 				huboError=0;
@@ -361,20 +367,20 @@ int mostrarResultado (float operadorUno,float operadorDos,float resultadoOperaci
 int mostrarResultadoFact (float operadorUno,int resultadoOperacion,int retornoOperacion, char*mensajeError)
 {
 	int retorno;
-	int numero;
+	float numero;
 
 	retorno=-1;
 
 	if(mensajeError!=NULL)
 	{
-		numero=(int)operadorUno;
+		numero=operadorUno;
 		retorno=0;
 		if(retornoOperacion==-1)
 		{
 			printf("%s\n",mensajeError);
 		} else
 		{
-			printf("El factorial de %d es %d\n",numero,resultadoOperacion);
+			printf("El factorial de %.2f es %d\n",numero,resultadoOperacion);
 		}
 	}
 

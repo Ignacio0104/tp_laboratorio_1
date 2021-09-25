@@ -175,8 +175,8 @@ int main(void) {
 					mostrarResultado (numeroUno,numeroDos,resultadoResta,0, "Error", "la resta");
 					mostrarResultado (numeroUno,numeroDos,resultadoDivision,retornoDivision, "No se puede dividir por cero", "la división");
 					mostrarResultado (numeroUno,numeroDos,resultadoMultiplicacion,0, "Error", "la multiplicacion");
-					mostrarResultadoFact (numeroUno,resultadoFactorialUno,retornoFactorialUno, "No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12");
-					mostrarResultadoFact (numeroDos,resultadoFactorialDos,retornoFactorialDos, "No se puede sacar el factorial de cero, de un número negativo o de un número mayor a 12");
+					mostrarResultadoFact (numeroUno,resultadoFactorialUno,retornoFactorialUno, "No se puede sacar el factorial de cero, de un número decimal, de un número negativo o de un número mayor a 12");
+					mostrarResultadoFact (numeroDos,resultadoFactorialDos,retornoFactorialDos, "No se puede sacar el factorial de cero, de un número decimal, de un número negativo o de un número mayor a 12");
 
 					calculadora_pedirChar("Desea volver al menú principal? s (si) o n (no)", "Error, opción inválida",&confirmacionUsuario, 's', 'n');
 
