@@ -141,7 +141,7 @@ int main(void) {
 
 				if (banderaPrimerNumero=='n'||banderaSegundoNumero=='n')
 				{
-					printf("\nError, falta cargar un operador o ambos operadores\n\n\n");
+					printf("\nERROR!! Falta cargar un operador o ambos operadores\n\n\n");
 					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 
 				} else
@@ -167,7 +167,7 @@ int main(void) {
 
 				if(banderaCalculo=='n')
 				{
-					printf("\nError, las operaciones aún no fueron calculadas\n\n\n");
+					printf("\nERROR!! Las operaciones aún no fueron calculadas\n\n\n");
 					eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 				} else
 				{
@@ -201,7 +201,7 @@ int main(void) {
 				break;
 
 			default:
-				printf("\nError, opción ingresada inválida\n\n\n");
+				printf("\nERROR!! Opción ingresada inválida\n\n\n");
 				eleccionMenu=calculadora_menuDeOperaciones(numeroUno, numeroDos,banderaPrimerNumero,banderaSegundoNumero);
 				break;
 
