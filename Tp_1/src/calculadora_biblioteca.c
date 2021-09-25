@@ -314,6 +314,17 @@ int calculadora_menuDeOperaciones (float operadorUno, float operadorDos, char ba
 	return eleccionUsuario;
 }
 
+/// \fn int mostrarResultado(float, float, float, int, char*, char*)
+/// \brief Funcion para mostrar resultado de las operaciones
+///
+/// \param operadorUno >>> Se pasa la variable donde se guardó el primer número que ingresó el usuario.
+/// \param operadorDos >>> Se pasa la variable donde se guardó el segundo número que ingresó el usuario.
+/// \param resultadoOperacion >>>  Se pasa la variable donde se guardó el resultado de la operación (si es que pudo hacerse)
+/// \param retornoOperacion >>> Se pasa la variable donde se guardó el retorno de la función de la operación
+/// \param mensajeError >>> Mensaje para indicar que hubo un error.
+/// \param operacion >>> Mensaje para indicar a qué operación se hace referencia
+/// \return retorno >>> El retorno indica si la función pudo ejecutarse, es decir, si los 2 mensajes que se pasaron son distintos de NULL
+
 int mostrarResultado (float operadorUno,float operadorDos,float resultadoOperacion,int retornoOperacion, char*mensajeError, char*operacion)
 {
 	int retorno;
@@ -335,6 +346,17 @@ int mostrarResultado (float operadorUno,float operadorDos,float resultadoOperaci
 	return retorno;
 
 }
+
+/// \fn int mostrarResultadoFact(float, int, int, char*)
+/// \brief Función para mostrar resultado de factoriales (solo un operador)
+///
+
+/// \param operadorUno >>> Se pasa la variable donde se guardó el segundo número que ingresó el usuario.
+/// \param resultadoOperacion >>>  Se pasa la variable donde se guardó el resultado de la operación (si es que pudo hacerse)
+/// \param retornoOperacion >>> Se pasa la variable donde se guardó el retorno de la función de la operación
+/// \param mensajeError mensajeError >>> Mensaje para indicar que hubo un error.
+/// \return retorno >>> El retorno indica si la función pudo ejecutarse, es decir, si el mensaje que se pasó es distinto de NULL
+
 
 int mostrarResultadoFact (float operadorUno,int resultadoOperacion,int retornoOperacion, char*mensajeError)
 {
