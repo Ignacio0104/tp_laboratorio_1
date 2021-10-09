@@ -13,37 +13,90 @@
 #include <string.h>
 #include "biblioteca_input.h"
 #include "ArrayEmployees.h"
-#define EMPLOYEE_LENGHT 3
+#define EMPLOYEE_LENGHT 10
 
 int main(void) {
 
 	setbuf(stdout,NULL);
 
-	int i=0;
+	int userChoice;
+	int idAux;
+	char nameAux[51];
+	char lastNameAux[51];
+	float salaryAux;
+	int sectorAux;
+	int requestedId;
 	int requestedPosition;
-	char seguir;
+	char closeVariable;
+
+	closeVariable='n';
 
 	Employee employeeList [EMPLOYEE_LENGHT];
-
 	initEmployees(employeeList,EMPLOYEE_LENGHT);
 
-	pedirCharSiNo(&seguir,'s', 'n', 3, "Desea cargar un dato?", "Error");
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 10, "Nacho","Smirlian",23500,1);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 11, "Esteban","Perez",30000,3);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 12, "Juan","Gonzalez",20000,1);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 13 ,"Catalina","Vazquez",100000,1);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 14, "Sofia","Estebanez",50000,2);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 15, "Nicolas","Sivori",60000,2);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 16, "Ramiro","Gonzalez",55000,1);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 17, "Nacho","Smirlian",90000,2);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 18, "Rodrigo","Sanchez",30000,3);
 
-	while(i<EMPLOYEE_LENGHT&&seguir=='s')
+	userChoice=mainMenu();
 
+	while(closeVariable!='s')
 	{
-		addEmployees(employeeList,EMPLOYEE_LENGHT);
-		pedirCharSiNo(&seguir,'s', 'n', 3, "Desea cargar un dato?", "Error");
+		switch(userChoice)
+		{
+			case 1:
+
+				askInformation (employeeList,EMPLOYEE_LENGHT, &idAux, nameAux, lastNameAux, &salaryAux, &sectorAux);
+				addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux);
+				userChoice=mainMenu();
+				break;
+
+			case 2:
+				requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
+				if(requestedId!=-1&&requestedId!=-2)
+					{
+						requestedPosition=findEmployeeById (employeeList,EMPLOYEE_LENGHT, requestedId);
+
+						printf("Se va a modificar al empleado de la posicion %d",requestedPosition);
+					}
+				userChoice=mainMenu();
+				break;
+			case 3:
+				requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
+				if(requestedId!=-1&&requestedId!=-2)
+					{
+						removeEmployee (employeeList,EMPLOYEE_LENGHT, requestedId);
+					}
+				userChoice=mainMenu();
+				break;
+
+			case 4:
+				printEmployees(employeeList,EMPLOYEE_LENGHT);
+				printf("\n\n\n");
+				sortEmployees (employeeList,EMPLOYEE_LENGHT,1);
+				printEmployees(employeeList,EMPLOYEE_LENGHT);
+				printf("\n\n\n");
+				sortEmployees (employeeList,EMPLOYEE_LENGHT,2);
+				printEmployees(employeeList,EMPLOYEE_LENGHT);
+				printf("\n\n\n");
+				userChoice=mainMenu();
+				break;
+
+			case 5:
+				printf("Saliendo del sistema...");
+				closeVariable='s';
+				break;
+
+		}
+
 	}
 
-	requestedPosition=findEmployeeById (employeeList,EMPLOYEE_LENGHT);
-
-	if(requestedPosition>=0)
-	{
-		printEmployeesById(employeeList,EMPLOYEE_LENGHT,requestedPosition);
-	}
-
-	//printEmployees(employeeList,EMPLOYEE_LENGHT);
 
 	return EXIT_SUCCESS;
 }

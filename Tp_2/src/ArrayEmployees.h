@@ -28,8 +28,13 @@ typedef struct {
 int initEmployees(Employee *list,int lenght);
 int printEmployees(Employee *list,int lenght);
 int printEmployeesById(Employee *list,int lenght,int position);
-int addEmployees(Employee *list, int lenght);
-int findEmployeeById (Employee *list, int lenght);
+int addEmployees(Employee *list, int lenght, int id, char name[], char lastName[],float salary, int sector);
+int findEmployeeById (Employee *list, int lenght, int id);
+int askForId (Employee *list, int lenght);
+int removeEmployee (Employee *list, int lenght, int id);
+int sortEmployees (Employee *list, int lenght, int order);
+int askInformation (Employee *list, int lenght, int *pId, char *pName, char * pLastName, float *pSalary, int * pSector);
+int mainMenu (void);
 
 
 #endif /* ARRAYEMPLOYEES_H_ */

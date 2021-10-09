@@ -14,7 +14,7 @@
 #define EMPTY 1
 
 static int createNewId (void);
-static int searchAvailable(Employee *list,int lenght, int *pEmptyPosition);
+static int searchAvailable(Employee *list,int lenght);
 
 /// \fn int createNewId(void)
 /// \brief create a new id for each new employee.
@@ -27,10 +27,10 @@ static int createNewId (void)
 }
 
 
-static int searchAvailable(Employee *list,int lenght, int *pEmptyPosition)
+static int searchAvailable(Employee *list,int lenght)
 {
 	int retorno;
-	int posicionLibre;
+
 	retorno=-1;
 
 	if(list!=NULL&&lenght>0)
@@ -40,7 +40,7 @@ static int searchAvailable(Employee *list,int lenght, int *pEmptyPosition)
 		{
 			if(list[i].isEmpty==EMPTY)
 			{
-				posicionLibre=i;
+				retorno=i;
 				break;
 			} else
 			{
@@ -49,7 +49,6 @@ static int searchAvailable(Employee *list,int lenght, int *pEmptyPosition)
 
 		}
 
-		*pEmptyPosition=posicionLibre;
 	}
 
 	return retorno;
@@ -86,44 +85,48 @@ int initEmployees(Employee *list,int lenght)
 	return retorno;
 }
 
-
-
-int addEmployees(Employee *list, int lenght)
+int askInformation (Employee *list, int lenght, int *pId, char pName[], char pLastName[], float *pSalary, int * pSector)
 {
+
 	int retorno;
-
-	retorno=-1;
-
 	char nameAux[51];
 	char lastNameAux[51];
 	float salaryAux;
 	int sectorAux;
+	int idAux;
 
+	retorno=-1;
 
 	if(list!=NULL&&lenght>0)
 	{
-		int position;
-		searchAvailable(list,lenght, &position);
-
-		if(pedirTexto(nameAux,sizeof(nameAux), 3, "Please enter the name of the employee: ", "Error, invalid entry")==0)
+		if(searchAvailable(list,lenght)!=-1&&searchAvailable(list,lenght)!=-2)
 		{
-			if(pedirTexto(lastNameAux,sizeof(lastNameAux), 3, "Please enter the last name of the employee: ", "Error, invalid entry")==0)
+			idAux=createNewId();
+			if(pedirTexto(nameAux,sizeof(nameAux), 3, "Ingrese el nombre del empleado:  ", "Error, dato ingresado invalido")==0)
 			{
-				if(pedirFloat(&salaryAux, 3, "Please enter salary: " , "Error, invalid entry")==0)
+				if(pedirTexto(lastNameAux,sizeof(lastNameAux), 3, "Ingrese el apellido del empleado: ", "Error, dato ingresado invalido")==0)
 				{
-					if(pedirInt(&sectorAux, 3, "Enter the sector: ", "Error, invalid entry")==0)
+					if(pedirFloatIntentosRango(&salaryAux, 0, 10000000, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
 					{
-						list[position].id=createNewId();
-						strncpy(list[position].name,nameAux,sizeof(list[position].name));
-						strncpy(list[position].lastName,lastNameAux,sizeof(list[position].lastName));
-						list[position].salary=salaryAux;
-						list[position].sector=sectorAux;
-						list[position].isEmpty=NOT_EMPTY;
-						retorno=0;
-					}
+						if(pedirIntIntentosRango(&sectorAux, 0, 10, 3, "Ingrese el numero del sector: ", "Error, dato ingresado invalido")==0)
+						{
+							*pId=idAux;
+							strncpy(pName,nameAux,51);
+							strncpy(pLastName,lastNameAux,51);
+							*pSalary=salaryAux;
+							*pSector=sectorAux;
+							retorno=0;
+							printf("\nDato ingresado correctamente!\n");
+						}
 
+					}
 				}
 			}
+
+		} else
+		{
+			printf("\nNo hay lugares disponibles\n");
+			retorno=-2;
 		}
 
 	}
@@ -132,7 +135,53 @@ int addEmployees(Employee *list, int lenght)
 
 }
 
-int findEmployeeById (Employee *list, int lenght)
+int addEmployees(Employee *list, int lenght, int id, char name[], char lastName[],float salary, int sector)
+{
+	int retorno;
+
+	if(list!=NULL&&lenght>0)
+	{
+		int position;
+
+		position=searchAvailable(list,lenght);
+		if(position!=-1&&position!=-2)
+		{
+			list[position].id=id;
+			strncpy(list[position].name,name,sizeof(list[position].name));
+			strncpy(list[position].lastName,lastName,sizeof(list[position].lastName));
+			list[position].salary=salary;
+			list[position].sector=sector;
+			list[position].isEmpty=NOT_EMPTY;
+			retorno=0;
+		}
+	}
+
+	return retorno;
+
+}
+
+int askForId (Employee *list, int lenght)
+{
+	int retorno;
+	int requestedId;
+
+	retorno=-1;
+	if(list!=NULL&&lenght>0)
+		{
+			retorno=0;
+			if(pedirIntIntentosRango(&requestedId, 0, 10000000, 3, "Ingrese el ID: ", "Error, dato ingresado invalido")==0)
+			{
+				retorno=requestedId;
+			} else
+			{
+				retorno=-2;
+			}
+		}
+
+	return retorno;
+}
+
+int findEmployeeById (Employee *list, int lenght, int id)
 {
 	int retorno;
 
@@ -141,20 +190,19 @@ int findEmployeeById (Employee *list, int lenght)
 	if(list!=NULL&&lenght>0)
 	{
 		retorno=0;
-		int requestedId;
-		pedirIntIntentosRango(&requestedId, 0, 10000000, 3, "Enter ID", "Error. Invalid entry");
-
 		for(int i=0;i<lenght;i++)
 		{
-			if(list[i].id==requestedId&&list->isEmpty==NOT_EMPTY)
+			retorno=-2;
+			if(list[i].id==id&&list[i].isEmpty==NOT_EMPTY)
 			{
 				retorno=i;
 				break;
-			} else
-			{
-				retorno=-2;
 			}
+		}
 
+		if(retorno==-2)
+		{
+			printf("\nLa ID ingresada no existe en el sistema\n");
 		}
 
 	}
@@ -163,7 +211,116 @@ int findEmployeeById (Employee *list, int lenght)
 
 }
 
+int removeEmployee (Employee *list, int lenght, int id)
+{
+	int retorno;
 
+	retorno=-1;
+
+	if(list!=NULL&&lenght>0)
+	{
+
+		for(int i=0;i<lenght;i++)
+		{
+			retorno=-2;
+			if(list[i].id==id&&list[i].isEmpty==NOT_EMPTY)
+			{
+				list[i].isEmpty=EMPTY;
+				printf("\nEmpleado %d eliminado del sistema\n",id);
+				retorno=0;
+				break;
+			}
+		}
+
+		if(retorno==-2)
+		{
+			printf("\nNo se pudo realizar la acción\n");
+		}
+
+	}
+
+	return retorno;
+
+}
+
+int sortEmployees (Employee *list, int lenght, int order)
+{
+    int i;
+    int retorno;
+    Employee aux;
+    int j;
+
+    retorno=-1;
+
+    if(list!=NULL&&lenght>0)
+    {
+    	retorno=0;
+
+    	if(order==1)
+    	{
+    		for(i=0;i<lenght-1;i++)
+			{
+				for(j=i+1;j<lenght;j++)
+				{
+					if(strcmp(list[i].lastName,list[j].lastName)>0)
+					{
+						aux = list[i];
+						list[i] = list[j];
+						list[j] = aux;
+					} else
+					{
+						if(strcmp(list[i].lastName,list[j].lastName)==0)
+						{
+							if(list[i].sector>list[j].sector)
+							{
+								aux = list[i];
+								list[i] = list[j];
+								list[j] = aux;
+							}
+						}
+					}
+				}
+			}
+
+    	}else
+    	{
+        	if(order==2)
+            	{
+            		for(i=0;i<lenght-1;i++)
+        			{
+        				for(j=i+1;j<lenght;j++)
+        				{
+        					if(strcmp(list[i].lastName,list[j].lastName)<0)
+        					{
+        						aux = list[i];
+        						list[i] = list[j];
+        						list[j] = aux;
+        					} else
+        					{
+        						if(strcmp(list[i].lastName,list[j].lastName)==0)
+        						{
+        							if(list[i].sector<list[j].sector)
+        							{
+        								aux = list[i];
+        								list[i] = list[j];
+        								list[j] = aux;
+        							}
+        						}
+        					}
+        				}
+        			}
+
+            	}
+
+    	}
+
+
+
+    }
+
+    return retorno;
+
+}
 
 int printEmployees(Employee *list,int lenght)
 {
@@ -178,7 +335,7 @@ int printEmployees(Employee *list,int lenght)
 			if(list[i].isEmpty==NOT_EMPTY)
 
 			{
-				printf("ID: %d. Name: %s. Last name: %s. Salary: %f. Sector: %d.  Vacio: %d\n",
+				printf("ID: %02d. Nombre: %8s.   Apellido: %15s.   Salario: %10.2f.   Sector: %-2d.  Vacio: %d\n",
 									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector, list[i].isEmpty);
 			} else
 			{
@@ -202,7 +359,7 @@ int printEmployeesById(Employee *list,int lenght,int position)
 	if(list!=NULL&&lenght>0)
 	{
 		retorno=0;
-		printf("ID: %d. Name: %s. Last name: %s. Salary: %f. Sector: %d.  Vacio: %d\n",
+		printf("ID: %02d. Nombre: %8s. Apellido: %8s. Salario: %02.2f. Sector: %-2d.  Vacio: %d\n",
 		list[position].id ,list[position].name,list[position].lastName,list[position].salary,list[position].sector, list[position].isEmpty);
 
 	}
@@ -210,5 +367,26 @@ int printEmployeesById(Employee *list,int lenght,int position)
 	return retorno;
 
 }
+
+int mainMenu (void)
+{
+	int retorno;
+
+	retorno=-1;
+
+	printf("Favor, elegir una de las siguientes opciones:\n"
+			"1)ALTAS\n"
+			"2)MODIFICAR\n"
+			"3)BAJAS\n"
+			"4)INFORMAR\n"
+			"5)SALIR\n");
+
+	pedirIntIntentosRango(&retorno, 1, 5, 5, "\nEscriba aquí su elección:  ", "Error, dato ingresado invalido");
+
+
+	return retorno;
+
+}
+
 
 
