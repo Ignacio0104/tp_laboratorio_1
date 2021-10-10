@@ -35,6 +35,7 @@ int removeEmployee (Employee *list, int lenght, int id);
 int sortEmployees (Employee *list, int lenght, int order);
 int askInformation (Employee *list, int lenght, int *pId, char *pName, char * pLastName, float *pSalary, int * pSector);
 int mainMenu (void);
+int modification (Employee *list);
 
 
 #endif /* ARRAYEMPLOYEES_H_ */

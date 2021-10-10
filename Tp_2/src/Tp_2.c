@@ -28,6 +28,7 @@ int main(void) {
 	int requestedId;
 	int requestedPosition;
 	char closeVariable;
+	int listOrder;
 
 	closeVariable='n';
 
@@ -35,7 +36,7 @@ int main(void) {
 	initEmployees(employeeList,EMPLOYEE_LENGHT);
 
 	addEmployees(employeeList,EMPLOYEE_LENGHT, 10, "Nacho","Smirlian",23500,1);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 11, "Esteban","Perez",30000,3);
+	addEmployees(employeeList,EMPLOYEE_LENGHT, 11, "Antonella","Strangio",30000,3);
 	addEmployees(employeeList,EMPLOYEE_LENGHT, 12, "Juan","Gonzalez",20000,1);
 	addEmployees(employeeList,EMPLOYEE_LENGHT, 13 ,"Catalina","Vazquez",100000,1);
 	addEmployees(employeeList,EMPLOYEE_LENGHT, 14, "Sofia","Estebanez",50000,2);
@@ -62,8 +63,7 @@ int main(void) {
 				if(requestedId!=-1&&requestedId!=-2)
 					{
 						requestedPosition=findEmployeeById (employeeList,EMPLOYEE_LENGHT, requestedId);
-
-						printf("Se va a modificar al empleado de la posicion %d",requestedPosition);
+						modification(&employeeList[requestedPosition]);
 					}
 				userChoice=mainMenu();
 				break;
@@ -77,12 +77,9 @@ int main(void) {
 				break;
 
 			case 4:
-				printEmployees(employeeList,EMPLOYEE_LENGHT);
-				printf("\n\n\n");
-				sortEmployees (employeeList,EMPLOYEE_LENGHT,1);
-				printEmployees(employeeList,EMPLOYEE_LENGHT);
-				printf("\n\n\n");
-				sortEmployees (employeeList,EMPLOYEE_LENGHT,2);
+				pedirIntIntentosRango(&listOrder, 1, 2, 5, "Ingrese 1 para mostar en orden alfabético descendente o 2 para"
+						"mostrar en orden alfabético descendente:  ", "Error, dato ingresado inválido");
+				sortEmployees (employeeList,EMPLOYEE_LENGHT,listOrder);
 				printEmployees(employeeList,EMPLOYEE_LENGHT);
 				printf("\n\n\n");
 				userChoice=mainMenu();

@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #define NOT_EMPTY 0
 #define EMPTY 1
 
@@ -106,7 +107,7 @@ int askInformation (Employee *list, int lenght, int *pId, char pName[], char pLa
 			{
 				if(pedirTexto(lastNameAux,sizeof(lastNameAux), 3, "Ingrese el apellido del empleado: ", "Error, dato ingresado invalido")==0)
 				{
-					if(pedirFloatIntentosRango(&salaryAux, 0, 10000000, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
+					if(pedirFloatIntentosRango(&salaryAux, 0, INT_MAX, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
 					{
 						if(pedirIntIntentosRango(&sectorAux, 0, 10, 3, "Ingrese el numero del sector: ", "Error, dato ingresado invalido")==0)
 						{
@@ -129,6 +130,113 @@ int askInformation (Employee *list, int lenght, int *pId, char pName[], char pLa
 			retorno=-2;
 		}
 
+	}
+
+	return retorno;
+
+}
+
+int modification (Employee *list)
+{
+
+	int retorno;
+	char nameAux[51];
+	char lastNameAux[51];
+	float salaryAux;
+	int sectorAux;
+	int userChoice;
+
+	retorno=-1;
+
+	if(list!=NULL)
+	{
+		retorno=0;
+		if(pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+				"1) Nombre\n"
+				"2) Apellido\n"
+				"3) Salario\n"
+				"4) Sector\n"
+				"5) Volver al menú principal", "Error dato ingresado inválido")==0)
+		{
+			switch (userChoice)
+			{
+				case 1:
+					if(pedirTexto(nameAux,sizeof(nameAux), 3, "Ingrese el nombre del empleado:  ", "Error, dato ingresado invalido")==0)
+					{
+						strncpy(list->name,nameAux,sizeof(list->name));
+						printf("Dato modificado exitosamente\n");
+					} else
+					{
+						printf("No se pudo modificar el campo solicitado\n");
+					}
+
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+									"1) Nombre\n"
+									"2) Apellido\n"
+									"3) Salario\n"
+									"4) Sector\n"
+									"5) Volver al menú principal", "Error dato ingresado inválido");
+					break;
+
+				case 2:
+					if(pedirTexto(lastNameAux,sizeof(lastNameAux), 3, "Ingrese el apellido del empleado:  ", "Error, dato ingresado invalido")==0)
+					{
+						strncpy(list->lastName,lastNameAux,sizeof(list->lastName));
+						printf("Dato modificado exitosamente\n");
+					} else
+					{
+						printf("No se pudo modificar el campo solicitado\n");
+					}
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+								"1) Nombre\n"
+								"2) Apellido\n"
+								"3) Salario\n"
+								"4) Sector\n"
+								"5) Volver al menú principal", "Error dato ingresado inválido");
+					break;
+				case 3:
+					if(pedirFloatIntentosRango(&salaryAux, 0, INT_MAX, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
+					{
+						list->salary=salaryAux;
+						printf("Dato modificado exitosamente\n");
+					}else
+					{
+						printf("No se pudo modificar el campo solicitado\n");
+					}
+
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+								"1) Nombre\n"
+								"2) Apellido\n"
+								"3) Salario\n"
+								"4) Sector\n"
+								"5) Volver al menú principal", "Error dato ingresado inválido");
+					break;
+
+				case 4:
+					if(pedirIntIntentosRango(&sectorAux, 0, 10, 3, "Ingrese el numero del sector: ", "Error, dato ingresado invalido")==0)
+					{
+						list->sector=sectorAux;
+						printf("Dato modificado exitosamente\n");
+					}else
+					{
+						printf("No se pudo modificar el campo solicitado\n");
+					}
+
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+								"1) Nombre\n"
+								"2) Apellido\n"
+								"3) Salario\n"
+								"4) Sector\n"
+								"5) Volver al menú principal", "Error dato ingresado inválido");
+					break;
+
+				case 5:
+				default:
+					printf("Volviendo al menu principal...");
+					break;
+
+			}
+		}
 	}
 
 	return retorno;
@@ -169,7 +277,7 @@ int askForId (Employee *list, int lenght)
 	if(list!=NULL&&lenght>0)
 		{
 			retorno=0;
-			if(pedirIntIntentosRango(&requestedId, 0, 10000000, 3, "Ingrese el ID: ", "Error, dato ingresado invalido")==0)
+			if(pedirIntIntentosRango(&requestedId, 0, INT_MAX, 3, "Ingrese el ID: ", "Error, dato ingresado invalido")==0)
 			{
 				retorno=requestedId;
 			} else
@@ -214,20 +322,42 @@ int findEmployeeById (Employee *list, int lenght, int id)
 int removeEmployee (Employee *list, int lenght, int id)
 {
 	int retorno;
+	char userChoice;
 
 	retorno=-1;
 
 	if(list!=NULL&&lenght>0)
 	{
-
+		retorno=-2;
 		for(int i=0;i<lenght;i++)
 		{
-			retorno=-2;
+
 			if(list[i].id==id&&list[i].isEmpty==NOT_EMPTY)
 			{
-				list[i].isEmpty=EMPTY;
-				printf("\nEmpleado %d eliminado del sistema\n",id);
-				retorno=0;
+
+				printf("\nSe va a eliminar al siguiente empleado: \n"
+						"ID: %02d. Nombre: %8s.   Apellido: %15s.   Salario: %10.2f.   Sector: %-2d.\n",
+									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
+
+
+				if(pedirCharSiNo(&userChoice, 's', 'n', 5, "Presione s para confirmar o n para volver al menu principal\n",
+						"Error, dato ingresado inválido\n")==0)
+				{
+					if(userChoice=='s')
+					{
+						list[i].isEmpty=EMPTY;
+						printf("Empleado borrado exitosamente.\n");
+						retorno=0;
+					} else
+					{
+						if(userChoice=='n')
+						{
+							printf("No se borrará al empleado. Volviendo al menú principal...\n");
+							retorno=0;
+						}
+					}
+
+				}
 				break;
 			}
 		}
@@ -242,6 +372,7 @@ int removeEmployee (Employee *list, int lenght, int id)
 	return retorno;
 
 }
+
 
 int sortEmployees (Employee *list, int lenght, int order)
 {
