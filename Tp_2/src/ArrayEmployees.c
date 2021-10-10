@@ -152,11 +152,11 @@ int modification (Employee *list)
 	{
 		retorno=0;
 		if(pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
-				"1) Nombre\n"
-				"2) Apellido\n"
-				"3) Salario\n"
-				"4) Sector\n"
-				"5) Volver al menú principal", "Error dato ingresado inválido")==0)
+				"		1) Nombre\n"
+				"		2) Apellido\n"
+				"		3) Salario\n"
+				"		4) Sector\n"
+				"		5) Volver al menú principal", "Error dato ingresado inválido")==0)
 		{
 			switch (userChoice)
 			{
@@ -171,11 +171,11 @@ int modification (Employee *list)
 					}
 
 					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
-									"1) Nombre\n"
-									"2) Apellido\n"
-									"3) Salario\n"
-									"4) Sector\n"
-									"5) Volver al menú principal", "Error dato ingresado inválido");
+									"		1) Nombre\n"
+									"		2) Apellido\n"
+									"		3) Salario\n"
+									"		4) Sector\n"
+									"		5) Volver al menú principal", "Error dato ingresado inválido");
 					break;
 
 				case 2:
@@ -188,11 +188,11 @@ int modification (Employee *list)
 						printf("No se pudo modificar el campo solicitado\n");
 					}
 					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
-								"1) Nombre\n"
-								"2) Apellido\n"
-								"3) Salario\n"
-								"4) Sector\n"
-								"5) Volver al menú principal", "Error dato ingresado inválido");
+								"		1) Nombre\n"
+								"		2) Apellido\n"
+								"		3) Salario\n"
+								"		4) Sector\n"
+								"		5) Volver al menú principal", "Error dato ingresado inválido");
 					break;
 				case 3:
 					if(pedirFloatIntentosRango(&salaryAux, 0, INT_MAX, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
@@ -205,11 +205,11 @@ int modification (Employee *list)
 					}
 
 					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
-								"1) Nombre\n"
-								"2) Apellido\n"
-								"3) Salario\n"
-								"4) Sector\n"
-								"5) Volver al menú principal", "Error dato ingresado inválido");
+								"		1) Nombre\n"
+								"		2) Apellido\n"
+								"		3) Salario\n"
+								"		4) Sector\n"
+								"		5) Volver al menú principal", "Error dato ingresado inválido");
 					break;
 
 				case 4:
@@ -223,16 +223,16 @@ int modification (Employee *list)
 					}
 
 					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
-								"1) Nombre\n"
-								"2) Apellido\n"
-								"3) Salario\n"
-								"4) Sector\n"
-								"5) Volver al menú principal", "Error dato ingresado inválido");
+								"		1) Nombre\n"
+								"		2) Apellido\n"
+								"		3) Salario\n"
+								"		4) Sector\n"
+								"		5) Volver al menú principal", "Error dato ingresado inválido");
 					break;
 
 				case 5:
 				default:
-					printf("Volviendo al menu principal...");
+					printf("Volviendo al menu principal...\n");
 					break;
 
 			}
@@ -335,8 +335,8 @@ int removeEmployee (Employee *list, int lenght, int id)
 			if(list[i].id==id&&list[i].isEmpty==NOT_EMPTY)
 			{
 
-				printf("\nSe va a eliminar al siguiente empleado: \n"
-						"ID: %02d. Nombre: %8s.   Apellido: %15s.   Salario: %10.2f.   Sector: %-2d.\n",
+				printf("\nSe va a eliminar al siguiente empleado: \n\n"
+						"ID: %02d. Nombre: %15s.   Apellido: %15s.   Salario: %18.2f.   Sector: %-2d.\n\n",
 									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
 
 
@@ -466,8 +466,8 @@ int printEmployees(Employee *list,int lenght)
 			if(list[i].isEmpty==NOT_EMPTY)
 
 			{
-				printf("ID: %02d. Nombre: %8s.   Apellido: %15s.   Salario: %10.2f.   Sector: %-2d.  Vacio: %d\n",
-									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector, list[i].isEmpty);
+				printf("ID: %02d. Nombre: %15s.   Apellido: %15s.   Salario: %18.2f.   Sector: %-2d.\n",
+									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
 			} else
 			{
 				printf("Espacio VACIO\n");
@@ -482,7 +482,7 @@ int printEmployees(Employee *list,int lenght)
 
 }
 
-int printEmployeesById(Employee *list,int lenght,int position)
+int printEmployeesBySalary(Employee *list,int lenght,float salaryVar)
 {
 	int retorno;
 	retorno=-1;
@@ -490,8 +490,18 @@ int printEmployeesById(Employee *list,int lenght,int position)
 	if(list!=NULL&&lenght>0)
 	{
 		retorno=0;
-		printf("ID: %02d. Nombre: %8s. Apellido: %8s. Salario: %02.2f. Sector: %-2d.  Vacio: %d\n",
-		list[position].id ,list[position].name,list[position].lastName,list[position].salary,list[position].sector, list[position].isEmpty);
+		printf("Los empleados que se encuentran por encima del salario promedio son: \n");
+		for(int i=0;i<lenght;i++)
+		{
+
+			if(list[i].salary>salaryVar&&list[i].isEmpty==NOT_EMPTY)
+
+			{
+				printf("ID: %02d. Nombre: %15s.   Apellido: %15s.   Salario: %18.2f.   Sector: %-2d.\n",
+									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
+			}
+
+		}
 
 	}
 
@@ -505,7 +515,7 @@ int mainMenu (void)
 
 	retorno=-1;
 
-	printf("Favor, elegir una de las siguientes opciones:\n"
+	printf("Favor, elegir una de las siguientes opciones:\n\n"
 			"1)ALTAS\n"
 			"2)MODIFICAR\n"
 			"3)BAJAS\n"
@@ -517,6 +527,65 @@ int mainMenu (void)
 
 	return retorno;
 
+}
+
+int averageSalaryFunction (Employee *list,int lenght, float* pPromedio,float* pTotal)
+{
+	int retorno;
+	float acumuladorSalarios;
+	int contadorSalarios;
+	int i;
+	float promedio;
+
+	acumuladorSalarios=0;
+	contadorSalarios=0;
+
+
+	retorno=-1;
+	if(list!=NULL&&lenght>0)
+	{
+		retorno=0;
+
+		for (i=0;i<lenght;i++)
+		{
+			if(list[i].isEmpty==NOT_EMPTY)
+			{
+				acumuladorSalarios+=list[i].salary;
+				contadorSalarios++;
+			}
+
+		}
+
+		if(acumuladorSalarios>0&&contadorSalarios>0)
+		{
+			promedio=acumuladorSalarios/contadorSalarios;
+		} else
+		{
+			retorno=-2;
+		}
+
+		*pPromedio=promedio;
+		*pTotal=acumuladorSalarios;
+	}
+
+	return retorno;
+}
+
+int submenuReports (void)
+{
+	char retorno;
+
+	retorno='x';
+
+	printf("\na)Listado orden alfabético descendiente\n"
+			"b)Listado orden alfabético ascendiente\n"
+			"c)Total y promedio de salarios\n"
+			"d)Listo de empleados por encima del salario promedio\n"
+			"e)Salir\n");
+
+	pedirCharAUsuarioIntentosRango(&retorno, 'a', 'e', 5, "Ingrese aquí su elección: ", "Error, dato ingresado inválido");
+
+	return retorno;
 }
 
 

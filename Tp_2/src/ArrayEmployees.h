@@ -27,7 +27,7 @@ typedef struct {
 
 int initEmployees(Employee *list,int lenght);
 int printEmployees(Employee *list,int lenght);
-int printEmployeesById(Employee *list,int lenght,int position);
+int printEmployeesBySalary(Employee *list,int lenght,float salaryVar);
 int addEmployees(Employee *list, int lenght, int id, char name[], char lastName[],float salary, int sector);
 int findEmployeeById (Employee *list, int lenght, int id);
 int askForId (Employee *list, int lenght);
@@ -36,6 +36,8 @@ int sortEmployees (Employee *list, int lenght, int order);
 int askInformation (Employee *list, int lenght, int *pId, char *pName, char * pLastName, float *pSalary, int * pSector);
 int mainMenu (void);
 int modification (Employee *list);
+int averageSalaryFunction (Employee *list,int lenght, float* pPromedio,float* pTotal);
+int submenuReports (void);
 
 
 #endif /* ARRAYEMPLOYEES_H_ */

@@ -20,6 +20,7 @@ int main(void) {
 	setbuf(stdout,NULL);
 
 	int userChoice;
+	char userChoiceSubMenu;
 	int idAux;
 	char nameAux[51];
 	char lastNameAux[51];
@@ -28,9 +29,12 @@ int main(void) {
 	int requestedId;
 	int requestedPosition;
 	char closeVariable;
-	int listOrder;
+	float totalSalary;
+	float averageSalary;
+	char inputFlag;
 
 	closeVariable='n';
+	inputFlag='n';
 
 	Employee employeeList [EMPLOYEE_LENGHT];
 	initEmployees(employeeList,EMPLOYEE_LENGHT);
@@ -54,34 +58,82 @@ int main(void) {
 			case 1:
 
 				askInformation (employeeList,EMPLOYEE_LENGHT, &idAux, nameAux, lastNameAux, &salaryAux, &sectorAux);
-				addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux);
+				if(addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux)==0)
+					{
+					inputFlag='s';
+					}
 				userChoice=mainMenu();
 				break;
 
 			case 2:
-				requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
-				if(requestedId!=-1&&requestedId!=-2)
-					{
-						requestedPosition=findEmployeeById (employeeList,EMPLOYEE_LENGHT, requestedId);
-						modification(&employeeList[requestedPosition]);
-					}
+
+				if(inputFlag=='s')
+				{
+					printEmployees(employeeList,EMPLOYEE_LENGHT);
+					requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
+					if(requestedId!=-1&&requestedId!=-2)
+						{
+							requestedPosition=findEmployeeById (employeeList,EMPLOYEE_LENGHT, requestedId);
+							modification(&employeeList[requestedPosition]);
+						}
+				} else
+				{
+					printf("Aún no se han ingresado datos\n");
+				}
+
 				userChoice=mainMenu();
 				break;
+
 			case 3:
-				requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
-				if(requestedId!=-1&&requestedId!=-2)
-					{
-						removeEmployee (employeeList,EMPLOYEE_LENGHT, requestedId);
-					}
+
+				if(inputFlag=='s')
+				{
+					printEmployees(employeeList,EMPLOYEE_LENGHT);
+					requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
+					if(requestedId!=-1&&requestedId!=-2)
+						{
+							removeEmployee (employeeList,EMPLOYEE_LENGHT, requestedId);
+						}
+				}else
+				{
+					printf("Aún no se han ingresado datos\n");
+				}
+
 				userChoice=mainMenu();
 				break;
 
 			case 4:
-				pedirIntIntentosRango(&listOrder, 1, 2, 5, "Ingrese 1 para mostar en orden alfabético descendente o 2 para"
-						"mostrar en orden alfabético descendente:  ", "Error, dato ingresado inválido");
-				sortEmployees (employeeList,EMPLOYEE_LENGHT,listOrder);
-				printEmployees(employeeList,EMPLOYEE_LENGHT);
-				printf("\n\n\n");
+				if(inputFlag=='s')
+				{
+					userChoiceSubMenu=submenuReports();
+					averageSalaryFunction (employeeList,EMPLOYEE_LENGHT, &averageSalary,&totalSalary);
+					switch (userChoiceSubMenu)
+					{
+						case 'a':
+							sortEmployees (employeeList,EMPLOYEE_LENGHT,2);
+							printEmployees(employeeList,EMPLOYEE_LENGHT);
+							break;
+						case 'b':
+							sortEmployees (employeeList,EMPLOYEE_LENGHT,1);
+							printEmployees(employeeList,EMPLOYEE_LENGHT);
+							break;
+						case 'c':
+							printf("El total de la suma de todos los salarios es: %.2f\n",totalSalary);
+							printf("El promedio de todos los salarios es: %.2f\n",averageSalary);
+							break;
+						case 'd':
+							printEmployeesBySalary(employeeList,EMPLOYEE_LENGHT,averageSalary);
+							break;
+						case 'e':
+						default:
+							printf("Volviendo al menú principal...");
+					}
+				} else
+				{
+					printf("Aún no se han ingresado datos\n");
+				}
+
+
 				userChoice=mainMenu();
 				break;
 
