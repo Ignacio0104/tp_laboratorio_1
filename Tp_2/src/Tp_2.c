@@ -31,10 +31,10 @@ int main(void) {
 	char closeVariable;
 	float totalSalary;
 	float averageSalary;
-	char inputFlag;
+	int totalEmpty;
+	int totalNotEmpty;
 
 	closeVariable='n';
-	inputFlag='n';
 
 	Employee employeeList [EMPLOYEE_LENGHT];
 	initEmployees(employeeList,EMPLOYEE_LENGHT);
@@ -58,37 +58,35 @@ int main(void) {
 			case 1:
 
 				askInformation (employeeList,EMPLOYEE_LENGHT, &idAux, nameAux, lastNameAux, &salaryAux, &sectorAux);
-				if(addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux)==0)
-					{
-					inputFlag='s';
-					}
+				addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux);
 				userChoice=mainMenu();
 				break;
 
 			case 2:
 
-				if(inputFlag=='s')
+				occupancy (employeeList,EMPLOYEE_LENGHT, &totalEmpty, &totalNotEmpty);
+				if(totalNotEmpty>0)
 				{
-					printEmployees(employeeList,EMPLOYEE_LENGHT);
+					printEmployees(employeeList,EMPLOYEE_LENGHT,totalEmpty, totalNotEmpty);
 					requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
-					if(requestedId!=-1&&requestedId!=-2)
+					requestedPosition=findEmployeeById(employeeList,EMPLOYEE_LENGHT, requestedId);
+					if(requestedPosition>0)
 						{
-							requestedPosition=findEmployeeById (employeeList,EMPLOYEE_LENGHT, requestedId);
 							modification(&employeeList[requestedPosition]);
 						}
 				} else
 				{
-					printf("Aún no se han ingresado datos\n");
+					printf("No hay datos para modificar\n");
 				}
 
 				userChoice=mainMenu();
 				break;
 
 			case 3:
-
-				if(inputFlag=='s')
+				occupancy (employeeList,EMPLOYEE_LENGHT, &totalEmpty, &totalNotEmpty);
+				if(totalNotEmpty>0)
 				{
-					printEmployees(employeeList,EMPLOYEE_LENGHT);
+					printEmployees(employeeList,EMPLOYEE_LENGHT,totalEmpty, totalNotEmpty);
 					requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
 					if(requestedId!=-1&&requestedId!=-2)
 						{
@@ -96,41 +94,23 @@ int main(void) {
 						}
 				}else
 				{
-					printf("Aún no se han ingresado datos\n");
+					printf("No hay datos para modificar\n");
 				}
 
 				userChoice=mainMenu();
 				break;
 
 			case 4:
-				if(inputFlag=='s')
+				occupancy (employeeList,EMPLOYEE_LENGHT, &totalEmpty, &totalNotEmpty);
+				if(totalNotEmpty>0)
 				{
 					userChoiceSubMenu=submenuReports();
 					averageSalaryFunction (employeeList,EMPLOYEE_LENGHT, &averageSalary,&totalSalary);
-					switch (userChoiceSubMenu)
-					{
-						case 'a':
-							sortEmployees (employeeList,EMPLOYEE_LENGHT,2);
-							printEmployees(employeeList,EMPLOYEE_LENGHT);
-							break;
-						case 'b':
-							sortEmployees (employeeList,EMPLOYEE_LENGHT,1);
-							printEmployees(employeeList,EMPLOYEE_LENGHT);
-							break;
-						case 'c':
-							printf("El total de la suma de todos los salarios es: %.2f\n",totalSalary);
-							printf("El promedio de todos los salarios es: %.2f\n",averageSalary);
-							break;
-						case 'd':
-							printEmployeesBySalary(employeeList,EMPLOYEE_LENGHT,averageSalary);
-							break;
-						case 'e':
-						default:
-							printf("Volviendo al menú principal...");
-					}
+					printReports (employeeList,EMPLOYEE_LENGHT,userChoiceSubMenu, totalSalary, averageSalary, totalEmpty, totalNotEmpty);
+
 				} else
 				{
-					printf("Aún no se han ingresado datos\n");
+					printf("No hay datos para mostrar\n");
 				}
 
 

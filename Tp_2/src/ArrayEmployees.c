@@ -151,7 +151,7 @@ int modification (Employee *list)
 	if(list!=NULL)
 	{
 		retorno=0;
-		if(pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+		if(pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
 				"		1) Nombre\n"
 				"		2) Apellido\n"
 				"		3) Salario\n"
@@ -170,7 +170,7 @@ int modification (Employee *list)
 						printf("No se pudo modificar el campo solicitado\n");
 					}
 
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
 									"		1) Nombre\n"
 									"		2) Apellido\n"
 									"		3) Salario\n"
@@ -187,7 +187,7 @@ int modification (Employee *list)
 					{
 						printf("No se pudo modificar el campo solicitado\n");
 					}
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
 								"		1) Nombre\n"
 								"		2) Apellido\n"
 								"		3) Salario\n"
@@ -222,7 +222,7 @@ int modification (Employee *list)
 						printf("No se pudo modificar el campo solicitado\n");
 					}
 
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+					pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
 								"		1) Nombre\n"
 								"		2) Apellido\n"
 								"		3) Salario\n"
@@ -310,7 +310,7 @@ int findEmployeeById (Employee *list, int lenght, int id)
 
 		if(retorno==-2)
 		{
-			printf("\nLa ID ingresada no existe en el sistema\n");
+			printf("Error, ID no existe en el sistema\n\n");
 		}
 
 	}
@@ -340,7 +340,7 @@ int removeEmployee (Employee *list, int lenght, int id)
 									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
 
 
-				if(pedirCharSiNo(&userChoice, 's', 'n', 5, "Presione s para confirmar o n para volver al menu principal\n",
+				if(pedirCharSiNo(&userChoice, 's', 'n', 5, "Presione [s] para confirmar o [n] para volver al menu principal\n",
 						"Error, dato ingresado inválido\n")==0)
 				{
 					if(userChoice=='s')
@@ -453,7 +453,7 @@ int sortEmployees (Employee *list, int lenght, int order)
 
 }
 
-int printEmployees(Employee *list,int lenght)
+int printEmployees(Employee *list,int lenght, int totalEmpty, int totalNotEmpty)
 {
 	int retorno;
 	retorno=-1;
@@ -461,20 +461,20 @@ int printEmployees(Employee *list,int lenght)
 	if(list!=NULL&&lenght>0)
 	{
 		retorno=0;
+
+		printf("ID  \t       Nombre        \t       Apellido        \t       Salario        \t Sector \t\n\n");
 		for(int i=0;i<lenght;i++)
 		{
 			if(list[i].isEmpty==NOT_EMPTY)
 
 			{
-				printf("ID: %02d. Nombre: %15s.   Apellido: %15s.   Salario: %18.2f.   Sector: %-2d.\n",
+				printf("%2d  \t %15s  \t  %15s \t   %15.2f \t   %2d \t \n",
 									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
-			} else
-			{
-				printf("Espacio VACIO\n");
 			}
 
-
 		}
+
+		printf("\n\nLugares disponibles: %d. Lugares ocupados %d\n\n",totalEmpty,totalNotEmpty);
 
 	}
 
@@ -490,14 +490,17 @@ int printEmployeesBySalary(Employee *list,int lenght,float salaryVar)
 	if(list!=NULL&&lenght>0)
 	{
 		retorno=0;
-		printf("Los empleados que se encuentran por encima del salario promedio son: \n");
+		printf("Los empleados que se encuentran por encima del salario promedio son: \n\n");
+
+		printf("ID  \t       Nombre        \t       Apellido        \t       Salario        \t Sector \t\n\n");
+
 		for(int i=0;i<lenght;i++)
 		{
 
 			if(list[i].salary>salaryVar&&list[i].isEmpty==NOT_EMPTY)
 
 			{
-				printf("ID: %02d. Nombre: %15s.   Apellido: %15s.   Salario: %18.2f.   Sector: %-2d.\n",
+				printf("%2d  \t %15s  \t  %15s \t   %15.2f \t   %2d \t \n",
 									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
 			}
 
@@ -584,6 +587,78 @@ int submenuReports (void)
 			"e)Salir\n");
 
 	pedirCharAUsuarioIntentosRango(&retorno, 'a', 'e', 5, "Ingrese aquí su elección: ", "Error, dato ingresado inválido");
+
+	return retorno;
+}
+
+int printReports (Employee *list,int lenght,char userChoice, float totalSalary, float averageSalary, int totalEmpty, int totalNotEmpty)
+{
+	int retorno;
+
+	retorno=-1;
+
+	if(list!=NULL&&lenght>0)
+		{
+			retorno=0;
+			switch (userChoice)
+				{
+					case 'a':
+						sortEmployees (list,lenght,2);
+						printEmployees(list,lenght,totalEmpty,totalNotEmpty);
+						break;
+					case 'b':
+						sortEmployees (list,lenght,1);
+						printEmployees(list,lenght,totalEmpty,totalNotEmpty);
+						break;
+					case 'c':
+						printf("\nEl total de la suma de todos los salarios es: $%.2f\n",totalSalary);
+						printf("\nEl promedio de todos los salarios es: $ %.2f\n\n",averageSalary);
+						break;
+					case 'd':
+						printEmployeesBySalary(list,lenght,averageSalary);
+						break;
+					case 'e':
+					default:
+						printf("Volviendo al menú principal...");
+				}
+
+
+		}
+
+
+	return retorno;
+}
+
+int occupancy (Employee *list,int lenght, int* pEmpty, int* pNotEmpty)
+{
+	int retorno;
+	int empty;
+	int notEmpty;
+	int i;
+
+	retorno=-1;
+	empty=0;
+	notEmpty=0;
+
+	if(list!=NULL&&lenght>0)
+		{
+			retorno=0;
+
+			for (i=0;i<lenght;i++)
+			{
+				if(list[i].isEmpty==NOT_EMPTY)
+				{
+					notEmpty++;
+				} else
+				{
+					empty++;
+				}
+
+			}
+		}
+
+	*pEmpty=empty;
+	*pNotEmpty=notEmpty;
 
 	return retorno;
 }
