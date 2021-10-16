@@ -486,27 +486,37 @@ int printEmployeesBySalary(Employee *list,int lenght,float salaryVar)
 {
 	int retorno;
 	retorno=-1;
+	int contadorEmpleados;
+
+	contadorEmpleados=0;
 
 	if(list!=NULL&&lenght>0)
 	{
 		retorno=0;
-		printf("Los empleados que se encuentran por encima del salario promedio son: \n\n");
 
-		printf("ID  \t       Nombre        \t       Apellido        \t       Salario        \t Sector \t\n\n");
 
-		for(int i=0;i<lenght;i++)
-		{
+			printf("Los empleados que se encuentran por encima del salario promedio son: \n\n");
 
-			if(list[i].salary>salaryVar&&list[i].isEmpty==NOT_EMPTY)
+				printf("ID  \t       Nombre        \t       Apellido        \t       Salario        \t Sector \t\n\n");
 
-			{
-				printf("%2d  \t %15s  \t  %15s \t   %15.2f \t   %2d \t \n\n",
-									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
-			}
+				for(int i=0;i<lenght;i++)
+				{
 
-		}
+					if(list[i].salary>salaryVar&&list[i].isEmpty==NOT_EMPTY)
 
-	}
+					{
+						printf("%2d  \t %15s  \t  %15s \t   %15.2f \t   %2d \t \n\n",
+											list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
+
+						contadorEmpleados++;
+					}
+				}
+
+				if(contadorEmpleados==0)
+
+					printf("Ningun empleado supera el salario promedio\n\n");
+				}
+
 
 	return retorno;
 
@@ -583,7 +593,7 @@ int submenuReports (void)
 	printf("\na)Listado orden alfabético descendiente\n"
 			"b)Listado orden alfabético ascendiente\n"
 			"c)Total y promedio de salarios\n"
-			"d)Listo de empleados por encima del salario promedio\n"
+			"d)Lista de empleados por encima del salario promedio\n"
 			"e)Salir\n");
 
 	pedirCharAUsuarioIntentosRango(&retorno, 'a', 'e', 5, "Ingrese aquí su elección: ", "Error, dato ingresado inválido");

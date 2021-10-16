@@ -39,16 +39,6 @@ int main(void) {
 	Employee employeeList [EMPLOYEE_LENGHT];
 	initEmployees(employeeList,EMPLOYEE_LENGHT);
 
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 10, "Nacho","Smirlian",23500,1);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 11, "Antonella","Strangio",30000,3);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 12, "Juan","Gonzalez",20000,1);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 13 ,"Catalina","Vazquez",100000,1);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 14, "Sofia","Estebanez",50000,2);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 15, "Nicolas","Sivori",60000,2);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 16, "Ramiro","Gonzalez",55000,1);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 17, "Nacho","Smirlian",90000,2);
-	addEmployees(employeeList,EMPLOYEE_LENGHT, 18, "Rodrigo","Sanchez",30000,3);
-
 	userChoice=mainMenu();
 
 	while(closeVariable!='s')
