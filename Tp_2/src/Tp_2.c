@@ -13,7 +13,7 @@
 #include <string.h>
 #include "biblioteca_input.h"
 #include "ArrayEmployees.h"
-#define EMPLOYEE_LENGHT 10
+#define EMPLOYEE_LENGHT 1000
 
 int main(void) {
 
@@ -57,20 +57,25 @@ int main(void) {
 		{
 			case 1:
 
-				askInformation (employeeList,EMPLOYEE_LENGHT, &idAux, nameAux, lastNameAux, &salaryAux, &sectorAux);
-				addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux);
+				if(askInformation (employeeList,EMPLOYEE_LENGHT, &idAux, nameAux, lastNameAux, &salaryAux, &sectorAux)==0)
+				{
+					addEmployees(employeeList,EMPLOYEE_LENGHT, idAux, nameAux, lastNameAux,salaryAux, sectorAux);
+				} else
+				{
+					printf("\nNo pudo realizarse la carga \n\n");
+				}
+
 				userChoice=mainMenu();
 				break;
 
 			case 2:
-
 				occupancy (employeeList,EMPLOYEE_LENGHT, &totalEmpty, &totalNotEmpty);
 				if(totalNotEmpty>0)
 				{
 					printEmployees(employeeList,EMPLOYEE_LENGHT,totalEmpty, totalNotEmpty);
-					requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
+					requestedId=askForId();
 					requestedPosition=findEmployeeById(employeeList,EMPLOYEE_LENGHT, requestedId);
-					if(requestedPosition>0)
+					if(requestedPosition>=0)
 						{
 							modification(&employeeList[requestedPosition]);
 						}
@@ -87,7 +92,7 @@ int main(void) {
 				if(totalNotEmpty>0)
 				{
 					printEmployees(employeeList,EMPLOYEE_LENGHT,totalEmpty, totalNotEmpty);
-					requestedId=askForId(employeeList,EMPLOYEE_LENGHT);
+					requestedId=askForId();
 					if(requestedId!=-1&&requestedId!=-2)
 						{
 							removeEmployee (employeeList,EMPLOYEE_LENGHT, requestedId);

@@ -14,13 +14,21 @@
 #define NOT_EMPTY 0
 #define EMPTY 1
 
+/// \fn int createNewId(void)
+/// \brief Create a new unique ID each time is called
+/// \return Return the created ID
 static int createNewId (void);
+
+
+
+/// \fn int searchAvailable(Employee*, int)
+/// \brief Search the array for an empty slot (isEmpty flag == EMPTY)
+/// \param list Employee* pointer to array of employees
+/// \param lenght Array lenght
+/// \return -1 if there was an error [Invalid length or NULL pointer], -2 if there's no empty slot, empty position if OK.
 static int searchAvailable(Employee *list,int lenght);
 
-/// \fn int createNewId(void)
-/// \brief create a new id for each new employee.
-///
-/// \return the new ID
+
 static int createNewId (void)
 {
 	static int id=1;
@@ -57,16 +65,6 @@ static int searchAvailable(Employee *list,int lenght)
 }
 
 
-
-/// \fn int initEmployees(Employee*, int)
-/// \brief To indicate that all position in the array are empty,
-/// 		this function put the flag (isEmpty) in EMPTY in all position of the array
-///
-/// \pre
-/// \post
-/// \param list Employee* Pointer to array of employees
-/// \param lenght Array lenght
-/// \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
 
 int initEmployees(Employee *list,int lenght)
 {
@@ -117,7 +115,6 @@ int askInformation (Employee *list, int lenght, int *pId, char pName[], char pLa
 							*pSalary=salaryAux;
 							*pSector=sectorAux;
 							retorno=0;
-							printf("\nDato ingresado correctamente!\n");
 						}
 
 					}
@@ -158,84 +155,88 @@ int modification (Employee *list)
 				"		4) Sector\n"
 				"		5) Volver al menú principal", "Error dato ingresado inválido")==0)
 		{
-			switch (userChoice)
+			while(userChoice!=5)
 			{
-				case 1:
-					if(pedirTexto(nameAux,sizeof(nameAux), 3, "Ingrese el nombre del empleado:  ", "Error, dato ingresado invalido")==0)
-					{
-						strncpy(list->name,nameAux,sizeof(list->name));
-						printf("Dato modificado exitosamente\n");
-					} else
-					{
-						printf("No se pudo modificar el campo solicitado\n");
-					}
+				switch (userChoice)
+				{
+					case 1:
+						if(pedirTexto(nameAux,sizeof(nameAux), 3, "Ingrese el nombre del empleado:  ", "Error, dato ingresado invalido")==0)
+						{
+							strncpy(list->name,nameAux,sizeof(list->name));
+							printf("Dato modificado exitosamente\n");
+						} else
+						{
+							printf("No se pudo modificar el campo solicitado\n");
+						}
 
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
+						pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
+										"		1) Nombre\n"
+										"		2) Apellido\n"
+										"		3) Salario\n"
+										"		4) Sector\n"
+										"		5) Volver al menú principal", "Error dato ingresado inválido");
+						break;
+
+					case 2:
+						if(pedirTexto(lastNameAux,sizeof(lastNameAux), 3, "Ingrese el apellido del empleado:  ", "Error, dato ingresado invalido")==0)
+						{
+							strncpy(list->lastName,lastNameAux,sizeof(list->lastName));
+							printf("Dato modificado exitosamente\n");
+						} else
+						{
+							printf("No se pudo modificar el campo solicitado\n");
+						}
+						pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
 									"		1) Nombre\n"
 									"		2) Apellido\n"
 									"		3) Salario\n"
 									"		4) Sector\n"
 									"		5) Volver al menú principal", "Error dato ingresado inválido");
-					break;
+						break;
+					case 3:
+						if(pedirFloatIntentosRango(&salaryAux, 0, INT_MAX, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
+						{
+							list->salary=salaryAux;
+							printf("Dato modificado exitosamente\n");
+						}else
+						{
+							printf("No se pudo modificar el campo solicitado\n");
+						}
 
-				case 2:
-					if(pedirTexto(lastNameAux,sizeof(lastNameAux), 3, "Ingrese el apellido del empleado:  ", "Error, dato ingresado invalido")==0)
-					{
-						strncpy(list->lastName,lastNameAux,sizeof(list->lastName));
-						printf("Dato modificado exitosamente\n");
-					} else
-					{
-						printf("No se pudo modificar el campo solicitado\n");
-					}
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
-								"		1) Nombre\n"
-								"		2) Apellido\n"
-								"		3) Salario\n"
-								"		4) Sector\n"
-								"		5) Volver al menú principal", "Error dato ingresado inválido");
-					break;
-				case 3:
-					if(pedirFloatIntentosRango(&salaryAux, 0, INT_MAX, 3, "Ingrese el salario:  ", "Error, dato ingresado invalido")==0)
-					{
-						list->salary=salaryAux;
-						printf("Dato modificado exitosamente\n");
-					}else
-					{
-						printf("No se pudo modificar el campo solicitado\n");
-					}
+						pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
+									"		1) Nombre\n"
+									"		2) Apellido\n"
+									"		3) Salario\n"
+									"		4) Sector\n"
+									"		5) Volver al menú principal", "Error dato ingresado inválido");
+						break;
 
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, " Ingrese el número del campo que desea modificar:\n"
-								"		1) Nombre\n"
-								"		2) Apellido\n"
-								"		3) Salario\n"
-								"		4) Sector\n"
-								"		5) Volver al menú principal", "Error dato ingresado inválido");
-					break;
+					case 4:
+						if(pedirIntIntentosRango(&sectorAux, 0, 10, 3, "Ingrese el numero del sector: ", "Error, dato ingresado invalido")==0)
+						{
+							list->sector=sectorAux;
+							printf("Dato modificado exitosamente\n");
+						}else
+						{
+							printf("No se pudo modificar el campo solicitado\n");
+						}
 
-				case 4:
-					if(pedirIntIntentosRango(&sectorAux, 0, 10, 3, "Ingrese el numero del sector: ", "Error, dato ingresado invalido")==0)
-					{
-						list->sector=sectorAux;
-						printf("Dato modificado exitosamente\n");
-					}else
-					{
-						printf("No se pudo modificar el campo solicitado\n");
-					}
+						pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
+									"		1) Nombre\n"
+									"		2) Apellido\n"
+									"		3) Salario\n"
+									"		4) Sector\n"
+									"		5) Volver al menú principal", "Error dato ingresado inválido");
+						break;
 
-					pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese el número del campo que desea modificar:\n"
-								"		1) Nombre\n"
-								"		2) Apellido\n"
-								"		3) Salario\n"
-								"		4) Sector\n"
-								"		5) Volver al menú principal", "Error dato ingresado inválido");
-					break;
+					case 5:
+					default:
+						printf("Volviendo al menu principal...\n");
+						break;
 
-				case 5:
-				default:
-					printf("Volviendo al menu principal...\n");
-					break;
-
+				}
 			}
+
 		}
 	}
 
@@ -261,6 +262,10 @@ int addEmployees(Employee *list, int lenght, int id, char name[], char lastName[
 			list[position].sector=sector;
 			list[position].isEmpty=NOT_EMPTY;
 			retorno=0;
+			printf("\nDato ingresado correctamente!\n");
+		} else
+		{
+			printf("No quedan lugares libres\n");
 		}
 	}
 
@@ -268,23 +273,19 @@ int addEmployees(Employee *list, int lenght, int id, char name[], char lastName[
 
 }
 
-int askForId (Employee *list, int lenght)
+int askForId (void)
 {
 	int retorno;
 	int requestedId;
 
-	retorno=-1;
-	if(list!=NULL&&lenght>0)
-		{
-			retorno=0;
-			if(pedirIntIntentosRango(&requestedId, 0, INT_MAX, 3, "Ingrese el ID: ", "Error, dato ingresado invalido")==0)
-			{
-				retorno=requestedId;
-			} else
-			{
-				retorno=-2;
-			}
-		}
+	retorno=0;
+	if(pedirIntIntentosRango(&requestedId, 0, INT_MAX, 3, "Ingrese el ID: ", "Error, dato ingresado invalido")==0)
+	{
+		retorno=requestedId;
+	} else
+	{
+		retorno=-2;
+	}
 
 	return retorno;
 }
@@ -328,7 +329,6 @@ int removeEmployee (Employee *list, int lenght, int id)
 
 	if(list!=NULL&&lenght>0)
 	{
-		retorno=-2;
 		for(int i=0;i<lenght;i++)
 		{
 
@@ -362,9 +362,9 @@ int removeEmployee (Employee *list, int lenght, int id)
 			}
 		}
 
-		if(retorno==-2)
+		if(retorno==-1)
 		{
-			printf("\nNo se pudo realizar la acción\n");
+			printf("\nNo se pudo procesar la acción \n");
 		}
 
 	}
@@ -500,7 +500,7 @@ int printEmployeesBySalary(Employee *list,int lenght,float salaryVar)
 			if(list[i].salary>salaryVar&&list[i].isEmpty==NOT_EMPTY)
 
 			{
-				printf("%2d  \t %15s  \t  %15s \t   %15.2f \t   %2d \t \n",
+				printf("%2d  \t %15s  \t  %15s \t   %15.2f \t   %2d \t \n\n",
 									list[i].id ,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
 			}
 
