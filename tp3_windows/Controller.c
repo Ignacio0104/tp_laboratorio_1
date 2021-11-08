@@ -95,9 +95,11 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 			if(f!=NULL)
 			{
 				idAux=employee_createNewId(pArrayListEmployee);
+				printf("Estoy retomando el archivo ID MAX\n");
 			} else
 			{
 				idAux=employee_createFirstId(pArrayListEmployee);
+				printf("Estoy buscando el ID mas alto\n");
 			}
 			fclose(f);
 
@@ -298,19 +300,20 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     	switch (userChoice)
     	{
     	case 1:
-    		ll_sort(pArrayListEmployee,employee_compareId,1);
+    		ll_sort(pArrayListEmployee,employee_compareId,0);
     		retorno=0;
     		break;
     	case 2:
-    		ll_sort(pArrayListEmployee,employee_compareName,1);
+    		ll_sort(pArrayListEmployee,employee_compareName,0);
     		retorno=0;
     		break;
     	case 3:
-    		ll_sort(pArrayListEmployee,employee_compareHoras,1);
+    		ll_sort(pArrayListEmployee,employee_compareHoras,0);
     		retorno=0;
     		break;
     	case 4:
-    		ll_sort(pArrayListEmployee,employee_compareSueldo,1);
+    		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
+    		retorno=0;
     		break;
     	case 5:
     		printf("Volviendo al menú");
