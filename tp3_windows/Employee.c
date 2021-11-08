@@ -2,39 +2,34 @@
 #include <string.h>
 #define NOMBRE_LEN 128
 
-static int employee_createNewId (LinkedList* listEmployee);
-
 Employee* employee_new()
 {
 	Employee* pEmployee=(Employee*)malloc(sizeof(Employee));
 	return pEmployee;
 }
 
-int employee_askForInformation(char* pId, char *pNombre, char *pHoras, char* pSueldo)
+int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo)
 {
 	int retorno=-1;
-	char idAux[256];
+
 	char nombreAux[256];
 	char horasAux[256];
 	char sueldoAux[256];
 
-	if(pedirNumeroTxt(idAux,256, 3, "Ingrese el ID","Error")==0)
+	if(pedirTexto(nombreAux,NOMBRE_LEN, 3, "Ingrese el nombre", "Error")==0)
 	{
-		if(pedirTexto(nombreAux,NOMBRE_LEN, 3, "Ingrese el nombre", "Error")==0)
+		if(pedirNumeroTxt(horasAux,256, 3, "Ingrese las horas","Error")==0)
 		{
-			if(pedirNumeroTxt(horasAux,256, 3, "Ingrese las horas","Error")==0)
+			if(pedirNumeroTxt(sueldoAux,256, 3, "Ingrese el salario","Error")==0)
 			{
-				if(pedirNumeroTxt(sueldoAux,256, 3, "Ingrese el salario","Error")==0)
-				{
-					strncpy(pHoras,horasAux,256);
-					strncpy(pSueldo,sueldoAux,256);
-					strncpy(pId,idAux,256);
-					strncpy(pNombre,nombreAux,NOMBRE_LEN);
-					retorno=0;
-				}
+				strncpy(pHoras,horasAux,256);
+				strncpy(pSueldo,sueldoAux,256);
+				strncpy(pNombre,nombreAux,NOMBRE_LEN);
+				retorno=0;
 			}
 		}
 	}
+
 
 
 	return retorno;
@@ -113,11 +108,37 @@ int emplooyee_findLastId(LinkedList* listEmployee)
 	return idMaxima;
 }
 
-static int employee_createNewId (LinkedList* listEmployee)
+int employee_createFirstId (LinkedList* listEmployee)
 {
 	int idAnterior;
 	int idNueva;
 	idAnterior=emplooyee_findLastId(listEmployee);
+
+	if(idAnterior>=0)
+	{
+		idNueva=idAnterior+1;
+	}
+
+	return idNueva;
+}
+
+
+int employee_createNewId (LinkedList* listEmployee)
+{
+	int idAnterior;
+	int idNueva;
+	char idAux[10];
+	FILE* f = fopen("IdMaxima.txt","r");
+	if(f!=NULL)
+	{
+			fscanf(f,"%s",idAux);
+
+			if(esNumerica(idAux)==0)
+			{
+				idAnterior=atoi(idAux);
+			}
+	}
+	fclose(f);
 
 	if(idAnterior>=0)
 	{

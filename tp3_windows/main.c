@@ -25,6 +25,8 @@ int main()
 	setbuf(stdout,NULL);
     int eleccionUsuario = 0;
     char banderaCierre='n';
+    //char banderaInputTxt='n';
+    //char banderaOutputTxt='n';
     char fileNameAux[128];
     LinkedList* listaEmpleados = ll_newLinkedList();
 

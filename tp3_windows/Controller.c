@@ -81,29 +81,54 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
 	int retorno=-1;
     char nombreAux[128];
-    char idAuxTxt[128];
+    int idAux;
     char sueldoAuxTxt[128];
     char horasAuxTxt[128];
     Employee* employeeAux;
 
-
-	if(employee_askForInformation(idAuxTxt, nombreAux, horasAuxTxt, sueldoAuxTxt)==0)
+    employeeAux=employee_new();
+	if(employeeAux!=NULL)
 	{
-		employeeAux=employee_newParametros(idAuxTxt,nombreAux,horasAuxTxt,sueldoAuxTxt);
+		if(employee_askForInformation(nombreAux, horasAuxTxt, sueldoAuxTxt)==0)
+		{
+			FILE* f = fopen("IdMaxima.txt","r");
+			if(f!=NULL)
+			{
+				idAux=employee_createNewId(pArrayListEmployee);
+			} else
+			{
+				idAux=employee_createFirstId(pArrayListEmployee);
+			}
+			fclose(f);
 
-		if(employeeAux!=NULL)
-		{
-			ll_add(pArrayListEmployee,employeeAux);
-			retorno=0;
+			if(employee_setId(employeeAux,idAux)==0)
+			{
+				if(employee_setNombre(employeeAux,nombreAux)==0)
+				{
+					if(employee_setHorasTrabajadasTxt(employeeAux,horasAuxTxt)==0)
+					{
+						if(employee_setSueldoTxt(employeeAux,sueldoAuxTxt)==0)
+						{
+							ll_add(pArrayListEmployee,employeeAux);
+							retorno=0;
+							FILE* f = fopen("IdMaxima.txt","w");
+						    if(f!=NULL)
+						    {
+						    	retorno=0;
+						        fprintf(f,"%d",idAux);
+						        fclose(f);
+						    }
+						}
+					}
+				}
+			}
 		}
-		else
-		{
-			printf("No se pudo agregar el empleado");
-		}
-	}else
-		{
-			printf("Error al cargar la informacion");
-		}
+	}
+	else
+	{
+		printf("No se pudo agregar el empleado");
+	}
+
     return retorno;
 }
 
