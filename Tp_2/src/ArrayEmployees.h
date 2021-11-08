@@ -33,7 +33,6 @@ typedef struct {
 int initEmployees(Employee *list,int lenght);
 
 
-
 /// \fn int printEmployees(Employee*, int, int, int)
 /// \brief  prints all the positions of the array that are NOT_EMPTY
 /// \param list Employee* pointer to array of employees
