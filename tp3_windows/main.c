@@ -95,6 +95,9 @@ int main()
             		{
             			controller_addEmployee(listaEmpleados);
             		}
+            	} else
+            	{
+            		controller_addEmployee(listaEmpleados);
             	}
 
             	eleccionUsuario=controller_MainMenu();
@@ -116,37 +119,71 @@ int main()
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 8:
-             	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo donde desea guardar.", "Error, nombre ingresado inválido")==0)
-                 {
-             		if(controller_saveAsText(fileNameAux, listaEmpleados)==0)
-					{
-             			printf("Archivo guardado con exito");
-					} else
-					{
-						printf("No pudo guardarse el archivo");
-					}
-                 }
-
-            	eleccionUsuario=controller_MainMenu();
-                break;
-            case 9:
-             	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo donde desea guardar.", "Error, nombre ingresado inválido")==0)
+            	if(banderaInputBin=='n')
+            	{
+                 	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo donde desea guardar.", "Error, nombre ingresado inválido")==0)
                      {
-                 		if(controller_saveAsBinary(fileNameAux, listaEmpleados)==0)
+                 		if(controller_saveAsText(fileNameAux, listaEmpleados)==0)
     					{
                  			printf("Archivo guardado con exito");
+                 			banderaOutputTxt='s';
     					} else
     					{
     						printf("No pudo guardarse el archivo");
     					}
                      }
 
+            	} else
+            	{
+            		printf("El archivo de origen es binario, favor guardar su progreso en el mismo formato");
+            	}
+
+            	eleccionUsuario=controller_MainMenu();
+                break;
+            case 9:
+            	if(banderaInputTxt=='n')
+            	{
+					if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo donde desea guardar.", "Error, nombre ingresado inválido")==0)
+					 {
+						if(controller_saveAsBinary(fileNameAux, listaEmpleados)==0)
+						{
+							printf("Archivo guardado con exito");
+							banderaOutputBin='s';
+						} else
+						{
+							printf("No pudo guardarse el archivo");
+						}
+					 }
+
+            	} else
+            	{
+            		printf("El archivo de origen es de texto, favor guardar su progreso en el mismo formato");
+            	}
 
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 10:
-                printf("Saliendo...");
-                banderaCierre='s';
+            	if(banderaOutputTxt=='n'&&banderaOutputBin=='n')
+            	{
+            		pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Está a punto de salir del programa sin guardar los cambios.\n"
+            				"Desea continuar? [s] si o [n] no\n",
+            		    									"Error, dato ingresado inválido\n");
+            		if(userConfirmation=='s')
+            		{
+            			printf("Borrando los datos y saliendo del sistema\n");
+            			banderaCierre='s';
+            		} else
+            		{
+            			printf("Volviendo al menú principal...\n");
+            			eleccionUsuario=controller_MainMenu();
+            		}
+            	}
+            	else
+            	{
+            		printf("Saliendo del sistema....\n");
+					banderaCierre='s';
+            	}
+
                 break;
         }
     }

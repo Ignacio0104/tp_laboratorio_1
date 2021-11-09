@@ -225,7 +225,7 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 	{
 		retorno=0;
 		length=ll_len(pArrayListEmployee);
-		if(length>=0)
+		if(length>0)
 		{
 			for (i=0;length>i;i++)
 			{
@@ -236,6 +236,9 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 				}
 
 			}
+		} else
+		{
+			printf("No hay ningún empleado cargado para mostrar\n");
 		}
 
 	}
@@ -304,49 +307,59 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno=-1;
 	int userChoice;
+	int lenght;
+
+	lenght=ll_len(pArrayListEmployee);
 
 
-	printf("Que criterio quiere utilizar para ordenar?\n"
-			"1)ID\n"
-			"2)Nombre\n"
-			"3)Horas trabajadas\n"
-			"4)Sueldo\n"
-			"5)Volver al menu principal\n");
+	if(lenght>0)
+	{
+		printf("Que criterio quiere utilizar para ordenar?\n"
+				"1)ID\n"
+				"2)Nombre\n"
+				"3)Horas trabajadas\n"
+				"4)Sueldo\n"
+				"5)Volver al menu principal\n");
 
-	pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese aquí su opción: ", "Error");
+		pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese aquí su opción: ", "Error");
 
 
-    if (pArrayListEmployee!=NULL)
-    {
+	    if (pArrayListEmployee!=NULL)
+	    {
 
-    	switch (userChoice)
-    	{
-    	case 1:
-    		ll_sort(pArrayListEmployee,employee_compareId,0);
-    		printf("Lista ordenada por ID");
-    		retorno=0;
-    		break;
-    	case 2:
-    		ll_sort(pArrayListEmployee,employee_compareName,0);
-    		printf("Lista ordenada por Nombre");
-    		retorno=0;
-    		break;
-    	case 3:
-    		ll_sort(pArrayListEmployee,employee_compareHoras,0);
-    		printf("Lista ordenada por Horas Trabajadas");
-    		retorno=0;
-    		break;
-    	case 4:
-    		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
-    		printf("Lista ordenada por Sueldo");
-    		retorno=0;
-    		break;
-    	case 5:
-    		printf("Volviendo al menú");
-    		retorno=0;
-    		break;
-    	}
-    }
+	    	switch (userChoice)
+	    	{
+	    	case 1:
+	    		ll_sort(pArrayListEmployee,employee_compareId,0);
+	    		printf("Lista ordenada por ID");
+	    		retorno=0;
+	    		break;
+	    	case 2:
+	    		ll_sort(pArrayListEmployee,employee_compareName,0);
+	    		printf("Lista ordenada por Nombre");
+	    		retorno=0;
+	    		break;
+	    	case 3:
+	    		ll_sort(pArrayListEmployee,employee_compareHoras,0);
+	    		printf("Lista ordenada por Horas Trabajadas");
+	    		retorno=0;
+	    		break;
+	    	case 4:
+	    		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
+	    		printf("Lista ordenada por Sueldo");
+	    		retorno=0;
+	    		break;
+	    	case 5:
+	    		printf("Volviendo al menú");
+	    		retorno=0;
+	    		break;
+	    	}
+	    }
+	}else
+	{
+		printf("No hay empleados cargados para ordenar\n");
+	}
+
     return retorno;
 }
 
