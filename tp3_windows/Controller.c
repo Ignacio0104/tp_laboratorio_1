@@ -392,9 +392,33 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
         	if(pEmpleadoAux!=NULL)
         	{
     			employee_getId(pEmpleadoAux,&idAux);
-    			employee_getNombre(pEmpleadoAux,nombreAux);
-    			employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-    			employee_getSueldo(pEmpleadoAux,&sueldoAux);
+    			/*if(employee_findById(pArrayListEmployee,idAux)>=0)
+    			{
+    				FILE* f = fopen("IdMaxima.txt","r");
+					if(f!=NULL)
+					{
+						idAux=employee_createNewId(pArrayListEmployee);
+					} else
+					{
+						idAux=employee_createFirstId(pArrayListEmployee);
+					}
+					fclose(f);
+
+					if(employee_setId(pEmpleadoAux,idAux)==0)
+					{
+		    			employee_getNombre(pEmpleadoAux,nombreAux);
+		    			employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+		    			employee_getSueldo(pEmpleadoAux,&sueldoAux);
+		    			printf("El ID del empleado %s fue modificada ya que se encontraba duplicada en sistema. El nuevo ID es %d",
+		    					nombreAux,idAux);
+					}
+    			} else
+    			{*/
+        			employee_getNombre(pEmpleadoAux,nombreAux);
+        			employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+        			employee_getSueldo(pEmpleadoAux,&sueldoAux);
+
+
 
                 fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
         	}

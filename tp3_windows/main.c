@@ -181,6 +181,7 @@ int main()
             	else
             	{
             		printf("Saliendo del sistema....\n");
+            		ll_deleteLinkedList(listaEmpleados);
 					banderaCierre='s';
             	}
 
