@@ -12,7 +12,7 @@ int controller_MainMenu (void)
 	int userChoice=0;
 
 	 pedirIntIntentosRango(&userChoice, 1, 10, 5,
-	"\n\n1)Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n "
+	"\n\n1)Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n"
 	"2)Cargar los datos de los empleados desde el archivo data.csv (modo binario).\n"
 	"3)Alta de empleado\n"
 	"4)Modificar datos de empleado\n"
@@ -95,11 +95,11 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 			if(f!=NULL)
 			{
 				idAux=employee_createNewId(pArrayListEmployee);
-				printf("Estoy retomando el archivo ID MAX\n");
+
 			} else
 			{
 				idAux=employee_createFirstId(pArrayListEmployee);
-				printf("Estoy buscando el ID mas alto\n");
+
 			}
 			fclose(f);
 
@@ -154,44 +154,55 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 	int horasAux;
 	int sueldoAux;
 	char userChoice;
+	int lenght;
 
-    pedirInt(&idPedida, 5, "Ingrese el ID del empleado que desea borrar\n", "Error, ID ingresada inválida\n");
+	lenght=ll_len(pArrayListEmployee);
 
-    posicionEmpleado=employee_findById(pArrayListEmployee,idPedida);
-    if(posicionEmpleado>=0)
-    {
-    	pEmpleadoAux=ll_get(pArrayListEmployee, posicionEmpleado);
+	if(lenght>0)
+	{
+	  pedirInt(&idPedida, 5, "Ingrese el ID del empleado que desea borrar\n", "Error, ID ingresada inválida\n");
 
-    	if(pEmpleadoAux!=NULL)
-    	{
-    		employee_getNombre(pEmpleadoAux,nombreAux);
-    		employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-    		employee_getSueldo(pEmpleadoAux,&sueldoAux);
+		posicionEmpleado=employee_findById(pArrayListEmployee,idPedida);
+		if(posicionEmpleado>=0)
+		{
+			pEmpleadoAux=ll_get(pArrayListEmployee, posicionEmpleado);
 
-    		printf("Se va a eliminar al empleado:\n"
-    				"ID: %d, Nombre: %s, Horas trabajadas: %d, Sueldo %d",idPedida,nombreAux,horasAux,sueldoAux);
-
-    		pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para confirmar o [n] para volver al menu principal---------\n",
-    									"Error, dato ingresado inválido\n");
-    		if(userChoice=='s')
+			if(pEmpleadoAux!=NULL)
 			{
-    			ll_remove(pArrayListEmployee,posicionEmpleado);
-    			printf("Empleado borrado del sistema\n");
-    			retorno=0;
+				employee_getNombre(pEmpleadoAux,nombreAux);
+				employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+				employee_getSueldo(pEmpleadoAux,&sueldoAux);
+
+				printf("Se va a eliminar al empleado:\n"
+						"ID: %d, Nombre: %s, Horas trabajadas: %d, Sueldo %d",idPedida,nombreAux,horasAux,sueldoAux);
+
+				pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para confirmar o [n] para volver al menu principal---------\n",
+											"Error, dato ingresado inválido\n");
+				if(userChoice=='s')
+				{
+					ll_remove(pArrayListEmployee,posicionEmpleado);
+					printf("Empleado borrado del sistema\n");
+					retorno=0;
+				}
+				else
+				{
+					printf("No se borrará al empleado\n");
+					retorno=0;
+				}
 			}
-    		else
-    		{
-    			printf("No se borrará al empleado\n");
-    			retorno=0;
-    		}
-    	}
 
 
-    }
-    else
-    {
-    	printf("No se encontró al empleado en la lista\n");
-    }
+		}
+		else
+		{
+			printf("No se encontró al empleado en la lista\n");
+		}
+
+	} else
+	{
+		printf("No hay ningún empleado cargado para borrar");
+	}
+
 
     return retorno;
 }
@@ -247,27 +258,38 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 	int retorno=-1;
 	int idPedida;
 	int posicionPedida;
+	int lenght;
 	Employee * empleadoAux;
 
-	controller_ListEmployee(pArrayListEmployee);
+	lenght=ll_len(pArrayListEmployee);
 
-	pedirInt(&idPedida, 5, "Ingrese el ID que del empleado que desea modificar", "Error");
-
-	posicionPedida=employee_findById(pArrayListEmployee,idPedida);
-
-	if(posicionPedida>=0)
+	if(lenght>0)
 	{
-		empleadoAux=ll_get(pArrayListEmployee, posicionPedida);
+		controller_ListEmployee(pArrayListEmployee);
 
-		if(empleadoAux!=NULL)
+		pedirInt(&idPedida, 5, "Ingrese el ID que del empleado que desea modificar", "Error");
+
+		posicionPedida=employee_findById(pArrayListEmployee,idPedida);
+
+		if(posicionPedida>=0)
 		{
-			if(employee_modify(empleadoAux)==0)
+			empleadoAux=ll_get(pArrayListEmployee, posicionPedida);
+
+			if(empleadoAux!=NULL)
 			{
-				retorno=0;
-				printf("Modificación realizada con exito\n");
+				if(employee_modify(empleadoAux)==0)
+				{
+					retorno=0;
+					printf("Modificación realizada con exito\n");
+				}
 			}
 		}
+	} else
+	{
+		printf("No hay ningún empleado cargado para editar");
 	}
+
+
 
     return retorno;
 }
@@ -301,18 +323,22 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     	{
     	case 1:
     		ll_sort(pArrayListEmployee,employee_compareId,0);
+    		printf("Lista ordenada por ID");
     		retorno=0;
     		break;
     	case 2:
     		ll_sort(pArrayListEmployee,employee_compareName,0);
+    		printf("Lista ordenada por Nombre");
     		retorno=0;
     		break;
     	case 3:
     		ll_sort(pArrayListEmployee,employee_compareHoras,0);
+    		printf("Lista ordenada por Horas Trabajadas");
     		retorno=0;
     		break;
     	case 4:
     		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
+    		printf("Lista ordenada por Sueldo");
     		retorno=0;
     		break;
     	case 5:

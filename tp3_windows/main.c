@@ -25,9 +25,12 @@ int main()
 	setbuf(stdout,NULL);
     int eleccionUsuario = 0;
     char banderaCierre='n';
-    //char banderaInputTxt='n';
-    //char banderaOutputTxt='n';
+    char banderaInputTxt='n';
+    char banderaOutputTxt='n';
+    char banderaInputBin='n';
+    char banderaOutputBin='n';
     char fileNameAux[128];
+    char userConfirmation;
     LinkedList* listaEmpleados = ll_newLinkedList();
 
 
@@ -39,34 +42,61 @@ int main()
         {
             case 1:
 
-            	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo que desea abrir.", "Error, nombre ingresado inválido")==0)
+            	if(banderaInputBin=='n')
             	{
-                    if(controller_loadFromText(fileNameAux,listaEmpleados)==0)
-					  {
-						printf("Carga realizada con éxito");
-					  } else
-					  {
-						  printf("Error, no se pudo realizar la carga");
-					  }
+            		if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo que desea abrir.", "Error, nombre ingresado inválido")==0)
+					{
+						if(controller_loadFromText(fileNameAux,listaEmpleados)==0)
+						  {
+							printf("Carga realizada con éxito");
+							banderaInputTxt='s';
+						  } else
+						  {
+							  printf("Error, no se pudo realizar la carga");
+						  }
+					}
+            	} else
+            	{
+            		printf("Ya hay un archivo binario cargado, no se puede cargar otro archivo");
             	}
 
                 eleccionUsuario=controller_MainMenu();
                 break;
             case 2:
-            	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo que desea abrir.", "Error, nombre ingresado inválido")==0)
+
+            	if(banderaInputTxt=='n')
             	{
-                    if(controller_loadFromBinary(fileNameAux,listaEmpleados)==0)
-					  {
-						printf("Carga realizada con éxito");
-					  } else
-					  {
-						  printf("Error, no se pudo realizaro la carga");
-					  }
+                	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo que desea abrir.", "Error, nombre ingresado inválido")==0)
+                	{
+                        if(controller_loadFromBinary(fileNameAux,listaEmpleados)==0)
+    					  {
+    						printf("Carga realizada con éxito");
+    						banderaInputBin='s';
+    					  } else
+    					  {
+    						  printf("Error, no se pudo realizaro la carga");
+    					  }
+                	}
+            	} else
+            	{
+            		printf("Ya hay un archivo de texto cargado, no se puede cargar otro archivo");
             	}
+
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 3:
-            	controller_addEmployee(listaEmpleados);
+            	if(banderaInputBin=='n'&&banderaInputTxt=='n')
+            	{
+            		pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Va a realizar un alta de empleado sin haber cargado ningún archivo.\n"
+            				"Esto puede generar conflicto de datos al momento de guardar. Desea continuar? [s] si o [n] no\n",
+            		    									"Error, dato ingresado inválido\n");
+
+            		if(userConfirmation=='s')
+            		{
+            			controller_addEmployee(listaEmpleados);
+            		}
+            	}
+
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 4:
