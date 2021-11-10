@@ -61,8 +61,6 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 							employee_getNombre(pEmployee,nombreAux);
 							employee_getHorasTrabajadas(pEmployee,&horasAux);
 							employee_getSueldo(pEmployee,&sueldoAux);
-							//printf("Empleado ID: %d - Nombre: %s - Horas trabajadas: %d - Sueldo: %d",idAux,nombreAux,horasAux,sueldoAux);
-
 
 						}
 					}
@@ -108,11 +106,25 @@ int emplooyee_findLastId(LinkedList* listEmployee)
 	return idMaxima;
 }
 
-int employee_createFirstId (LinkedList* listEmployee)
+int employee_createRepeatedId (LinkedList* listEmployee)
 {
 	int idAnterior;
 	int idNueva;
 	idAnterior=emplooyee_findLastId(listEmployee);
+
+	if(idAnterior>=0)
+	{
+		idNueva=idAnterior+1;
+	}
+
+	return idNueva;
+}
+
+int employee_createFirstId (LinkedList* listEmployee)
+{
+	int idAnterior;
+	int idNueva;
+	idAnterior=1000;
 
 	if(idAnterior>=0)
 	{
@@ -131,14 +143,14 @@ int employee_createNewId (LinkedList* listEmployee)
 	FILE* f = fopen("IdMaxima.txt","r");
 	if(f!=NULL)
 	{
-			fscanf(f,"%s",idAux);
+		fscanf(f,"%s",idAux);
 
-			if(esNumerica(idAux)==0)
-			{
-				idAnterior=atoi(idAux);
-			}
+		if(esNumerica(idAux)==0)
+		{
+			idAnterior=atoi(idAux);
+		}
+		fclose(f);
 	}
-	fclose(f);
 
 	if(idAnterior>=0)
 	{
@@ -186,22 +198,34 @@ int employee_findById(LinkedList* listEmployee,int id)
 
 
 
-int employee_findEmpty(LinkedList* listEmployee)
+int employee_findRepeated(LinkedList* listEmployee)
 {
 	int retorno=-1;
 	int lengt;
+	int idNueva;
+	char nombreAux [NOMBRE_LEN];
+	Employee* pElementoUno;
+	Employee* pElementoDos;
 
 	if(listEmployee!=NULL)
 	{
 		lengt=ll_len(listEmployee);
 		for(int i=0;i<lengt;i++)
 		{
-			if(ll_get(listEmployee, i)==NULL)
+			ll_sort(listEmployee,employee_compareId,0);
+
+			pElementoUno=ll_get(listEmployee,i);
+			pElementoDos=ll_get(listEmployee,i+1);
+
+			if(employee_compareId(pElementoUno,pElementoDos)==0)
 			{
+				employee_getNombre(pElementoDos,nombreAux);
 
-				retorno=i;
-				break;
+				printf("El empleado %s presenta un ID duplicada. Se procederá a asignarle un ID nueva\n",nombreAux);
 
+				idNueva=employee_createRepeatedId (listEmployee);
+				employee_setId(pElementoDos,idNueva);
+				retorno=0;
 			}
 
 		}

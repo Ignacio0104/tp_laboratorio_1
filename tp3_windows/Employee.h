@@ -14,7 +14,7 @@ Employee* employee_new();
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr);
 void employee_delete(Employee* this);
 int employee_findById(LinkedList* listEmployee,int id);
-int employee_findEmpty(LinkedList* listEmployee);
+int employee_findRepeated(LinkedList* listEmployee);
 int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo);
 int employee_modify(Employee* this);
 int employee_printEmployee(Employee* this);
@@ -25,6 +25,7 @@ int employee_compareSueldo(void* empleadoUno,void* empleadoDos);
 int emplooyee_findLastId(LinkedList* listEmployee);
 int employee_createFirstId (LinkedList* listEmployee);
 int employee_createNewId (LinkedList* listEmployee);
+int employee_createRepeatedId (LinkedList* listEmployee);
 
 
 /// Setters y Getters ///

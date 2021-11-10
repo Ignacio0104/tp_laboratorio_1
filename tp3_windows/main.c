@@ -29,7 +29,6 @@ int main()
     char banderaOutputTxt='n';
     char banderaInputBin='n';
     char banderaOutputBin='n';
-    char fileNameAux[128];
     char userConfirmation;
     LinkedList* listaEmpleados = ll_newLinkedList();
 
@@ -44,17 +43,15 @@ int main()
 
             	if(banderaInputBin=='n')
             	{
-            		if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo que desea abrir.", "Error, nombre ingresado inválido")==0)
-					{
-						if(controller_loadFromText(fileNameAux,listaEmpleados)==0)
-						  {
-							printf("Carga realizada con éxito");
-							banderaInputTxt='s';
-						  } else
-						  {
-							  printf("Error, no se pudo realizar la carga");
-						  }
-					}
+					if(controller_loadFromText("data.csv",listaEmpleados)==0)
+					  {
+						printf("Carga realizada con éxito");
+						banderaInputTxt='s';
+					  } else
+					  {
+						  printf("Error, no se pudo realizar la carga");
+					  }
+
             	} else
             	{
             		printf("Ya hay un archivo binario cargado, no se puede cargar otro archivo");
@@ -66,17 +63,15 @@ int main()
 
             	if(banderaInputTxt=='n')
             	{
-                	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo que desea abrir.", "Error, nombre ingresado inválido")==0)
-                	{
-                        if(controller_loadFromBinary(fileNameAux,listaEmpleados)==0)
-    					  {
-    						printf("Carga realizada con éxito");
-    						banderaInputBin='s';
-    					  } else
-    					  {
-    						  printf("Error, no se pudo realizaro la carga");
-    					  }
-                	}
+					if(controller_loadFromBinary("data.bin",listaEmpleados)==0)
+					  {
+						printf("Carga realizada con éxito");
+						banderaInputBin='s';
+					  } else
+					  {
+						  printf("Error, no se pudo realizaro la carga");
+					  }
+
             	} else
             	{
             		printf("Ya hay un archivo de texto cargado, no se puede cargar otro archivo");
@@ -121,17 +116,15 @@ int main()
             case 8:
             	if(banderaInputBin=='n')
             	{
-                 	if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo donde desea guardar.", "Error, nombre ingresado inválido")==0)
-                     {
-                 		if(controller_saveAsText(fileNameAux, listaEmpleados)==0)
-    					{
-                 			printf("Archivo guardado con exito");
-                 			banderaOutputTxt='s';
-    					} else
-    					{
-    						printf("No pudo guardarse el archivo");
-    					}
-                     }
+					if(controller_saveAsText("data.csv", listaEmpleados)==0)
+					{
+						printf("Archivo guardado con exito");
+						banderaOutputTxt='s';
+					} else
+					{
+						printf("No pudo guardarse el archivo");
+					}
+
 
             	} else
             	{
@@ -143,17 +136,16 @@ int main()
             case 9:
             	if(banderaInputTxt=='n')
             	{
-					if(pedirTextoFile(fileNameAux,128, 5, "Ingrese el nombre del archivo donde desea guardar.", "Error, nombre ingresado inválido")==0)
-					 {
-						if(controller_saveAsBinary(fileNameAux, listaEmpleados)==0)
-						{
-							printf("Archivo guardado con exito");
-							banderaOutputBin='s';
-						} else
-						{
-							printf("No pudo guardarse el archivo");
-						}
-					 }
+
+					if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
+					{
+						printf("Archivo guardado con exito");
+						banderaOutputBin='s';
+					} else
+					{
+						printf("No pudo guardarse el archivo");
+					}
+
 
             	} else
             	{
@@ -171,6 +163,7 @@ int main()
             		if(userConfirmation=='s')
             		{
             			printf("Borrando los datos y saliendo del sistema\n");
+            			ll_deleteLinkedList(listaEmpleados);
             			banderaCierre='s';
             		} else
             		{

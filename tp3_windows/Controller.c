@@ -99,7 +99,6 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 			} else
 			{
 				idAux=employee_createFirstId(pArrayListEmployee);
-
 			}
 			fclose(f);
 
@@ -181,6 +180,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 				if(userChoice=='s')
 				{
 					ll_remove(pArrayListEmployee,posicionEmpleado);
+					employee_delete(pEmpleadoAux);
 					printf("Empleado borrado del sistema\n");
 					retorno=0;
 				}
@@ -377,55 +377,70 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 	char nombreAux[256];
 	int horasAux;
 	int sueldoAux;
+	char userChoice;
 
 	int retorno=-1;
 
-	FILE* f = fopen(path,"w");
+	if(employee_findRepeated(pArrayListEmployee)==0)
+	{
+		printf("Se encontró una duplicidad de ID y uno o mas empleados fueron reasignados.\n"
+				"Recomendamos volver a imprimir la lista antes de proceder al guardado\n");
 
-    if(f!=NULL)
-    {
-    	retorno=0;
-        fprintf(f,"id,nombre,horasTrabajadas,sueldo\n");
-        for(int i=0; i<ll_len(pArrayListEmployee); i++)
-        {
-        	pEmpleadoAux = ll_get(pArrayListEmployee,i);
-        	if(pEmpleadoAux!=NULL)
-        	{
-    			employee_getId(pEmpleadoAux,&idAux);
-    			/*if(employee_findById(pArrayListEmployee,idAux)>=0)
-    			{
-    				FILE* f = fopen("IdMaxima.txt","r");
-					if(f!=NULL)
+		pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para continuar con el guardado o [n] para volver al menu principal---------\n",
+									"Error, dato ingresado inválido\n");
+
+		if(userChoice=='s')
+		{
+			FILE* f = fopen(path,"w");
+			if(f!=NULL)
+			{
+				retorno=0;
+				fprintf(f,"id,nombre,horasTrabajadas,sueldo\n");
+				for(int i=0; i<ll_len(pArrayListEmployee); i++)
+				{
+					pEmpleadoAux = ll_get(pArrayListEmployee,i);
+					if(pEmpleadoAux!=NULL)
 					{
-						idAux=employee_createNewId(pArrayListEmployee);
-					} else
-					{
-						idAux=employee_createFirstId(pArrayListEmployee);
+						employee_getId(pEmpleadoAux,&idAux);
+						employee_getNombre(pEmpleadoAux,nombreAux);
+						employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+						employee_getSueldo(pEmpleadoAux,&sueldoAux);
+
+
+						fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
 					}
-					fclose(f);
 
-					if(employee_setId(pEmpleadoAux,idAux)==0)
+				}
+				fclose(f);
+			}
+		}
+	}else
+	{
+		FILE* f = fopen(path,"w");
+
+			if(f!=NULL)
+			{
+				retorno=0;
+				fprintf(f,"id,nombre,horasTrabajadas,sueldo\n");
+				for(int i=0; i<ll_len(pArrayListEmployee); i++)
+				{
+					pEmpleadoAux = ll_get(pArrayListEmployee,i);
+					if(pEmpleadoAux!=NULL)
 					{
-		    			employee_getNombre(pEmpleadoAux,nombreAux);
-		    			employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-		    			employee_getSueldo(pEmpleadoAux,&sueldoAux);
-		    			printf("El ID del empleado %s fue modificada ya que se encontraba duplicada en sistema. El nuevo ID es %d",
-		    					nombreAux,idAux);
+						employee_getId(pEmpleadoAux,&idAux);
+						employee_getNombre(pEmpleadoAux,nombreAux);
+						employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+						employee_getSueldo(pEmpleadoAux,&sueldoAux);
+
+
+						fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
 					}
-    			} else
-    			{*/
-        			employee_getNombre(pEmpleadoAux,nombreAux);
-        			employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-        			employee_getSueldo(pEmpleadoAux,&sueldoAux);
 
+				}
+				fclose(f);
+			}
 
-
-                fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
-        	}
-
-        }
-        fclose(f);
-    }
+	}
 
     return retorno;
 }
