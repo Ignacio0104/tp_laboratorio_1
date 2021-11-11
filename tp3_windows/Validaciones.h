@@ -12,9 +12,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int pedirTextoFile(char pResultado[],int lenght, int reintentos, char* variableTexto, char* textoError);
-
-int esNombreArchivo(char cadena[]);
 int esNombre(char cadena[]);
 int pedirNombre(char pResultado[],int lenght, int reintentos, char* variableTexto, char* textoError);
 

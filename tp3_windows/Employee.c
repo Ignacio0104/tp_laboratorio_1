@@ -259,16 +259,16 @@ int employee_modify(Employee* this)
 					{
 						if(employee_setNombre(this,nombreAux)==0)
 						{
-							printf("Nombre modificado con éxito");
+							printf("Nombre modificado con éxito\n");
 							retorno=0;
 						} else
 						{
-							printf("No se pudo modificar");
+							printf("No se pudo modificar\n");
 
 						}
 					}else
 					{
-						printf("Error al ingresar los datos");
+						printf("Error al ingresar los datos\n");
 					}
 
 					printf("Que dato desea modificar?\n"
@@ -286,16 +286,16 @@ int employee_modify(Employee* this)
 					{
 						if(employee_setHorasTrabajadasTxt(this,horasAux)==0)
 						{
-							printf("Horas trabajadas modificadas con éxito");
+							printf("Horas trabajadas modificadas con éxito\n");
 							retorno=0;
 						}else
 						{
-							printf("No se pudo modificar");
+							printf("No se pudo modificar\n");
 
 						}
 					}else
 					{
-						printf("Error al ingresar los datos");
+						printf("Error al ingresar los datos\n");
 					}
 
 					printf("Que dato desea modificar?\n"
@@ -312,16 +312,16 @@ int employee_modify(Employee* this)
 					{
 						if(employee_setSueldoTxt(this,sueldoAux)==0)
 						{
-							printf("Sueldo modificado con éxito");
+							printf("Sueldo modificado con éxito\n");
 							retorno=0;
 						}else
 						{
-							printf("No se pudo modificar");
+							printf("No se pudo modificar\n");
 
 						}
 					}else
 					{
-						printf("Error al ingresar los datos");
+						printf("Error al ingresar los datos\n");
 					}
 					printf("Que dato desea modificar?\n"
 								"1)Nombre\n"
@@ -333,7 +333,7 @@ int employee_modify(Employee* this)
 
 					break;
 				case 4:
-					printf("Volviendo al menú principal");
+					printf("Volviendo al menú principal\n");
 					banderaSalir='s';
 					break;
 			}
@@ -486,7 +486,7 @@ int employee_printEmployee(Employee* this)
 
 /////// SETTERS Y GETTERS ///////
 
-/*int employee_setIdTxt(Employee* this,char* id)
+int employee_setIdTxt(Employee* this,char* id)
 {
 	int retorno=-1;
 	int idAux;
@@ -519,7 +519,7 @@ int employee_getIdTxt(Employee* this,int* pId) //REVISAR
 	}
 
 	return retorno;
-}*/
+}
 
 
 int employee_setId(Employee* this,int id)

@@ -11,43 +11,6 @@
 static int myGets(char pResultado[], int len);
 
 
-int pedirTextoFile(char pResultado[],int lenght, int reintentos, char* variableTexto, char* textoError)
-{
-	int retorno=-1;
-	char bufferCadenaAux[128];
-	int i;
-
-	if(pResultado != NULL && reintentos >0 && lenght>0 && variableTexto != NULL && textoError != NULL)
-	{
-
-		for (i=0; i<=reintentos; i++)
-		{
-			printf("%s",variableTexto);
-
-			if(myGets(bufferCadenaAux,sizeof(bufferCadenaAux))==0)
-			{
-				if(esNombreArchivo(bufferCadenaAux)==0)
-				{
-
-					retorno = 0; // OK
-					strncpy (pResultado,bufferCadenaAux,lenght);
-					break;
-					}else
-					{
-						printf("%s\n",textoError);
-					}
-
-				} else
-				{
-					printf("%s\n",textoError);
-				}
-
-			}
-
-	}
-	return retorno;
-
-}
 
 int pedirNombre(char pResultado[],int lenght, int reintentos, char* variableTexto, char* textoError)
 {
@@ -83,53 +46,6 @@ int pedirNombre(char pResultado[],int lenght, int reintentos, char* variableText
 			}
 
 	}
-	return retorno;
-
-}
-
-int esNombreArchivo(char cadena[])
-{
-	int retorno;
-	int i;
-	char banderaPunto ='n';
-
-	retorno=-1;
-	i=0;
-
-	if(cadena!=NULL&&strlen(cadena)>0)
-	{
-		retorno=0;
-		while(cadena[i]!='\0')
-		{
-			if((cadena[i]>='A'&&cadena[i]<='z')||cadena[i]=='.'||cadena[i]==32||cadena[i]==',')
-			{
-
-				if(cadena[i]=='.')
-				{
-					banderaPunto='s';
-				}
-
-				if(cadena[i]>'Z'&&cadena[i]<'a')
-				{
-					retorno=-1;
-					break;
-				}
-				i++;
-
-			} else
-			{
-				retorno=-1;
-				break;
-			}
-
-		}
-	}
-
-	if(banderaPunto!='s')
-	{
-		retorno=-1;
-	}
-
 	return retorno;
 
 }

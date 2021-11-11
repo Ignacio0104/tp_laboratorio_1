@@ -132,7 +132,7 @@ int employee_setId(Employee* this,int id);
 /// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_getId(Employee* this,int* id);
 
-/*/// \fn int employee_setIdTxt(Employee*, char*)
+/// \fn int employee_setIdTxt(Employee*, char*)
 /// \brief Asigna el ID al campo de la estructura empleado indicada
 /// \param this Recibe puntero a empleado donde cargar
 /// \param id Recibe el ID (str)
@@ -144,7 +144,7 @@ int employee_setIdTxt(Employee* this,char* id);
 /// \param this Recibe puntero a empleado donde cargar
 /// \param id Recibe el puntero donde guardar el ID
 /// \return Devuelve 0 si se completó o -1 si hubo algún error
-int employee_getIdTxt(Employee* this,int* id);*/
+int employee_getIdTxt(Employee* this,int* id);
 
 /// \fn int employee_setNombre(Employee*, char*)
 /// \brief Asigna el nombre al campo de la estructura empleado indicada
@@ -160,16 +160,60 @@ int employee_setNombre(Employee* this,char* nombre);
 /// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_getNombre(Employee* this,char* nombre);
 
+/// \fn int employee_setHorasTrabajadas(Employee*, int)
+/// \brief Asigna las horas al campo de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde cargar
+/// \param horasTrabajadas Recibe las horas (int)
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas);
+
+/// \fn int employee_getHorasTrabajadas(Employee*, int*)
+/// \brief Consigue las horas de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde buscar
+/// \param horasTrabajadas Recibe el puntero donde guardar las horas
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
 
+/// \fn int employee_setHorasTrabajadasTxt(Employee*, char*)
+/// \brief Asigna las horas al campo de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde cargar
+/// \param horasTrabajadas Recibe las horas (str)
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_setHorasTrabajadasTxt(Employee* this,char* horasTrabajadas);
+
+/// \fn int employee_getHorasTrabajadasTxt(Employee*, int*)
+/// \brief Consigue las horas de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde buscar
+/// \param horasTrabajadas Recibe el puntero donde guardar las horas
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_getHorasTrabajadasTxt(Employee* this,int* horasTrabajadas);
 
+/// \fn int employee_setSueldo(Employee*, int)
+/// \brief Asigna el sueldo al campo de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde cargar
+/// \param sueldo Recibe el sueldo (int)
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_setSueldo(Employee* this,int sueldo);
+
+/// \fn int employee_getSueldo(Employee*, int*)
+/// \brief Consigue el sueldo de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde buscar
+/// \param sueldo Recibe el puntero donde guardar el sueldo
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_getSueldo(Employee* this,int* sueldo);
 
+/// \fn int employee_setSueldoTxt(Employee*, char*)
+/// \brief Asigna el sueldo al campo de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde cargar
+/// \param sueldo Recibe el sueldo (str)
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_setSueldoTxt(Employee* this,char* sueldo);
+
+/// \fn int employee_getSueldoTxt(Employee*, int*)
+/// \brief Consigue el sueldo de la estructura empleado indicada
+/// \param this Recibe puntero a empleado donde buscar
+/// \param sueldo Recibe el puntero donde guardar el sueldo
+/// \return Devuelve 0 si se completó o -1 si hubo algún error
 int employee_getSueldoTxt(Employee* this,int* sueldo);
 
 

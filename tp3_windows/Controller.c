@@ -6,10 +6,12 @@
 #include "biblioteca_input.h"
 #include "parser.h"
 
-
+/// \fn int controller_MainMenu(void)
+/// \brief Imprime el menú y captura la opción elegida por el usuario
+/// \return Devuelve la elección del usuario o -1 si hubo un error;
 int controller_MainMenu (void)
 {
-	int userChoice=0;
+	int userChoice=-1;
 
 	 pedirIntIntentosRango(&userChoice, 1, 10, 5,
 	"\n\n1)Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n"
@@ -111,6 +113,7 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 						if(employee_setSueldoTxt(employeeAux,sueldoAuxTxt)==0)
 						{
 							ll_add(pArrayListEmployee,employeeAux);
+							printf("Empleado cargado con éxito!");
 							retorno=0;
 							FILE* f = fopen("IdMaxima.txt","w");
 						    if(f!=NULL)
@@ -270,7 +273,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 	{
 		controller_ListEmployee(pArrayListEmployee);
 
-		pedirInt(&idPedida, 5, "Ingrese el ID que del empleado que desea modificar", "Error");
+		pedirInt(&idPedida, 5, "\n\nIngrese el ID que del empleado que desea modificar: ", "Error");
 
 		posicionPedida=employee_findById(pArrayListEmployee,idPedida);
 
@@ -330,21 +333,25 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 	    	switch (userChoice)
 	    	{
 	    	case 1:
+	    		printf("Ordenando lista por ID...\n");
 	    		ll_sort(pArrayListEmployee,employee_compareId,0);
-	    		printf("Lista ordenada por ID");
+	    		printf("\nLista ordenada por ID");
 	    		retorno=0;
 	    		break;
 	    	case 2:
+	    		printf("Ordenando lista por nombre...\n");
 	    		ll_sort(pArrayListEmployee,employee_compareName,0);
 	    		printf("Lista ordenada por Nombre");
 	    		retorno=0;
 	    		break;
 	    	case 3:
+	    		printf("Ordenando lista por horas trabajadas...\n");
 	    		ll_sort(pArrayListEmployee,employee_compareHoras,0);
 	    		printf("Lista ordenada por Horas Trabajadas");
 	    		retorno=0;
 	    		break;
 	    	case 4:
+	    		printf("Ordenando lista por sueldo...\n");
 	    		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
 	    		printf("Lista ordenada por Sueldo");
 	    		retorno=0;
@@ -377,71 +384,34 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 	char nombreAux[256];
 	int horasAux;
 	int sueldoAux;
-	char userChoice;
 
 	int retorno=-1;
 
-	printf("Validando que los datos sean correctos...");
-	if(employee_findRepeated(pArrayListEmployee)==0)
+	FILE* f = fopen(path,"w");
+
+	if(f!=NULL)
 	{
-		printf("Se encontró una duplicidad de ID y uno o mas empleados fueron reasignados.\n"
-				"Recomendamos volver a imprimir la lista antes de proceder al guardado\n");
-
-		pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para continuar con el guardado o [n] para volver al menu principal---------\n",
-									"Error, dato ingresado inválido\n");
-
-		if(userChoice=='s')
+		retorno=0;
+		fprintf(f,"id,nombre,horasTrabajadas,sueldo\n");
+		for(int i=0; i<ll_len(pArrayListEmployee); i++)
 		{
-			FILE* f = fopen(path,"w");
-			if(f!=NULL)
+			pEmpleadoAux = ll_get(pArrayListEmployee,i);
+			if(pEmpleadoAux!=NULL)
 			{
-				retorno=0;
-				fprintf(f,"id,nombre,horasTrabajadas,sueldo\n");
-				for(int i=0; i<ll_len(pArrayListEmployee); i++)
-				{
-					pEmpleadoAux = ll_get(pArrayListEmployee,i);
-					if(pEmpleadoAux!=NULL)
-					{
-						employee_getId(pEmpleadoAux,&idAux);
-						employee_getNombre(pEmpleadoAux,nombreAux);
-						employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-						employee_getSueldo(pEmpleadoAux,&sueldoAux);
+				employee_getId(pEmpleadoAux,&idAux);
+				employee_getNombre(pEmpleadoAux,nombreAux);
+				employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+				employee_getSueldo(pEmpleadoAux,&sueldoAux);
 
 
-						fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
-					}
-
-				}
-				fclose(f);
+				fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
 			}
+
 		}
-	}else
-	{
-		FILE* f = fopen(path,"w");
-
-			if(f!=NULL)
-			{
-				retorno=0;
-				fprintf(f,"id,nombre,horasTrabajadas,sueldo\n");
-				for(int i=0; i<ll_len(pArrayListEmployee); i++)
-				{
-					pEmpleadoAux = ll_get(pArrayListEmployee,i);
-					if(pEmpleadoAux!=NULL)
-					{
-						employee_getId(pEmpleadoAux,&idAux);
-						employee_getNombre(pEmpleadoAux,nombreAux);
-						employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-						employee_getSueldo(pEmpleadoAux,&sueldoAux);
-
-
-						fprintf(f,"%d,%s,%d,%d\n",idAux,nombreAux,horasAux,sueldoAux);
-					}
-
-				}
-				fclose(f);
-			}
-
+		fclose(f);
 	}
+
+
 
     return retorno;
 }
@@ -457,63 +427,50 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 {
 	Employee * pEmpleadoAux;
 	int length;
-	char userChoice;
 
 	int retorno=-1;
 
-	printf("Validando que los datos sean correctos...\n");
+	FILE* f = fopen(path,"w+b");
+
+	if(f!=NULL)
+	{
+		length= ll_len(pArrayListEmployee);
+		retorno=0;
+		for(int i=0; i<length; i++)
+		{
+			pEmpleadoAux=ll_get(pArrayListEmployee,i);
+			if(pEmpleadoAux!=NULL)
+			{
+				 fwrite(pEmpleadoAux,sizeof(Employee),1,f);
+			}
+
+		}
+		fclose(f);
+	}
+
+	return retorno;
+}
+/*
+int controller_checkForDuplicated(LinkedList* pArrayListEmployee, char* userChoice)
+{
+	char user;
+	int retorno=-1;
+
+
+	printf("Se detectó una o mas entradas previas a la carga del archivo\n"
+			"Validando que no haya duplicidad de datos...\n");
 	if(employee_findRepeated(pArrayListEmployee)==0)
 	{
 		printf("Se encontró una duplicidad de ID y uno o mas empleados fueron reasignados.\n"
 				"Recomendamos volver a imprimir la lista antes de proceder al guardado\n");
+		retorno=0;
 
-		pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para continuar con el guardado o [n] para volver al menu principal---------\n",
+		pedirCharSiNo(&user, 's', 'n', 5, "\n\n ---------Presione [s] para continuar con el guardado o [n] para volver al menu principal---------\n",
 									"Error, dato ingresado inválido\n");
-
-		if(userChoice=='s')
-		{
-			FILE* f = fopen(path,"w+b");
-
-				if(f!=NULL)
-				{
-					length= ll_len(pArrayListEmployee);
-					retorno=0;
-					for(int i=0; i<length; i++)
-					{
-						pEmpleadoAux=ll_get(pArrayListEmployee,i);
-						if(pEmpleadoAux!=NULL)
-						{
-							 fwrite(pEmpleadoAux,sizeof(Employee),1,f);
-						}
-
-					}
-					fclose(f);
-				}
-		}
+		*userChoice=user;
 	}
-	else
-	{
-		FILE* f = fopen(path,"w+b");
-
-		if(f!=NULL)
-		{
-			length= ll_len(pArrayListEmployee);
-			retorno=0;
-			for(int i=0; i<length; i++)
-			{
-				pEmpleadoAux=ll_get(pArrayListEmployee,i);
-				if(pEmpleadoAux!=NULL)
-				{
-					 fwrite(pEmpleadoAux,sizeof(Employee),1,f);
-				}
-
-			}
-			fclose(f);
-		}
-	}
-
 
 	return retorno;
-}
+}*/
 
 

@@ -69,7 +69,7 @@ int main()
 						banderaInputBin='s';
 					  } else
 					  {
-						  printf("Error, no se pudo realizaro la carga");
+						  printf("Error, no se encontró el archivo binario");
 					  }
 
             	} else
