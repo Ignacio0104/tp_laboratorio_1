@@ -114,43 +114,152 @@ int main()
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 8:
-            	if(banderaInputBin=='n')
-            	{
-					if(controller_saveAsText("data.csv", listaEmpleados)==0)
+            	if(banderaInputBin=='n'&&banderaInputTxt=='n')
+				{
+            		printf("Estás a punto de sobreescribir todos los datos del archivo original con la nueva carga\n");
+					pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+																"Error, dato ingresado inválido\n");
+					if(userConfirmation=='s')
 					{
-						printf("Archivo guardado con exito");
-						banderaOutputTxt='s';
-					} else
-					{
-						printf("No pudo guardarse el archivo");
+						if(banderaInputBin=='n')
+						{
+							if(controller_saveAsText("data.csv", listaEmpleados)==0)
+							{
+								printf("Archivo guardado con exito");
+								banderaOutputTxt='s';
+							} else
+							{
+								printf("No pudo guardarse el archivo");
+							}
+
+						} else
+						{
+							printf("El archivo de origen es binario, si continúa los nuevos datos se guardarán en un archivo de texto y el archivo original quedará desactualizado\n");
+							pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+																		"Error, dato ingresado inválido\n");
+
+							if(userConfirmation=='s')
+							{
+								if(controller_saveAsText("data.csv", listaEmpleados)==0)
+								{
+									printf("Archivo guardado con exito");
+									banderaOutputTxt='s';
+								} else
+								{
+									printf("No pudo guardarse el archivo");
+								}
+							}
+						}
 					}
 
+				}else
+				{
+					if(banderaInputBin=='n')
+					{
+						if(controller_saveAsText("data.csv", listaEmpleados)==0)
+						{
+							printf("Archivo guardado con exito");
+							banderaOutputTxt='s';
+						} else
+						{
+							printf("No pudo guardarse el archivo");
+						}
 
-            	} else
-            	{
-            		printf("El archivo de origen es binario, favor guardar su progreso en el mismo formato");
-            	}
+					} else
+					{
+						printf("El archivo de origen es binario, si continúa los nuevos datos se guardarán en un archivo de texto y el archivo original quedará desactualizado\n");
+						pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+																	"Error, dato ingresado inválido\n");
 
+						if(userConfirmation=='s')
+						{
+							if(controller_saveAsText("data.csv", listaEmpleados)==0)
+							{
+								printf("Archivo guardado con exito");
+								banderaOutputTxt='s';
+							} else
+							{
+								printf("No pudo guardarse el archivo");
+							}
+						}
+					}
+				}
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 9:
-            	if(banderaInputTxt=='n')
-            	{
 
-					if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
+            	if(banderaInputBin=='n'&&banderaInputTxt=='n')
+				{
+					printf("Estás a punto de sobreescribir todos los datos del archivo original con la nueva carga\n");
+					pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+																"Error, dato ingresado inválido\n");
+					if(userConfirmation=='s')
 					{
-						printf("Archivo guardado con exito");
-						banderaOutputBin='s';
-					} else
+						if(banderaInputTxt=='n')
+						{
+							if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
+							{
+								printf("Archivo guardado con exito");
+								banderaOutputBin='s';
+							} else
+							{
+								printf("No pudo guardarse el archivo");
+							}
+
+						} else
+						{
+							printf("El archivo de origen es de texto, si continúa los nuevos datos se guardarán en un archivo binario y el archivo original quedará desactualizado\n");
+							pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+																		"Error, dato ingresado inválido\n");
+
+							if(userConfirmation=='s')
+							{
+								if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
+								{
+									printf("Archivo guardado con exito");
+									banderaOutputBin='s';
+								} else
+								{
+									printf("No pudo guardarse el archivo");
+								}
+
+							}
+						}
+					}
+					}else
 					{
-						printf("No pudo guardarse el archivo");
+						if(banderaInputTxt=='n')
+						{
+							if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
+							{
+								printf("Archivo guardado con exito");
+								banderaOutputBin='s';
+							} else
+							{
+								printf("No pudo guardarse el archivo");
+							}
+
+						} else
+						{
+							printf("El archivo de origen es de texto, si continúa los nuevos datos se guardarán en un archivo binario y el archivo original quedará desactualizado\n");
+							pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+																		"Error, dato ingresado inválido\n");
+
+							if(userConfirmation=='s')
+							{
+								if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
+								{
+									printf("Archivo guardado con exito");
+									banderaOutputBin='s';
+								} else
+								{
+									printf("No pudo guardarse el archivo");
+								}
+
+							}
+						}
 					}
 
-
-            	} else
-            	{
-            		printf("El archivo de origen es de texto, favor guardar su progreso en el mismo formato");
-            	}
 
             	eleccionUsuario=controller_MainMenu();
                 break;
@@ -162,7 +271,7 @@ int main()
             		    									"Error, dato ingresado inválido\n");
             		if(userConfirmation=='s')
             		{
-            			printf("Borrando los datos y saliendo del sistema\n");
+            			printf("Borrando los datos temporarios y saliendo del sistema\n");
             			ll_deleteLinkedList(listaEmpleados);
             			banderaCierre='s';
             		} else

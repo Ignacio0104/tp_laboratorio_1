@@ -1,4 +1,5 @@
 #include "Employee.h"
+#include "Validaciones.h"
 #include <string.h>
 #define NOMBRE_LEN 128
 
@@ -16,7 +17,7 @@ int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo)
 	char horasAux[256];
 	char sueldoAux[256];
 
-	if(pedirTexto(nombreAux,NOMBRE_LEN, 3, "Ingrese el nombre", "Error")==0)
+	if(pedirNombre(nombreAux,NOMBRE_LEN, 3, "Ingrese el nombre", "Error")==0)
 	{
 		if(pedirNumeroTxt(horasAux,256, 3, "Ingrese las horas","Error")==0)
 		{
@@ -56,7 +57,6 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 					{
 						if(employee_setSueldoTxt(pEmployee,sueldoStr)==0)
 						{
-
 							employee_getId(pEmployee,&idAux);
 							employee_getNombre(pEmployee,nombreAux);
 							employee_getHorasTrabajadas(pEmployee,&horasAux);
@@ -554,7 +554,7 @@ int employee_setNombre(Employee* this,char* nombre)
 	if(this!=NULL&&nombre!=NULL)
 	{
 		retorno=-2;
-		if(esTexto(nombre)==0)
+		if(esNombre(nombre)==0)
 		{
 			strncpy(this->nombre,nombre,NOMBRE_LEN);
 			retorno=0;
@@ -570,7 +570,7 @@ int employee_getNombre(Employee* this,char* nombre)
 	if(this!=NULL&&nombre!=NULL)
 	{
 		retorno=-2;
-		if(esTexto(this->nombre)==0)
+		if(esNombre(this->nombre)==0)
 		{
 			strncpy(nombre,this->nombre,NOMBRE_LEN);
 			retorno=0;

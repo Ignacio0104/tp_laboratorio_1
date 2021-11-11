@@ -381,6 +381,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 
 	int retorno=-1;
 
+	printf("Validando que los datos sean correctos...");
 	if(employee_findRepeated(pArrayListEmployee)==0)
 	{
 		printf("Se encontró una duplicidad de ID y uno o mas empleados fueron reasignados.\n"
@@ -456,26 +457,61 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 {
 	Employee * pEmpleadoAux;
 	int length;
+	char userChoice;
 
 	int retorno=-1;
 
-	FILE* f = fopen(path,"w+b");
-
-	if(f!=NULL)
+	printf("Validando que los datos sean correctos...\n");
+	if(employee_findRepeated(pArrayListEmployee)==0)
 	{
-		length= ll_len(pArrayListEmployee);
-		retorno=0;
-		for(int i=0; i<length; i++)
-		{
-			pEmpleadoAux=ll_get(pArrayListEmployee,i);
-			if(pEmpleadoAux!=NULL)
-			{
-				 fwrite(pEmpleadoAux,sizeof(Employee),1,f);
-			}
+		printf("Se encontró una duplicidad de ID y uno o mas empleados fueron reasignados.\n"
+				"Recomendamos volver a imprimir la lista antes de proceder al guardado\n");
 
+		pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para continuar con el guardado o [n] para volver al menu principal---------\n",
+									"Error, dato ingresado inválido\n");
+
+		if(userChoice=='s')
+		{
+			FILE* f = fopen(path,"w+b");
+
+				if(f!=NULL)
+				{
+					length= ll_len(pArrayListEmployee);
+					retorno=0;
+					for(int i=0; i<length; i++)
+					{
+						pEmpleadoAux=ll_get(pArrayListEmployee,i);
+						if(pEmpleadoAux!=NULL)
+						{
+							 fwrite(pEmpleadoAux,sizeof(Employee),1,f);
+						}
+
+					}
+					fclose(f);
+				}
 		}
-		fclose(f);
 	}
+	else
+	{
+		FILE* f = fopen(path,"w+b");
+
+		if(f!=NULL)
+		{
+			length= ll_len(pArrayListEmployee);
+			retorno=0;
+			for(int i=0; i<length; i++)
+			{
+				pEmpleadoAux=ll_get(pArrayListEmployee,i);
+				if(pEmpleadoAux!=NULL)
+				{
+					 fwrite(pEmpleadoAux,sizeof(Employee),1,f);
+				}
+
+			}
+			fclose(f);
+		}
+	}
+
 
 	return retorno;
 }

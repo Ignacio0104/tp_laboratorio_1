@@ -690,6 +690,7 @@ id,nombre,horasTrabajadas,sueldo
 689,Terrence,75,42000
 690,Krystyna,60,50000
 691,Krishna,325,50000
+692,Zorina,75,18000
 693,Baxy,120,20000
 694,Terrie,75,42000
 695,Justino,220,18000
@@ -943,6 +944,7 @@ id,nombre,horasTrabajadas,sueldo
 943,Loria,180,25000
 944,Isabeau,88,37000
 945,Cherice,220,15000
+946,Kimberley,325,18000
 947,Martyn,180,25000
 948,Agustin,75,25000
 949,Clerissa,120,15000
@@ -997,4 +999,3 @@ id,nombre,horasTrabajadas,sueldo
 998,Jaye,75,25000
 999,Tamarra,60,15000
 1000,Saleem,60,20000
-1002,Gustavo,9999,6666
