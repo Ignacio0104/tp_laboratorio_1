@@ -31,8 +31,6 @@ int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo)
 		}
 	}
 
-
-
 	return retorno;
 }
 
@@ -488,7 +486,7 @@ int employee_printEmployee(Employee* this)
 
 /////// SETTERS Y GETTERS ///////
 
-int employee_setIdTxt(Employee* this,char* id)
+/*int employee_setIdTxt(Employee* this,char* id)
 {
 	int retorno=-1;
 	int idAux;
@@ -521,7 +519,7 @@ int employee_getIdTxt(Employee* this,int* pId) //REVISAR
 	}
 
 	return retorno;
-}
+}*/
 
 
 int employee_setId(Employee* this,int id)
