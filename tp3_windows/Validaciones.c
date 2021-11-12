@@ -11,7 +11,6 @@
 static int myGets(char pResultado[], int len);
 
 
-
 int pedirNombre(char pResultado[],int lenght, int reintentos, char* variableTexto, char* textoError)
 {
 	int retorno=-1;
