@@ -12,7 +12,6 @@ Employee* employee_new()
 int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo)
 {
 	int retorno=-1;
-
 	char nombreAux[256];
 	char horasAux[256];
 	char sueldoAux[256];
@@ -36,11 +35,6 @@ int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo)
 
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
 {
-
-	int idAux;
-	char nombreAux[256];
-	int horasAux;
-	int sueldoAux;
 	Employee* pEmployee=employee_new();
 
 	if(pEmployee!=NULL)
@@ -53,14 +47,8 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 				{
 					if(employee_setHorasTrabajadasTxt(pEmployee,horasTrabajadasStr)==0)
 					{
-						if(employee_setSueldoTxt(pEmployee,sueldoStr)==0)
-						{
-							employee_getId(pEmployee,&idAux);
-							employee_getNombre(pEmployee,nombreAux);
-							employee_getHorasTrabajadas(pEmployee,&horasAux);
-							employee_getSueldo(pEmployee,&sueldoAux);
+						employee_setSueldoTxt(pEmployee,sueldoStr);
 
-						}
 					}
 				}
 			}
@@ -102,20 +90,6 @@ int emplooyee_findLastId(LinkedList* listEmployee)
 	}
 
 	return idMaxima;
-}
-
-int employee_createRepeatedId (LinkedList* listEmployee)
-{
-	int idAnterior;
-	int idNueva;
-	idAnterior=emplooyee_findLastId(listEmployee);
-
-	if(idAnterior>=0)
-	{
-		idNueva=idAnterior+1;
-	}
-
-	return idNueva;
 }
 
 int employee_createFirstId (LinkedList* listEmployee)
@@ -194,42 +168,6 @@ int employee_findById(LinkedList* listEmployee,int id)
 	return retorno;
 }
 
-
-
-int employee_findRepeated(LinkedList* listEmployee)
-{
-	int retorno=-1;
-	int lengt;
-	int idNueva;
-	char nombreAux [NOMBRE_LEN];
-	Employee* pElementoUno;
-	Employee* pElementoDos;
-
-	if(listEmployee!=NULL)
-	{
-		lengt=ll_len(listEmployee);
-		for(int i=0;i<lengt;i++)
-		{
-			ll_sort(listEmployee,employee_compareId,0);
-
-			pElementoUno=ll_get(listEmployee,i);
-			pElementoDos=ll_get(listEmployee,i+1);
-
-			if(employee_compareId(pElementoUno,pElementoDos)==0)
-			{
-				employee_getNombre(pElementoDos,nombreAux);
-
-				printf("El empleado %s presenta un ID duplicada. Se procederá a asignarle un ID nueva\n",nombreAux);
-
-				idNueva=employee_createRepeatedId (listEmployee);
-				employee_setId(pElementoDos,idNueva);
-				retorno=0;
-			}
-
-		}
-	}
-	return retorno;
-}
 
 int employee_modify(Employee* this)
 {
@@ -465,7 +403,7 @@ int employee_printEmployee(Employee* this)
 {
 	int retorno;
 	int idAux;
-	char nombreAux[256];
+	char nombreAux[NOMBRE_LEN];
 	int horasAux;
 	int sueldoAux;
 
@@ -493,7 +431,6 @@ int employee_setIdTxt(Employee* this,char* id)
 	if(this!=NULL&&id!=NULL)
 	{
 		retorno=-2;
-
 
 		if(esNumerica(id)==0)
 		{

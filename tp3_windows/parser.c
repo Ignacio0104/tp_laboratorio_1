@@ -36,13 +36,8 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 				retorno=-1;
 				break;
 			}
+		}
 
-		}
-		else
-		{
-			employee_delete(pEmpleadoAux);
-			break;
-		}
 	}while(feof(pFile)==0);
 
     return retorno;

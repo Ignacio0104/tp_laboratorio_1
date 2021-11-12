@@ -36,11 +36,6 @@ void employee_delete(Employee* this);
 /// \return Devuelve la posición o -1 si hubo un error
 int employee_findById(LinkedList* listEmployee,int id);
 
-/// \\fn int employee_findRepeated(LinkedList*)
-/// \brief Busca en la lista empleados con ID repetidas y las reasigna
-/// \param listEmployee Recibe la lista de punteros a empleados
-/// \return Devuelve 0 si hubo repetidos modificados o -1 si no hubo repetidos
-int employee_findRepeated(LinkedList* listEmployee);
 
 /// \fn int employee_askForInformation(char*, char*, char*)
 /// \brief Pide, verifica y almacena los datos necesario para el alta de un empleado
@@ -107,12 +102,6 @@ int employee_createFirstId (LinkedList* listEmployee);
 /// \param listEmployee Recibe la lista de empleados
 /// \return Devuelve el ID creada
 int employee_createNewId (LinkedList* listEmployee);
-
-/// \fn int employee_createRepeatedId(LinkedList*)
-/// \brief En caso de encontrar un ID repetida, crea un ID retomando el último valor máximo de la lista
-/// \param listEmployee Recibe la lista de empleados
-/// \return Devuelve el ID creada
-int employee_createRepeatedId (LinkedList* listEmployee);
 
 
 /// Setters y Getters ///

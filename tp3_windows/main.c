@@ -7,7 +7,7 @@
 #include "validaciones.h"
 
 /****************************************************
-    Menu:
+   	 === Menu ===
      1. Cargar los datos de los empleados desde el archivo data.csv (modo texto).
      2. Cargar los datos de los empleados desde el archivo dataDos.csv (modo binario). NUEVO ARCHIVO PARA BINARIOS
      3. Alta de empleado
@@ -94,7 +94,6 @@ int main()
             	{
             		controller_addEmployee(listaEmpleados);
             	}
-
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 4:

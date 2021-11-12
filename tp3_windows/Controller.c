@@ -14,15 +14,16 @@ int controller_MainMenu (void)
 	int userChoice=-1;
 
 	 pedirIntIntentosRango(&userChoice, 1, 10, 5,
-	"\n\n1)Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n"
-	"2)Cargar los datos de los empleados desde el archivo data.csv (modo binario).\n"
+	"\n====MENU====\n\n"
+	"1)Cargar los datos de los empleados desde el archivo data.csv (modo texto).\n"
+	"2)Cargar los datos de los empleados desde el archivo data.bin (modo binario).\n"
 	"3)Alta de empleado\n"
 	"4)Modificar datos de empleado\n"
 	"5)Baja de empleado\n"
 	"6)Listar empleados\n"
 	"7)Ordenar empleados\n"
 	"8)Guardar los datos de los empleados en el archivo data.csv (modo texto).\n"
-	"9)Guardar los datos de los empleados en el archivo data.csv (modo binario).\n"
+	"9)Guardar los datos de los empleados en el archivo data.bin (modo binario).\n"
 	"10)Salir\n\n", "Error, dato ingresado inválido");
 
 	 return userChoice;
@@ -44,9 +45,9 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 	if(f!=NULL&&parser_EmployeeFromText(f, pArrayListEmployee)==0)
 	{
 		retorno=0;
-
+		fclose(f);
 	}
-	fclose(f);
+
 
 	return retorno;
 }
@@ -113,7 +114,7 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 						if(employee_setSueldoTxt(employeeAux,sueldoAuxTxt)==0)
 						{
 							ll_add(pArrayListEmployee,employeeAux);
-							printf("Empleado cargado con éxito!");
+							printf(">>>Empleado cargado con éxito!<<<\n");
 							retorno=0;
 							FILE* f = fopen("IdMaxima.txt","w");
 						    if(f!=NULL)
@@ -247,7 +248,7 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 	}
 	else
 	{
-		printf("\nLa lista esta vacia");
+		printf("\nNo se encontró la lista\n");
 	}
 	return retorno;
 }
