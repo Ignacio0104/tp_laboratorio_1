@@ -199,14 +199,14 @@ int employee_modify(Employee* this)
 					"4)Salir\n");
 
 
-			pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+			pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error, opción inválida\n");
 
 			while(banderaSalir!='s')
 			{
 				switch (userChoice)
 				{
 					case 1:
-						if(pedirTexto(nombreAux,NOMBRE_LEN, 3, "Ingrese el nuevo nombre: ", "Error")==0)
+						if(pedirTexto(nombreAux,NOMBRE_LEN, 1, "Ingrese el nuevo nombre: ", "Error, dato ingresado inválido\n")==0)
 						{
 							if(employee_setNombre(this,nombreAux)==0)
 							{
@@ -233,7 +233,7 @@ int employee_modify(Employee* this)
 						break;
 					case 2:
 
-						if(pedirIntIntentosRango(&horasAux,0, INT_MAX, 3, "Ingrese las horas trabajadas: ", "Error, dato ingresado inválido")==0)
+						if(pedirIntIntentosRango(&horasAux,0, INT_MAX, 1, "Ingrese las horas trabajadas: ", "Error, dato ingresado inválido")==0)
 						{
 							if(employee_setHorasTrabajadas(this,horasAux)==0)
 							{
@@ -255,11 +255,11 @@ int employee_modify(Employee* this)
 									"3)Sueldo\n"
 									"4)Salir\n");
 
-							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error, opción ingresada inválida\n");
 						break;
 					case 3:
 
-						if(pedirIntIntentosRango(&sueldoAux,0, INT_MAX, 3, "Ingrese el nuevo sueldo: ", "Error, dato ingresado inválido")==0)
+						if(pedirIntIntentosRango(&sueldoAux,0, INT_MAX, 1, "Ingrese el nuevo sueldo: ", "Error, dato ingresado inválido")==0)
 						{
 							if(employee_setSueldo(this,sueldoAux)==0)
 							{
@@ -280,7 +280,7 @@ int employee_modify(Employee* this)
 									"3)Sueldo\n"
 									"4)Salir\n");
 
-							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error, opción ingresada inválida");
 
 						break;
 					case 4:

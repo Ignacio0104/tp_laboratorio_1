@@ -165,7 +165,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 
 	if(lenght>0)
 	{
-	  pedirInt(&idPedida, 5, "Ingrese el ID del empleado que desea borrar: \n", "Error, ID ingresada inválida\n");
+	  pedirInt(&idPedida, 1, "Ingrese el ID del empleado que desea borrar: \n", "Error, ID ingresada inválida\n");
 
 		posicionEmpleado=employee_findById(pArrayListEmployee,idPedida);
 		if(posicionEmpleado>=0)
@@ -181,7 +181,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 				printf("Se va a eliminar al empleado:\n"
 						"ID: %d, Nombre: %s, Horas trabajadas: %d, Sueldo %d",idPedida,nombreAux,horasAux,sueldoAux);
 
-				pedirCharSiNo(&userChoice, 's', 'n', 5, "\n\n ---------Presione [s] para confirmar o [n] para volver al menu principal---------\n",
+				pedirCharSiNo(&userChoice, 's', 'n', 2, "\n\n ---------Presione [s] para confirmar o [n] para volver al menu principal---------\n",
 											"Error, dato ingresado inválido\n");
 				if(userChoice=='s')
 				{
@@ -276,7 +276,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 	{
 		controller_ListEmployee(pArrayListEmployee);
 
-		pedirInt(&idPedida, 5, "\n\nIngrese el ID que del empleado que desea modificar: ", "Error");
+		pedirInt(&idPedida, 1, "\n\nIngrese el ID que del empleado que desea modificar: ", "Error, dato ingresado inválido\n");
 
 		posicionPedida=employee_findById(pArrayListEmployee,idPedida);
 
