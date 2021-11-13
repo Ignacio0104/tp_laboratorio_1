@@ -165,44 +165,47 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 
 	if(lenght>0)
 	{
-	  pedirInt(&idPedida, 1, "Ingrese el ID del empleado que desea borrar: \n", "Error, ID ingresada inválida\n");
-
-		posicionEmpleado=employee_findById(pArrayListEmployee,idPedida);
-		if(posicionEmpleado>=0)
-		{
-			pEmpleadoAux=ll_get(pArrayListEmployee, posicionEmpleado);
-
-			if(pEmpleadoAux!=NULL)
+	 if(pedirInt(&idPedida, 1, "Ingrese el ID del empleado que desea borrar: \n", "Error, ID ingresada inválida\n")==0)
+	 {
+			posicionEmpleado=employee_findById(pArrayListEmployee,idPedida);
+			if(posicionEmpleado>=0)
 			{
-				employee_getNombre(pEmpleadoAux,nombreAux);
-				employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
-				employee_getSueldo(pEmpleadoAux,&sueldoAux);
+				pEmpleadoAux=ll_get(pArrayListEmployee, posicionEmpleado);
 
-				printf("Se va a eliminar al empleado:\n"
-						"ID: %d, Nombre: %s, Horas trabajadas: %d, Sueldo %d",idPedida,nombreAux,horasAux,sueldoAux);
+				if(pEmpleadoAux!=NULL)
+				{
+					employee_getNombre(pEmpleadoAux,nombreAux);
+					employee_getHorasTrabajadas(pEmpleadoAux,&horasAux);
+					employee_getSueldo(pEmpleadoAux,&sueldoAux);
 
-				pedirCharSiNo(&userChoice, 's', 'n', 2, "\n\n ---------Presione [s] para confirmar o [n] para volver al menu principal---------\n",
-											"Error, dato ingresado inválido\n");
-				if(userChoice=='s')
-				{
-					ll_remove(pArrayListEmployee,posicionEmpleado);
-					employee_delete(pEmpleadoAux);
-					printf("\nEmpleado borrado del sistema\n");
-					retorno=0;
+					printf("Se va a eliminar al empleado:\n"
+							"ID: %d, Nombre: %s, Horas trabajadas: %d, Sueldo %d",idPedida,nombreAux,horasAux,sueldoAux);
+
+					pedirCharSiNo(&userChoice, 's', 'n', 2, "\n\n ---------Presione [s] para confirmar o [n] para volver al menu principal---------\n",
+												"Error, dato ingresado inválido\n");
+					if(userChoice=='s')
+					{
+						ll_remove(pArrayListEmployee,posicionEmpleado);
+						employee_delete(pEmpleadoAux);
+						printf("\nEmpleado borrado del sistema\n");
+						retorno=0;
+					}
+					else
+					{
+						printf("\nNo se borrará al empleado\n");
+						retorno=0;
+					}
 				}
-				else
-				{
-					printf("\nNo se borrará al empleado\n");
-					retorno=0;
-				}
+
+
+			}
+			else
+			{
+				printf("\nNo se encontró al empleado en la lista\n");
 			}
 
+	 }
 
-		}
-		else
-		{
-			printf("\nNo se encontró al empleado en la lista\n");
-		}
 
 	} else
 	{
@@ -276,22 +279,25 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 	{
 		controller_ListEmployee(pArrayListEmployee);
 
-		pedirInt(&idPedida, 1, "\n\nIngrese el ID que del empleado que desea modificar: ", "Error, dato ingresado inválido\n");
-
-		posicionPedida=employee_findById(pArrayListEmployee,idPedida);
-
-		if(posicionPedida>=0)
+		if(pedirInt(&idPedida, 1, "\n\nIngrese el ID que del empleado que desea modificar: ", "Error, dato ingresado inválido\n")==0)
 		{
-			empleadoAux=ll_get(pArrayListEmployee, posicionPedida);
+			posicionPedida=employee_findById(pArrayListEmployee,idPedida);
 
-			if(empleadoAux!=NULL)
+			if(posicionPedida>=0)
 			{
-				if(employee_modify(empleadoAux)==0)
+				empleadoAux=ll_get(pArrayListEmployee, posicionPedida);
+
+				if(empleadoAux!=NULL)
 				{
-					retorno=0;
+					if(employee_modify(empleadoAux)==0)
+					{
+						retorno=0;
+					}
 				}
 			}
 		}
+
+
 	} else
 	{
 		printf("\nNo hay ningún empleado cargado para editar\n");
@@ -326,44 +332,45 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 				"	4)Sueldo\n"
 				"	5)Volver al menu principal\n");
 
-		pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese aquí su opción: ", "Error");
+		if(pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese aquí su opción: ", "Error")==0)
 
+		{
+		    if (pArrayListEmployee!=NULL)
+		    {
 
-	    if (pArrayListEmployee!=NULL)
-	    {
-
-	    	switch (userChoice)
-	    	{
-	    	case 1:
-	    		printf("\nOrdenando lista por ID...\n");
-	    		ll_sort(pArrayListEmployee,employee_compareId,0);
-	    		printf("\nLista ordenada por ID\n");
-	    		retorno=0;
-	    		break;
-	    	case 2:
-	    		printf("\nOrdenando lista por nombre...\n");
-	    		ll_sort(pArrayListEmployee,employee_compareName,0);
-	    		printf("\nLista ordenada por Nombre\n");
-	    		retorno=0;
-	    		break;
-	    	case 3:
-	    		printf("\nOrdenando lista por horas trabajadas...\n");
-	    		ll_sort(pArrayListEmployee,employee_compareHoras,0);
-	    		printf("\nLista ordenada por Horas Trabajadas\n");
-	    		retorno=0;
-	    		break;
-	    	case 4:
-	    		printf("\nOrdenando lista por sueldo...\n");
-	    		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
-	    		printf("\nLista ordenada por Sueldo\n");
-	    		retorno=0;
-	    		break;
-	    	case 5:
-	    		printf("\nVolviendo al menú");
-	    		retorno=0;
-	    		break;
-	    	}
-	    }
+		    	switch (userChoice)
+		    	{
+		    	case 1:
+		    		printf("\nOrdenando lista por ID...\n");
+		    		ll_sort(pArrayListEmployee,employee_compareId,0);
+		    		printf("\nLista ordenada por ID\n");
+		    		retorno=0;
+		    		break;
+		    	case 2:
+		    		printf("\nOrdenando lista por nombre...\n");
+		    		ll_sort(pArrayListEmployee,employee_compareName,0);
+		    		printf("\nLista ordenada por Nombre\n");
+		    		retorno=0;
+		    		break;
+		    	case 3:
+		    		printf("\nOrdenando lista por horas trabajadas...\n");
+		    		ll_sort(pArrayListEmployee,employee_compareHoras,0);
+		    		printf("\nLista ordenada por Horas Trabajadas\n");
+		    		retorno=0;
+		    		break;
+		    	case 4:
+		    		printf("\nOrdenando lista por sueldo...\n");
+		    		ll_sort(pArrayListEmployee,employee_compareSueldo,0);
+		    		printf("\nLista ordenada por Sueldo\n");
+		    		retorno=0;
+		    		break;
+		    	case 5:
+		    		printf("\nVolviendo al menú");
+		    		retorno=0;
+		    		break;
+		    	}
+		    }
+		}
 	}else
 	{
 		printf("\nNo hay empleados cargados para ordenar\n");
