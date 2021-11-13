@@ -171,18 +171,12 @@ int ll_add(LinkedList* this, void* pElement)
 void* ll_get(LinkedList* this, int index)
 {
 	void * returnAux=NULL;
-	int i;
+	int lenght=ll_len(this);
 
-	Node* nodoAuxiliar=(Node*)malloc(sizeof(Node));
-
-	if(this!=NULL&&index>=0&&ll_len(this)>index)
+	Node* nodoAuxiliar;
+	if(this!=NULL&&index>=0&&lenght>index)
 	{
-		nodoAuxiliar= this->pFirstNode;
-		for(i=0;i<index;i++)
-		{
-			nodoAuxiliar=nodoAuxiliar->pNextNode;
-		}
-
+		nodoAuxiliar=getNode(this, index);
 		returnAux=nodoAuxiliar->pElement;
 	}
 
@@ -274,11 +268,15 @@ int ll_clear(LinkedList* this)
     int returnAux = -1;
 
     int i;
-
-    for(i=0;i<ll_len(this);i++)
+    if(this!=NULL)
     {
-    	ll_remove(this,i);
-    	returnAux=0;
+        for(i=0;i<ll_len(this);i++)
+        {
+        	ll_remove(this,0);
+
+        }
+        returnAux=0;
+
     }
 
     return returnAux;
@@ -321,7 +319,7 @@ int ll_indexOf(LinkedList* this, void* pElement)
 
     int i;
 
-    if(this!=NULL&&pElement!=NULL)
+    if(this!=NULL)
     {
         for(i=0;i<ll_len(this);i++)
         {
@@ -433,6 +431,20 @@ int ll_contains(LinkedList* this, void* pElement)
 {
     int returnAux = -1;
 
+    int indexAux;
+
+    if(this!=NULL)
+    {
+    	returnAux=0;
+        indexAux=ll_indexOf(this,pElement);
+
+        if(indexAux>=0)
+        {
+        	returnAux=1;
+        }
+    }
+
+
     return returnAux;
 }
 
@@ -448,6 +460,41 @@ int ll_contains(LinkedList* this, void* pElement)
 int ll_containsAll(LinkedList* this,LinkedList* this2)
 {
     int returnAux = -1;
+
+    int lenghtUno;
+    int lenghtDos;
+    void* pElementoUno;
+    void* pElementoDos;
+
+    if(this!=NULL&&this2!=NULL)
+    {
+    	returnAux=0;
+        lenghtUno=ll_len(this);
+        lenghtDos=ll_len(this);
+
+        if(lenghtUno>lenghtDos)
+        {
+        	for(int i=0;i<lenghtUno;i++)
+        	{
+        		pElementoUno=ll_get(this,i);
+        		for(int j=0;j<lenghtDos;j++)
+        		{
+        			pElementoDos=ll_get(this2,i);
+
+        			if(pElementoDos==pElementoUno)
+        			{
+        				returnAux=1;
+        				break;
+        			}
+        			returnAux=0;
+        		}
+
+        	}
+        }
+
+    }
+
+
 
     return returnAux;
 }

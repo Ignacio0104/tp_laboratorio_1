@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Employee.h"
+#include "Validaciones.h"
 #define NOMBRE_LEN 128
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto).
@@ -19,6 +20,7 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 	char nombreAux[NOMBRE_LEN];
 	char horasAux[256];
 	char sueldoAux[256];
+	char banderaError='n';
 
 	if(pFile!=NULL&&pArrayListEmployee!=NULL)
 	{
@@ -28,21 +30,35 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 		{
 			if(fscanf(pFile,"%[^,],%[^,],%[^,],%[^\n]\n",idAux,nombreAux,horasAux,sueldoAux)==4)
 			{
-				pEmpleadoAux = employee_newParametros(idAux,nombreAux,horasAux,sueldoAux);
-				if(pEmpleadoAux!=NULL)
+				if(esNumerica(idAux)==0&&esNombre(nombreAux)==0&&esNumerica(horasAux)==0&&esNumerica(sueldoAux)==0)
 				{
-					ll_add(pArrayListEmployee,pEmpleadoAux);
-					retorno=0;
-				}
-				else
+					pEmpleadoAux = employee_newParametros(idAux,nombreAux,horasAux,sueldoAux);
+					if(pEmpleadoAux!=NULL)
+					{
+						ll_add(pArrayListEmployee,pEmpleadoAux);
+						retorno=0;
+					}
+					else
+					{
+						employee_delete(pEmpleadoAux);
+						retorno=-1;
+						break;
+					}
+				} else
 				{
-					employee_delete(pEmpleadoAux);
-					retorno=-1;
-					break;
+					banderaError='s';
+					continue;
+
 				}
+
 			}
 
 		}while(feof(pFile)==0);
+	}
+
+	if(banderaError=='s')
+	{
+		printf("Se detectó un error al importar el archivo. Favor imprimir lista y verificar que esté correcto\n");
 	}
 
 
@@ -77,6 +93,7 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 					} else
 					{
 						employee_delete(pEmpleadoAux);
+						printf("Se detectó un error al importar el archivo. Favor imprimir lista y verificar que esté correcto\n");
 						break;
 					}
 			 }
