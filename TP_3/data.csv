@@ -13,7 +13,7 @@ id,nombre,horasTrabajadas,sueldo
 12,Cordelie,325,50000
 13,Shel,120,50000
 14,Bronnie,60,20000
-15,Pedro,180,10000
+15,Megen,180,10000
 16,Iver,90,12000
 17,Ernesta,60,37000
 18,Cirillo,88,50000
@@ -21,7 +21,7 @@ id,nombre,horasTrabajadas,sueldo
 20,Bellanca,88,15000
 21,Bobbye,180,15000
 22,Eugene,88,50000
-veninte,Michael Jordan,325,2000000
+23,Johnny,325,33000
 24,Reagen,90,42000
 25,Braden,180,25000
 26,Karim,75,25000
@@ -526,6 +526,7 @@ veninte,Michael Jordan,325,2000000
 525,Edan,88,20000
 526,Homer,325,10000
 527,Eveline,325,37000
+528,Helen-elizabeth,220,20000
 529,Daveta,180,20000
 530,Mort,90,42000
 531,Maxi,75,37000
@@ -996,6 +997,5 @@ veninte,Michael Jordan,325,2000000
 996,Atalanta,90,37000
 997,De witt,88,12000
 998,Jaye,75,25000
+999,Tamarra,60,15000
 1000,Saleem,60,20000
-1001,Marcos,20000,100000
-1006,Laura,20000,300000
