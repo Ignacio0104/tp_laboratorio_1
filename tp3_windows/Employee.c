@@ -1,6 +1,7 @@
 #include "Employee.h"
 #include "Validaciones.h"
 #include <string.h>
+#include <limits.h>
 #define NOMBRE_LEN 128
 
 Employee* employee_new()
@@ -9,23 +10,26 @@ Employee* employee_new()
 	return pEmployee;
 }
 
-int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo)
+int employee_askForInformation(char *pNombre, int *pHoras, int* pSueldo)
 {
 	int retorno=-1;
 	char nombreAux[256];
-	char horasAux[256];
-	char sueldoAux[256];
+	int horasAux;
+	int sueldoAux;
 
-	if(pedirNombre(nombreAux,NOMBRE_LEN, 3, "Ingrese el nombre", "Error")==0)
+	if(pNombre!=NULL&&pHoras!=NULL&&pSueldo!=NULL)
 	{
-		if(pedirNumeroTxt(horasAux,256, 3, "Ingrese las horas","Error")==0)
+		if(pedirNombre(nombreAux,NOMBRE_LEN, 3, "Ingrese el nombre del empleado: ", "Error, dato ingresado inválido")==0)
 		{
-			if(pedirNumeroTxt(sueldoAux,256, 3, "Ingrese el salario","Error")==0)
+			if(pedirIntIntentosRango(&horasAux,0, INT_MAX, 3, "Ingrese las horas trabajadas: ", "Error, dato ingresado inválido")==0)
 			{
-				strncpy(pHoras,horasAux,256);
-				strncpy(pSueldo,sueldoAux,256);
-				strncpy(pNombre,nombreAux,NOMBRE_LEN);
-				retorno=0;
+				if(pedirIntIntentosRango(&sueldoAux,0, INT_MAX, 3, "Ingrese el sueldo: ", "Error, dato ingresado inválido")==0)
+				{
+					strncpy(pNombre,nombreAux,NOMBRE_LEN);
+					*pHoras=horasAux;
+					*pSueldo=sueldoAux;
+					retorno=0;
+				}
 			}
 		}
 	}
@@ -112,22 +116,29 @@ int employee_createNewId (LinkedList* listEmployee)
 	int idAnterior;
 	int idNueva;
 	char idAux[10];
-	FILE* f = fopen("IdMaxima.txt","r");
-	if(f!=NULL)
-	{
-		fscanf(f,"%s",idAux);
 
-		if(esNumerica(idAux)==0)
-		{
-			idAnterior=atoi(idAux);
-		}
-		fclose(f);
+	idNueva=-1;
+
+	if(listEmployee!=NULL)
+	{
+		FILE* f = fopen("IdMaxima.txt","r");
+			if(f!=NULL)
+			{
+				fscanf(f,"%s",idAux);
+
+				if(esNumerica(idAux)==0)
+				{
+					idAnterior=atoi(idAux);
+				}
+				fclose(f);
+			}
+
+			if(idAnterior>=0)
+			{
+				idNueva=idAnterior+1;
+			}
 	}
 
-	if(idAnterior>=0)
-	{
-		idNueva=idAnterior+1;
-	}
 
 	return idNueva;
 }
@@ -172,110 +183,115 @@ int employee_findById(LinkedList* listEmployee,int id)
 int employee_modify(Employee* this)
 {
 	int retorno=-1;
-	char nombreAux[256];
-	char horasAux[256];
-	char sueldoAux[256];
+	char nombreAux[NOMBRE_LEN];
+	int horasAux;
+	int sueldoAux;
 	char banderaSalir='n';
-
 
 	int userChoice;
 
-	printf("Que dato desea modificar?\n"
-			"1)Nombre\n"
-			"2)Horas trabajadas\n"
-			"3)Sueldo\n"
-			"4)Salir\n");
-
-	pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
-
-	while(banderaSalir!='s')
+	if(this!=NULL)
 	{
-		switch (userChoice)
+		printf("Que dato desea modificar?\n"
+					"1)Nombre\n"
+					"2)Horas trabajadas\n"
+					"3)Sueldo\n"
+					"4)Salir\n");
+
+
+			pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+
+			while(banderaSalir!='s')
 			{
-				case 1:
-					if(pedirTexto(nombreAux,NOMBRE_LEN, 3, "Ingrese el nuevo nombre", "Error")==0)
-					{
-						if(employee_setNombre(this,nombreAux)==0)
+				switch (userChoice)
+				{
+					case 1:
+						if(pedirTexto(nombreAux,NOMBRE_LEN, 3, "Ingrese el nuevo nombre: ", "Error")==0)
 						{
-							printf("Nombre modificado con éxito\n");
-							retorno=0;
-						} else
-						{
-							printf("No se pudo modificar\n");
+							if(employee_setNombre(this,nombreAux)==0)
+							{
+								printf("\n >>> Nombre modificado con éxito <<< \n");
+								retorno=0;
+							} else
+							{
+								printf("\nNo se pudo modificar\n");
 
-						}
-					}else
-					{
-						printf("Error al ingresar los datos\n");
-					}
-
-					printf("Que dato desea modificar?\n"
-								"1)Nombre\n"
-								"2)Horas trabajadas\n"
-								"3)Sueldo\n"
-								"4)Salir\n");
-
-						pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
-
-					break;
-				case 2:
-
-					if(pedirNumeroTxt(horasAux,256, 3, "Ingrese las nuevas horas","Error")==0)
-					{
-						if(employee_setHorasTrabajadasTxt(this,horasAux)==0)
-						{
-							printf("Horas trabajadas modificadas con éxito\n");
-							retorno=0;
+							}
 						}else
 						{
-							printf("No se pudo modificar\n");
-
+							printf("\nError al ingresar los datos\n");
 						}
-					}else
-					{
-						printf("Error al ingresar los datos\n");
-					}
 
-					printf("Que dato desea modificar?\n"
-								"1)Nombre\n"
-								"2)Horas trabajadas\n"
-								"3)Sueldo\n"
-								"4)Salir\n");
+						printf("Que dato desea modificar?\n"
+									"1)Nombre\n"
+									"2)Horas trabajadas\n"
+									"3)Sueldo\n"
+									"4)Salir\n");
 
-						pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
-					break;
-				case 3:
+							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
 
-					if(pedirNumeroTxt(sueldoAux,256, 3, "Ingrese el nuevo sueldo","Error")==0)
-					{
-						if(employee_setSueldoTxt(this,sueldoAux)==0)
+						break;
+					case 2:
+
+						if(pedirIntIntentosRango(&horasAux,0, INT_MAX, 3, "Ingrese las horas trabajadas: ", "Error, dato ingresado inválido")==0)
 						{
-							printf("Sueldo modificado con éxito\n");
-							retorno=0;
+							if(employee_setHorasTrabajadas(this,horasAux)==0)
+							{
+								printf("\n >>> Horas trabajadas modificadas con éxito <<< \n");
+								retorno=0;
+							}else
+							{
+								printf("\nNo se pudo modificar\n");
+
+							}
 						}else
 						{
-							printf("No se pudo modificar\n");
-
+							printf("\nError al ingresar los datos\n");
 						}
-					}else
-					{
-						printf("Error al ingresar los datos\n");
-					}
-					printf("Que dato desea modificar?\n"
-								"1)Nombre\n"
-								"2)Horas trabajadas\n"
-								"3)Sueldo\n"
-								"4)Salir\n");
 
-						pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+						printf("Que dato desea modificar?\n"
+									"1)Nombre\n"
+									"2)Horas trabajadas\n"
+									"3)Sueldo\n"
+									"4)Salir\n");
 
-					break;
-				case 4:
-					printf("Volviendo al menú principal\n");
-					banderaSalir='s';
-					break;
-			}
-	}
+							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+						break;
+					case 3:
+
+						if(pedirIntIntentosRango(&sueldoAux,0, INT_MAX, 3, "Ingrese el nuevo sueldo: ", "Error, dato ingresado inválido")==0)
+						{
+							if(employee_setSueldo(this,sueldoAux)==0)
+							{
+								printf("\n >>> Sueldo modificado con éxito <<< \n");
+								retorno=0;
+							}else
+							{
+								printf("\nNo se pudo modificar\n");
+
+							}
+						}else
+						{
+							printf("\nError al ingresar los datos\n");
+						}
+						printf("Que dato desea modificar?\n"
+									"1)Nombre\n"
+									"2)Horas trabajadas\n"
+									"3)Sueldo\n"
+									"4)Salir\n");
+
+							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+
+						break;
+					case 4:
+						printf("Volviendo al menú principal\n");
+						banderaSalir='s';
+						break;
+				}
+		}
+}
+
+
 
 
 	return retorno;
@@ -288,22 +304,25 @@ int employee_compareName(void* empleadoUno,void* empleadoDos)
     char nombreAuxUno[NOMBRE_LEN];
     char nombreAuxDos[NOMBRE_LEN];
 
-    employee_getNombre(empleadoUno,nombreAuxUno);
-    employee_getNombre(empleadoDos,nombreAuxDos);
-
-    int comparacion = strcmp(nombreAuxUno,nombreAuxDos);
-    if (comparacion<0)
-    {
-        retorno=1;
-    }
-    else
+    if(empleadoUno!=NULL&&empleadoDos!=NULL)
 	{
-		if (comparacion>0)
+		employee_getNombre((Employee*)empleadoUno,nombreAuxUno);
+		employee_getNombre((Employee*)empleadoDos,nombreAuxDos);
+
+		int comparacion = strcmp(nombreAuxUno,nombreAuxDos);
+		if (comparacion<0)
 		{
-			retorno=-1;
-		} else
+			retorno=1;
+		}
+		else
 		{
-			retorno=0;
+			if (comparacion>0)
+			{
+				retorno=-1;
+			} else
+			{
+				retorno=0;
+			}
 		}
 	}
 
@@ -316,21 +335,24 @@ int employee_compareId(void* empleadoUno,void* empleadoDos)
     int idAuxUno;
     int idAuxDos;
 
-    employee_getId(empleadoUno,&idAuxUno);
-    employee_getId(empleadoDos,&idAuxDos);
-
-    if (idAuxUno<idAuxDos)
-    {
-        retorno=1;
-    }
-    else
+    if(empleadoUno!=NULL&&empleadoDos!=NULL)
 	{
-		if (idAuxUno>idAuxDos)
+		employee_getId((Employee*)empleadoUno,&idAuxUno);
+		employee_getId((Employee*)empleadoDos,&idAuxDos);
+
+		if (idAuxUno<idAuxDos)
 		{
-			retorno=-1;
-		} else
+			retorno=1;
+		}
+		else
 		{
-			retorno=0;
+			if (idAuxUno>idAuxDos)
+			{
+				retorno=-1;
+			} else
+			{
+				retorno=0;
+			}
 		}
 	}
 
@@ -343,23 +365,26 @@ int employee_compareHoras(void* empleadoUno,void* empleadoDos)
     int horasAuxUno;
     int horasAuxDos;
 
-    employee_getHorasTrabajadas(empleadoUno,&horasAuxUno);
-    employee_getHorasTrabajadas(empleadoDos,&horasAuxDos);
-
-    if (horasAuxUno<horasAuxDos)
+    if(empleadoUno!=NULL&&empleadoDos!=NULL)
     {
-        retorno=1;
+        employee_getHorasTrabajadas((Employee*)empleadoUno,&horasAuxUno);
+        employee_getHorasTrabajadas((Employee*)empleadoDos,&horasAuxDos);
+
+        if (horasAuxUno<horasAuxDos)
+        {
+            retorno=1;
+        }
+        else
+    	{
+    		if (horasAuxUno>horasAuxDos)
+    		{
+    			retorno=-1;
+    		} else
+    		{
+    			retorno=0;
+    		}
+    	}
     }
-    else
-	{
-		if (horasAuxUno>horasAuxDos)
-		{
-			retorno=-1;
-		} else
-		{
-			retorno=0;
-		}
-	}
 
     return retorno;
 }
@@ -370,23 +395,26 @@ int employee_compareSueldo(void* empleadoUno,void* empleadoDos)
     int sueldoAuxUno;
     int sueldoAuxDos;
 
-    employee_getSueldo(empleadoUno,&sueldoAuxUno);
-    employee_getSueldo(empleadoDos,&sueldoAuxDos);
+    if(empleadoUno!=NULL&&empleadoDos!=NULL)
+        {
+			employee_getSueldo((Employee*)empleadoUno,&sueldoAuxUno);
+			employee_getSueldo((Employee*)empleadoDos,&sueldoAuxDos);
 
-    if (sueldoAuxUno<sueldoAuxDos)
-    {
-        retorno=1;
-    }
-    else
-	{
-		if (sueldoAuxUno>sueldoAuxDos)
-		{
-			retorno=-1;
-		} else
-		{
-			retorno=0;
+			if (sueldoAuxUno<sueldoAuxDos)
+			{
+				retorno=1;
+			}
+			else
+			{
+				if (sueldoAuxUno>sueldoAuxDos)
+				{
+					retorno=-1;
+				} else
+				{
+					retorno=0;
+				}
+			}
 		}
-	}
 
     return retorno;
 }
@@ -395,8 +423,12 @@ int employee_compareSueldo(void* empleadoUno,void* empleadoDos)
 
 void employee_delete(Employee* this)
 {
-	free(this);
-	this=NULL;
+	if(this!=NULL)
+	{
+		free(this);
+		this=NULL;
+	}
+
 }
 
 int employee_printEmployee(Employee* this)

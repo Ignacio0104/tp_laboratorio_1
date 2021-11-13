@@ -43,19 +43,26 @@ int main()
 
             	if(banderaInputBin=='n')
             	{
-					if(controller_loadFromText("data.csv",listaEmpleados)==0)
-					  {
-						printf("Carga realizada con éxito");
-						banderaInputTxt='s';
-					  } else
-					  {
-						  printf("Error, no se pudo realizar la carga");
-					  }
+            		if(banderaInputTxt=='s')
+            		{
+                   		printf("\nLa lista del archivo texto ya se encuentra cargada\n");
+            		} else
+            		{
+    					if(controller_loadFromText("data.csv",listaEmpleados)==0)
+    					  {
+    						printf("\n >>> Carga realizada con éxito <<<\n");
+    						banderaInputTxt='s';
+    					  } else
+    					  {
+    						  printf("\nError, no se pudo realizar la carga\n");
+    					  }
+            		}
 
             	} else
             	{
-            		printf("Ya hay un archivo binario cargado, no se puede cargar otro archivo");
+            		printf("\nYa hay un archivo binario cargado, no se puede cargar otro archivo");
             	}
+
 
                 eleccionUsuario=controller_MainMenu();
                 break;
@@ -63,18 +70,24 @@ int main()
 
             	if(banderaInputTxt=='n')
             	{
-					if(controller_loadFromBinary("data.bin",listaEmpleados)==0)
-					  {
-						printf("Carga realizada con éxito");
-						banderaInputBin='s';
-					  } else
-					  {
-						  printf("Error, no se encontró el archivo binario");
-					  }
+            		if(banderaInputBin=='s')
+            		{
+            			printf("\nLa lista del archivo binario ya se encuentra cargada\n");
+            		} else
+            		{
+    					if(controller_loadFromBinary("data.bin",listaEmpleados)==0)
+    					  {
+    						printf("\n >>> Carga realizada con éxito <<< \n");
+    						banderaInputBin='s';
+    					  } else
+    					  {
+    						  printf("\nError, no se encontró el archivo binario\n");
+    					  }
+            		}
 
             	} else
             	{
-            		printf("Ya hay un archivo de texto cargado, no se puede cargar otro archivo");
+            		printf("\nYa hay un archivo de texto cargado, no se puede cargar otro archivo\n");
             	}
 
             	eleccionUsuario=controller_MainMenu();
@@ -124,11 +137,11 @@ int main()
 						{
 							if(controller_saveAsText("data.csv", listaEmpleados)==0)
 							{
-								printf("Archivo guardado con exito");
+								printf("\n >>> Archivo guardado con exito <<< \n");
 								banderaOutputTxt='s';
 							} else
 							{
-								printf("No pudo guardarse el archivo");
+								printf("\nNo pudo guardarse el archivo\n");
 							}
 
 						} else
@@ -141,11 +154,11 @@ int main()
 							{
 								if(controller_saveAsText("data.csv", listaEmpleados)==0)
 								{
-									printf("Archivo guardado con exito");
+									printf("\n >>> Archivo guardado con exito <<<\n");
 									banderaOutputTxt='s';
 								} else
 								{
-									printf("No pudo guardarse el archivo");
+									printf("\nNo pudo guardarse el archivo\n");
 								}
 							}
 						}
@@ -157,11 +170,11 @@ int main()
 					{
 						if(controller_saveAsText("data.csv", listaEmpleados)==0)
 						{
-							printf("Archivo guardado con exito");
+							printf("\n >>> Archivo guardado con exito <<< \n");
 							banderaOutputTxt='s';
 						} else
 						{
-							printf("No pudo guardarse el archivo");
+							printf("\nNo pudo guardarse el archivo\n");
 						}
 
 					} else
@@ -174,11 +187,11 @@ int main()
 						{
 							if(controller_saveAsText("data.csv", listaEmpleados)==0)
 							{
-								printf("Archivo guardado con exito");
+								printf("\n >>> Archivo guardado con exito <<< \n");
 								banderaOutputTxt='s';
 							} else
 							{
-								printf("No pudo guardarse el archivo");
+								printf("\nNo pudo guardarse el archivo\n");
 							}
 						}
 					}
@@ -198,11 +211,11 @@ int main()
 						{
 							if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
 							{
-								printf("Archivo guardado con exito");
+								printf("\n >>> Archivo guardado con exito <<< \n");
 								banderaOutputBin='s';
 							} else
 							{
-								printf("No pudo guardarse el archivo");
+								printf("\nNo pudo guardarse el archivo\n");
 							}
 
 						} else
@@ -215,11 +228,11 @@ int main()
 							{
 								if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
 								{
-									printf("Archivo guardado con exito");
+									printf("\n >>> Archivo guardado con exito <<< \n");
 									banderaOutputBin='s';
 								} else
 								{
-									printf("No pudo guardarse el archivo");
+									printf("\nNo pudo guardarse el archivo\n");
 								}
 
 							}
@@ -231,11 +244,11 @@ int main()
 						{
 							if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
 							{
-								printf("Archivo guardado con exito");
+								printf("\n >>> Archivo guardado con exito <<< \n");
 								banderaOutputBin='s';
 							} else
 							{
-								printf("No pudo guardarse el archivo");
+								printf("\nNo pudo guardarse el archivo\n");
 							}
 
 						} else
@@ -248,11 +261,11 @@ int main()
 							{
 								if(controller_saveAsBinary("data.bin", listaEmpleados)==0)
 								{
-									printf("Archivo guardado con exito");
+									printf("\n >>> Archivo guardado con exito <<< \n");
 									banderaOutputBin='s';
 								} else
 								{
-									printf("No pudo guardarse el archivo");
+									printf("\nNo pudo guardarse el archivo\n");
 								}
 
 							}

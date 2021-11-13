@@ -40,10 +40,10 @@ int employee_findById(LinkedList* listEmployee,int id);
 /// \fn int employee_askForInformation(char*, char*, char*)
 /// \brief Pide, verifica y almacena los datos necesario para el alta de un empleado
 /// \param pNombre Puntero a array donde se guardará el nombre
-/// \param pHoras Puntero a array donde se guardarán las horas
-/// \param pSueldo Puntero a array donde se guardará el sueldo
+/// \param pHoras Puntero a variable donde se guardarán las horas
+/// \param pSueldo Puntero a variable  donde se guardará el sueldo
 /// \return Devuelve 0 si todos los datos se cargaron de manera correcta o -1 si hubo un error
-int employee_askForInformation(char *pNombre, char *pHoras, char* pSueldo);
+int employee_askForInformation(char *pNombre, int *pHoras, int* pSueldo);
 
 /// \fn int employee_modify(Employee*)
 /// \brief Solicita campo a modificar, y procede a la modificación
