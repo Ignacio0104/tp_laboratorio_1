@@ -58,7 +58,7 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 
 	if(banderaError=='s')
 	{
-		printf("Se detectó un error al importar el archivo. Favor imprimir lista y verificar que esté correcto\n");
+		printf("Se detectó uno o más errores al importar el archivo. Favor imprimir lista (opción 6) y verificar que esté correcta\n");
 	}
 
 
@@ -75,8 +75,11 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
 	int retorno=-1;
+	int contadorErrores;
+
 
 	Employee*pEmpleadoAux;
+	contadorErrores=0;
 
 	if(pFile!=NULL&&pArrayListEmployee!=NULL)
 
@@ -93,7 +96,7 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 					} else
 					{
 						employee_delete(pEmpleadoAux);
-						printf("Se detectó un error al importar el archivo. Favor imprimir lista y verificar que esté correcto\n");
+						contadorErrores++;
 						break;
 					}
 			 }
@@ -102,6 +105,10 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 
 	}
 
+	if(contadorErrores>1)
+	{
+		printf("Se detectó uno o más errores al importar el archivo. Favor imprimir lista (opción 6) y verificar que esté correcta\n");
+	}
 
     return retorno;;
 }

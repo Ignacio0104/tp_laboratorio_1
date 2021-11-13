@@ -199,7 +199,6 @@ int main()
             	eleccionUsuario=controller_MainMenu();
                 break;
             case 9:
-
             	if(banderaInputBin=='n'&&banderaInputTxt=='n')
 				{
 					printf("Estás a punto de sobreescribir todos los datos del archivo original con la nueva carga\n");
