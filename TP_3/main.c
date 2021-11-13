@@ -23,7 +23,7 @@
 int main()
 {
 	setbuf(stdout,NULL);
-    int eleccionUsuario = 0;
+    int eleccionUsuario;
     char banderaCierre='n';
     char banderaInputTxt='n';
     char banderaOutputTxt='n';
@@ -62,12 +62,9 @@ int main()
             	{
             		printf("\nYa hay un archivo binario cargado, no se puede cargar otro archivo");
             	}
-
-
                 eleccionUsuario=controller_MainMenu();
                 break;
             case 2:
-
             	if(banderaInputTxt=='n')
             	{
             		if(banderaInputBin=='s')
@@ -95,7 +92,7 @@ int main()
             case 3:
             	if(banderaInputBin=='n'&&banderaInputTxt=='n')
             	{
-            		pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Va a realizar un alta de empleado sin haber cargado ningún archivo.\n"
+            		pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Va a realizar un alta de empleado sin haber cargado ningún archivo.\n"
             				"Esto puede generar conflicto de datos al momento de guardar. Desea continuar? [s] si o [n] no\n",
             		    									"Error, dato ingresado inválido\n");
 
@@ -128,8 +125,8 @@ int main()
             case 8:
             	if(banderaInputBin=='n'&&banderaInputTxt=='n')
 				{
-            		printf("Estás a punto de sobreescribir todos los datos del archivo original con la nueva carga\n");
-					pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+            		printf("Estás a punto de sobreescribir todos los datos del archivo original con la lista actual\n");
+					pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Desea continuar? [s] si o [n] no\n",
 																"Error, dato ingresado inválido\n");
 					if(userConfirmation=='s')
 					{
@@ -147,7 +144,7 @@ int main()
 						} else
 						{
 							printf("El archivo de origen es binario, si continúa los nuevos datos se guardarán en un archivo de texto y el archivo original quedará desactualizado\n");
-							pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+							pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Desea continuar? [s] si o [n] no\n",
 																		"Error, dato ingresado inválido\n");
 
 							if(userConfirmation=='s')
@@ -180,7 +177,7 @@ int main()
 					} else
 					{
 						printf("El archivo de origen es binario, si continúa los nuevos datos se guardarán en un archivo de texto y el archivo original quedará desactualizado\n");
-						pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+						pedirCharSiNo(&userConfirmation, 's', 'n', 3 , "Desea continuar? [s] si o [n] no\n",
 																	"Error, dato ingresado inválido\n");
 
 						if(userConfirmation=='s')
@@ -202,7 +199,7 @@ int main()
             	if(banderaInputBin=='n'&&banderaInputTxt=='n')
 				{
 					printf("Estás a punto de sobreescribir todos los datos del archivo original con la nueva carga\n");
-					pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+					pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Desea continuar? [s] si o [n] no\n",
 																"Error, dato ingresado inválido\n");
 					if(userConfirmation=='s')
 					{
@@ -220,7 +217,7 @@ int main()
 						} else
 						{
 							printf("El archivo de origen es de texto, si continúa los nuevos datos se guardarán en un archivo binario y el archivo original quedará desactualizado\n");
-							pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+							pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Desea continuar? [s] si o [n] no\n",
 																		"Error, dato ingresado inválido\n");
 
 							if(userConfirmation=='s')
@@ -253,7 +250,7 @@ int main()
 						} else
 						{
 							printf("El archivo de origen es de texto, si continúa los nuevos datos se guardarán en un archivo binario y el archivo original quedará desactualizado\n");
-							pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Desea continuar? [s] si o [n] no\n",
+							pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Desea continuar? [s] si o [n] no\n",
 																		"Error, dato ingresado inválido\n");
 
 							if(userConfirmation=='s')
@@ -277,7 +274,7 @@ int main()
             case 10:
             	if(banderaOutputTxt=='n'&&banderaOutputBin=='n')
             	{
-            		pedirCharSiNo(&userConfirmation, 's', 'n', 5, "Está a punto de salir del programa sin guardar los cambios.\n"
+            		pedirCharSiNo(&userConfirmation, 's', 'n', 3, "Está a punto de salir del programa sin guardar los cambios.\n"
             				"Desea continuar? [s] si o [n] no\n",
             		    									"Error, dato ingresado inválido\n");
             		if(userConfirmation=='s')

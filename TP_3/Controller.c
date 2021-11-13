@@ -100,12 +100,12 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 			if(f!=NULL)
 			{
 				idAux=employee_createNewId(pArrayListEmployee);
-
+				fclose(f);
 			} else
 			{
 				idAux=employee_createFirstId(pArrayListEmployee);
 			}
-			fclose(f);
+
 
 			if(employee_setId(employeeAux,idAux)==0)
 			{
@@ -332,7 +332,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 				"	4)Sueldo\n"
 				"	5)Volver al menu principal\n");
 
-		if(pedirIntIntentosRango(&userChoice, 1, 5, 5, "Ingrese aquí su opción: ", "Error")==0)
+		if(pedirIntIntentosRango(&userChoice, 1, 5, 3, "Ingrese aquí su opción: ", "Error")==0)
 
 		{
 		    if (pArrayListEmployee!=NULL)

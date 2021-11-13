@@ -62,7 +62,7 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 
 	return pEmployee;
 }
-
+/*
 int emplooyee_findLastId(LinkedList* listEmployee)
 {
 	Employee* pElemento;
@@ -94,8 +94,7 @@ int emplooyee_findLastId(LinkedList* listEmployee)
 	}
 
 	return idMaxima;
-}
-
+}*/
 int employee_createFirstId (LinkedList* listEmployee)
 {
 	int idAnterior;
@@ -199,7 +198,10 @@ int employee_modify(Employee* this)
 					"4)Salir\n");
 
 
-			pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error, opción inválida\n");
+			if(pedirIntIntentosRango(&userChoice, 1, 4, 3, "Ingrese aquí su opción: ", "Error")!=0)
+			{
+				userChoice=4;
+			}
 
 			while(banderaSalir!='s')
 			{
@@ -228,7 +230,10 @@ int employee_modify(Employee* this)
 									"3)Sueldo\n"
 									"4)Salir\n");
 
-							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error");
+							if(pedirIntIntentosRango(&userChoice, 1, 4, 3, "Ingrese aquí su opción: ", "Error")!=0)
+							{
+								userChoice=4;
+							}
 
 						break;
 					case 2:
@@ -255,7 +260,10 @@ int employee_modify(Employee* this)
 									"3)Sueldo\n"
 									"4)Salir\n");
 
-							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error, opción ingresada inválida\n");
+						if(pedirIntIntentosRango(&userChoice, 1, 4, 3, "Ingrese aquí su opción: ", "Error")!=0)
+						{
+							userChoice=4;
+						}
 						break;
 					case 3:
 
@@ -280,8 +288,10 @@ int employee_modify(Employee* this)
 									"3)Sueldo\n"
 									"4)Salir\n");
 
-							pedirIntIntentosRango(&userChoice, 1, 4, 5, "Ingrese aquí su opción: ", "Error, opción ingresada inválida");
-
+						if(pedirIntIntentosRango(&userChoice, 1, 4, 3, "Ingrese aquí su opción: ", "Error")!=0)
+						{
+							userChoice=4;
+						}
 						break;
 					case 4:
 						printf("Volviendo al menú principal\n");

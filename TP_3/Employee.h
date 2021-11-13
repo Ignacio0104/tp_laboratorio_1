@@ -89,7 +89,7 @@ int employee_compareSueldo(void* empleadoUno,void* empleadoDos);
 /// \brief Encuentra el id mas alto de la lista
 /// \param listEmployee Recibe la lista de empleados
 /// \return Devuelve el ID Maxima si se encontró o -1 si hubo un error
-int emplooyee_findLastId(LinkedList* listEmployee);
+//int emplooyee_findLastId(LinkedList* listEmployee);
 
 /// \fn int employee_createFirstId(LinkedList*)
 /// \brief Crea una primer ID si no hay archivos ni lista de referencia
