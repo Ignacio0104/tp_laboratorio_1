@@ -323,7 +323,7 @@ int ll_indexOf(LinkedList* this, void* pElement)
 
     if(this!=NULL&&pElement!=NULL)
     {
-        for(i=0;i<ll_len(this);i++)
+        for(i=0;i<=ll_len(this);i++)
         {
         	elementoAux=ll_get(this,i);
         	if(elementoAux==pElement)
@@ -351,6 +351,19 @@ int ll_isEmpty(LinkedList* this)
 {
     int returnAux = -1;
 
+    if(this!=NULL)
+    {
+    	if(this->size==0)
+    	{
+    		returnAux=1;
+    	} else
+    	{
+    		returnAux=0;
+    	}
+
+    }
+
+
     return returnAux;
 }
 
@@ -366,8 +379,18 @@ int ll_isEmpty(LinkedList* this)
 int ll_push(LinkedList* this, int index, void* pElement)
 {
     int returnAux = -1;
+    int lenght= ll_len(this);
 
-    return returnAux;
+    if(this!=NULL&&index>=0&&index<=lenght)
+    {
+        if(addNode(this, index,pElement)==0)
+        {
+        	returnAux=0;
+        }
+
+    }
+
+     return returnAux;
 }
 
 
@@ -382,6 +405,17 @@ int ll_push(LinkedList* this, int index, void* pElement)
 void* ll_pop(LinkedList* this,int index)
 {
     void* returnAux = NULL;
+
+   void* pElementAux;
+
+   pElementAux=ll_get(this,index);
+
+    if(pElementAux!=NULL)
+    {
+    	returnAux = pElementAux;
+    }
+
+    ll_remove(this,index);
 
     return returnAux;
 }
@@ -460,10 +494,62 @@ LinkedList* ll_clone(LinkedList* this)
  */
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 {
-    int returnAux =-1;
+	int returnAux =-1;
+	int i;
+	int flagSwap=1;
+	int lenght=ll_len(this);
+	Node *nodoAuxiliarUno;
+	Node *nodoAuxiliarDos;
+	void *pAuxElement;
+	if (this!=NULL && pFunc!=NULL)
+	{
+		if(order==0||order==1)
+		{
+			if(lenght>=2)
+			{
+				while(flagSwap==1)
+				{
+					flagSwap=0;
+					nodoAuxiliarUno=this->pFirstNode->pNextNode;
+					nodoAuxiliarDos=this->pFirstNode;
+					for(i=1;i<lenght;i++)
+					{
+						if (order==0)
+						{
+							if(pFunc(nodoAuxiliarUno->pElement,nodoAuxiliarDos->pElement)>0)
+							{
+								pAuxElement=nodoAuxiliarUno->pElement;
+								nodoAuxiliarUno->pElement=nodoAuxiliarDos->pElement;
+								nodoAuxiliarDos->pElement=pAuxElement;
+								flagSwap=1;
+							}
 
+						} else
+						{
+							if(order==1)
+							{
+								if(pFunc(nodoAuxiliarUno->pElement,nodoAuxiliarDos->pElement)<0)
+								{
+									pAuxElement=nodoAuxiliarUno->pElement;
+									nodoAuxiliarUno->pElement=nodoAuxiliarDos->pElement;
+									nodoAuxiliarDos->pElement=pAuxElement;
+									flagSwap=1;
+								}
+							}
+						}
+						nodoAuxiliarUno=nodoAuxiliarUno->pNextNode;
+						nodoAuxiliarDos=nodoAuxiliarDos->pNextNode;
+					}
+				}
+				returnAux=0;
+			}
+			else
+			{
+				returnAux=0;
+			}
+		}
 
-
+	}
 
     return returnAux;
 
