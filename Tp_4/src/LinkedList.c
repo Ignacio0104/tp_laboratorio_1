@@ -323,7 +323,7 @@ int ll_indexOf(LinkedList* this, void* pElement)
 
     if(this!=NULL&&pElement!=NULL)
     {
-        for(i=0;i<=ll_len(this);i++)
+        for(i=0;i<ll_len(this);i++)
         {
         	elementoAux=ll_get(this,i);
         	if(elementoAux==pElement)
