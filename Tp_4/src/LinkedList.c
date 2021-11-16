@@ -361,7 +361,6 @@ int ll_isEmpty(LinkedList* this)
 
     }
 
-
     return returnAux;
 }
 
@@ -462,39 +461,27 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
     int returnAux = -1;
 
     int lenghtUno;
-    int lenghtDos;
     void* pElementoUno;
-    void* pElementoDos;
 
     if(this!=NULL&&this2!=NULL)
     {
     	returnAux=0;
         lenghtUno=ll_len(this);
-        lenghtDos=ll_len(this);
 
-        if(lenghtUno>lenghtDos)
-        {
-        	for(int i=0;i<lenghtUno;i++)
-        	{
-        		pElementoUno=ll_get(this,i);
-        		for(int j=0;j<lenghtDos;j++)
-        		{
-        			pElementoDos=ll_get(this2,i);
+		for(int i=0;i<lenghtUno;i++)
+		{
+			returnAux=1;
+			pElementoUno=ll_get(this2,i);
 
-        			if(pElementoDos==pElementoUno)
-        			{
-        				returnAux=1;
-        				break;
-        			}
-        			returnAux=0;
-        		}
+			if(ll_contains(this,pElementoUno)==0)
+			{
+				returnAux=0;
+				break;
 
-        	}
-        }
+			}
 
-    }
-
-
+		}
+	}
 
     return returnAux;
 }
@@ -512,6 +499,18 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
 LinkedList* ll_subList(LinkedList* this,int from,int to)
 {
     LinkedList* cloneArray = NULL;
+    void* elementoAux;
+    int lenght=ll_len(this);
+
+    if(this!=NULL&&from>=0&&to<=lenght)
+    {
+    	cloneArray=ll_newLinkedList();
+    	for (int i=from;i<to;i++)
+    	{
+    		elementoAux=ll_get(this,i);
+    		ll_add(cloneArray,elementoAux);
+    	}
+    }
 
     return cloneArray;
 }
@@ -527,6 +526,19 @@ LinkedList* ll_subList(LinkedList* this,int from,int to)
 LinkedList* ll_clone(LinkedList* this)
 {
     LinkedList* cloneArray = NULL;
+    void* elementoAux;
+    int lenght=ll_len(this);
+
+    if(this!=NULL&&lenght>0)
+    {
+    	cloneArray=ll_newLinkedList();
+    	for (int i=0;i<lenght;i++)
+    	{
+    		elementoAux=ll_get(this,i);
+    		ll_add(cloneArray,elementoAux);
+    	}
+    }
+
 
     return cloneArray;
 }
@@ -539,6 +551,86 @@ LinkedList* ll_clone(LinkedList* this)
  * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
                                 ( 0) Si ok
  */
+
+/*
+int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
+{
+	int returnAux =-1;
+	int i=0;
+	int flagSwap;
+	int lenght=ll_len(this);
+	Node* nodoAuxiliar;
+	Node *nodoUno;
+	Node *nodoDos;
+	//void* pAuxElement;
+	//void* pElementUno;
+	//void* pElementDos;
+
+	if (this!=NULL&&pFunc!=NULL)
+	{
+		if(order==0||order==1)
+		{
+			if(lenght>=2)
+			{
+				for(i=0;i<lenght;i++)
+				{
+					flagSwap=0;
+					nodoUno=getNode(this,i);
+
+					//pElementUno=ll_get(this,i);
+					//pElementDos=ll_get(this,i+1);
+
+					for(int j=1;j<lenght;j++)
+					{
+						nodoDos=getNode(this,j);
+						if(order==0)
+						{
+							if(pFunc(nodoUno->pElement,nodoDos->pElement)>0)
+							{
+								nodoAuxiliar=nodoUno;
+								nodoUno=nodoDos;
+								nodoDos=nodoAuxiliar;
+								//pElementUno=pElementDos;
+								//pElementDos=pAuxElement;
+								flagSwap=1;
+							}
+						} else
+						{
+							if (order==1)
+							{
+								if(pFunc(nodoUno->pElement,nodoDos->pElement)<0)
+								{
+									nodoAuxiliar=nodoUno;
+									nodoUno=nodoDos;
+									nodoDos=nodoAuxiliar;
+									//pElementUno=pElementDos;
+									//pElementDos=pAuxElement;
+									flagSwap=1;
+								}
+
+							}
+						}
+
+					}
+
+					if(flagSwap==0)
+					{
+						break;
+					}
+
+				}
+				returnAux=0;
+			}
+
+		}
+
+
+	}
+
+    return returnAux;
+
+}*/
+
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 {
 	int returnAux =-1;
@@ -601,4 +693,3 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 
 }
-
