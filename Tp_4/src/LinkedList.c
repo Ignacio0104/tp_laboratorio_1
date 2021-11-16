@@ -552,84 +552,6 @@ LinkedList* ll_clone(LinkedList* this)
                                 ( 0) Si ok
  */
 
-/*
-int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
-{
-	int returnAux =-1;
-	int i=0;
-	int flagSwap;
-	int lenght=ll_len(this);
-	Node* nodoAuxiliar;
-	Node *nodoUno;
-	Node *nodoDos;
-	//void* pAuxElement;
-	//void* pElementUno;
-	//void* pElementDos;
-
-	if (this!=NULL&&pFunc!=NULL)
-	{
-		if(order==0||order==1)
-		{
-			if(lenght>=2)
-			{
-				for(i=0;i<lenght;i++)
-				{
-					flagSwap=0;
-					nodoUno=getNode(this,i);
-
-					//pElementUno=ll_get(this,i);
-					//pElementDos=ll_get(this,i+1);
-
-					for(int j=1;j<lenght;j++)
-					{
-						nodoDos=getNode(this,j);
-						if(order==0)
-						{
-							if(pFunc(nodoUno->pElement,nodoDos->pElement)>0)
-							{
-								nodoAuxiliar=nodoUno;
-								nodoUno=nodoDos;
-								nodoDos=nodoAuxiliar;
-								//pElementUno=pElementDos;
-								//pElementDos=pAuxElement;
-								flagSwap=1;
-							}
-						} else
-						{
-							if (order==1)
-							{
-								if(pFunc(nodoUno->pElement,nodoDos->pElement)<0)
-								{
-									nodoAuxiliar=nodoUno;
-									nodoUno=nodoDos;
-									nodoDos=nodoAuxiliar;
-									//pElementUno=pElementDos;
-									//pElementDos=pAuxElement;
-									flagSwap=1;
-								}
-
-							}
-						}
-
-					}
-
-					if(flagSwap==0)
-					{
-						break;
-					}
-
-				}
-				returnAux=0;
-			}
-
-		}
-
-
-	}
-
-    return returnAux;
-
-}*/
 
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 {
@@ -637,9 +559,9 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 	int i;
 	int flagSwap=1;
 	int lenght=ll_len(this);
-	Node *nodoAuxiliarUno;
-	Node *nodoAuxiliarDos;
-	void *pAuxElement;
+	void *pElementoUno;
+	void *pElementoDos;
+
 	if (this!=NULL && pFunc!=NULL)
 	{
 		if(order==0||order==1)
@@ -649,35 +571,37 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 				while(flagSwap==1)
 				{
 					flagSwap=0;
-					nodoAuxiliarUno=this->pFirstNode->pNextNode;
-					nodoAuxiliarDos=this->pFirstNode;
-					for(i=1;i<lenght;i++)
-					{
-						if (order==0)
-						{
-							if(pFunc(nodoAuxiliarUno->pElement,nodoAuxiliarDos->pElement)>0)
-							{
-								pAuxElement=nodoAuxiliarUno->pElement;
-								nodoAuxiliarUno->pElement=nodoAuxiliarDos->pElement;
-								nodoAuxiliarDos->pElement=pAuxElement;
-								flagSwap=1;
-							}
 
-						} else
+					for(i=0;i<=lenght;i++)
+					{
+						pElementoUno=ll_get(this,i);
+						pElementoDos=ll_get(this,i+1);
+
+						if(pElementoUno!=NULL&&pElementoDos!=NULL)
 						{
-							if(order==1)
+							if (order==1)
 							{
-								if(pFunc(nodoAuxiliarUno->pElement,nodoAuxiliarDos->pElement)<0)
+								if(pFunc(pElementoUno,pElementoDos)>0)
 								{
-									pAuxElement=nodoAuxiliarUno->pElement;
-									nodoAuxiliarUno->pElement=nodoAuxiliarDos->pElement;
-									nodoAuxiliarDos->pElement=pAuxElement;
+									ll_set(this,i,pElementoDos);
+									ll_set(this,i+1,pElementoUno);
 									flagSwap=1;
+								}
+
+							} else
+							{
+								if(order==0)
+								{
+									if(pFunc(pElementoUno,pElementoDos)<0)
+									{
+										ll_set(this,i,pElementoDos);
+										ll_set(this,i+1,pElementoUno);
+										flagSwap=1;
+									}
 								}
 							}
 						}
-						nodoAuxiliarUno=nodoAuxiliarUno->pNextNode;
-						nodoAuxiliarDos=nodoAuxiliarDos->pNextNode;
+
 					}
 				}
 				returnAux=0;
