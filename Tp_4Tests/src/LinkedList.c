@@ -1,14 +1,7 @@
-/*
- * LinkedList.c
- *
- *  Created on: 16 nov 2021
- *      Author: Nacho
- */
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "LinkedList.h"
-
+#include <string.h>
+#include "../inc/LinkedList.h"
 
 
 static Node* getNode(LinkedList* this, int nodeIndex);
@@ -72,6 +65,18 @@ static Node* getNode(LinkedList* this, int nodeIndex)
     return nodoAuxiliar;
 }
 
+/** \brief  Permite realizar el test de la funcion getNod	e la cual es privada
+ *
+ * \param this LinkedList* Puntero a la lista
+ * \param index int Indice del nodo a obtener
+ * \return Node* Retorna  (NULL) Error: si el puntero a la lista es NULL o (si el indice es menor a 0 o mayor al len de la lista)
+                        (pElement) Si funciono correctamente
+ *
+ */
+Node* test_getNode(LinkedList* this, int nodeIndex)
+{
+    return getNode(this, nodeIndex);
+}
 
 
 /** \brief Agrega y enlaza un nuevo nodo a la lista
@@ -124,7 +129,19 @@ static int addNode(LinkedList* this, int nodeIndex,void* pElement)
                         ( 0) Si funciono correctamente
  *
  */
+int test_addNode(LinkedList* this, int nodeIndex,void* pElement)
+{
+    return addNode(this,nodeIndex,pElement);
+}
 
+
+/** \brief  Agrega un elemento a la lista
+ * \param pList LinkedList* Puntero a la lista
+ * \param pElement void* Puntero al elemento a ser agregado
+ * \return int Retorna  (-1) Error: si el puntero a la lista es NULL
+                        ( 0) Si funciono correctamente
+ *
+ */
 int ll_add(LinkedList* this, void* pElement)
 {
     int returnAux = -1;
@@ -508,10 +525,22 @@ LinkedList* ll_subList(LinkedList* this,int from,int to)
 */
 LinkedList* ll_clone(LinkedList* this)
 {
-	int lenght;
+    LinkedList* cloneArray = NULL;
+    void* elementoAux;
+    int lenght=ll_len(this);
 
-	lenght=ll_len(this);
-	return ll_subList(this,0,lenght);
+    if(this!=NULL&&lenght>0)
+    {
+    	cloneArray=ll_newLinkedList();
+    	for (int i=0;i<lenght;i++)
+    	{
+    		elementoAux=ll_get(this,i);
+    		ll_add(cloneArray,elementoAux);
+    	}
+    }
+
+
+    return cloneArray;
 }
 
 
@@ -532,7 +561,6 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 	int lenght=ll_len(this);
 	void *pElementoUno;
 	void *pElementoDos;
-	int criterio;
 
 	if (this!=NULL && pFunc!=NULL)
 	{
@@ -540,7 +568,7 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 		{
 			if(lenght>=2)
 			{
-				while(flagSwap==1) //Se puede poner while(flagSwap) -> Mientras sea distinto de cero va a correr, sirve para cualquier parametro
+				while(flagSwap==1)
 				{
 					flagSwap=0;
 
@@ -551,14 +579,27 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 
 						if(pElementoUno!=NULL&&pElementoDos!=NULL)
 						{
-							criterio=pFunc(pElementoUno,pElementoDos);
-							if ((order==1&&criterio>0) ||(order==0&&criterio<0))
+							if (order==1)
 							{
-								ll_set(this,i,pElementoDos);
-								ll_set(this,i+1,pElementoUno);
-								flagSwap=1;
-							}
+								if(pFunc(pElementoUno,pElementoDos)>0)
+								{
+									ll_set(this,i,pElementoDos);
+									ll_set(this,i+1,pElementoUno);
+									flagSwap=1;
+								}
 
+							} else
+							{
+								if(order==0)
+								{
+									if(pFunc(pElementoUno,pElementoDos)<0)
+									{
+										ll_set(this,i,pElementoDos);
+										ll_set(this,i+1,pElementoUno);
+										flagSwap=1;
+									}
+								}
+							}
 						}
 
 					}
@@ -576,52 +617,3 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 
 }
-
-int ll_map (LinkedList* this,int (*pFunc)(void*))
-{
-	int returnAux=-1;
-	void* pAuxiliar;
-
-	if(this!=NULL && pFunc!=NULL)
-	{
-		for(int i=0;i<ll_len(this);i++)
-		{
-			pAuxiliar=ll_get(this,i);
-
-			if(pAuxiliar!=NULL)
-			{
-				pFunc(pAuxiliar);
-			}
-		}
-	}
-
-	return returnAux;
-}
-
-int ll_filter (LinkedList* this,int (*pFunc)(void*))
-{
-	int returnAux=-1;
-	void* pAuxiliar;
-	int criterio;
-
-	if(this!=NULL && pFunc!=NULL)
-	{
-		for(int i=0;i<ll_len(this);i++)
-		{
-			pAuxiliar=ll_get(this,i);
-
-			if(pAuxiliar!=NULL)
-			{
-				criterio=pFunc(pAuxiliar);
-
-				if(criterio==0)
-				{
-					returnAux=ll_remove(this,i);
-				}
-			}
-		}
-	}
-
-	return returnAux;
-}
-
